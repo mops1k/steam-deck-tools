@@ -99,7 +99,7 @@ namespace PerformanceOverlay
                             Nested = {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true }
                             },
                             Include = { OverlayMode.FPSWithBattery }
                         ),
@@ -117,7 +117,7 @@ namespace PerformanceOverlay
                             Nested = {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true }
                             },
                             Include = { OverlayMode.Battery, OverlayMode.BatteryWithTime }
                         ),
