@@ -19,6 +19,7 @@ namespace CommonHelpers
     public enum OverlayMode : uint
     {
         FPS = 10032,
+        FPSWithTime,
         FPSWithBattery,
         Battery,
         BatteryWithTime,

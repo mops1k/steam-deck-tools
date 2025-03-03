@@ -95,31 +95,32 @@ namespace PerformanceOverlay
                     {
                         new Entry("<C4><FR><C><A><A1><S1><C4> FPS<C><S><A>"),
                         new Entry(
-                            text = "<C4>BAT<C>",
-                            Nested = {
-                                new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true }
+                            Text = "<C4>BAT<C>",
+                            Nested =
+                            {
+                                new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { IgnoreMissing = true }
                             },
                             Include = { OverlayMode.FPSWithBattery }
                         ),
-                        new Entry("<C4><A3>{CURR_TIME}<A><A1><S1><C><S><A>") { Include = { OverlayMode.FPSWithBattery, OverlayMode.FPS } }
+                        new Entry("<C4><A3>{CURR_TIME}<A><A1><S1><C><S><A>") { Include = { OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime } }
                     },
                     Separator = "<C250>|<C> ",
-                    Include = { OverlayMode.FPS, OverlayMode.FPSWithBattery }
+                    Include = { OverlayMode.FPS, OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime }
                 },
                 // Battery
                 new Entry {
                     Nested =
                     {
                         new Entry(
-                            text = "<C4>BAT<C>",
-                            Nested = {
-                                new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { Include = { OverlayMode.FPSWithBattery }, IgnoreMissing = true }
-                            },
-                            Include = { OverlayMode.Battery, OverlayMode.BatteryWithTime }
+                            Text = "<C4>BAT<C>",
+                            Nested =
+                            {
+                                new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { IgnoreMissing = true }
+                            }
                         ),
                         new Entry("<C4><A3>{CURR_TIME}<A><A1><S1><C><S><A>") { Include = { OverlayMode.BatteryWithTime } }
                     },
