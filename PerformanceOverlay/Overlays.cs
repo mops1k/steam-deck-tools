@@ -182,7 +182,7 @@ namespace PerformanceOverlay
                         {
                             Text = "<C2>[OBJ_FT_SMALL]<C><S1> <C4><A0><FT><A><A1> ms<A><S><C>",
                             Include = { OverlayMode.Detail }
-                        },
+                        }
                     },
                     Separator = "<C250>|<C> ",
                     Include = { OverlayMode.Minimal, OverlayMode.Detail }
