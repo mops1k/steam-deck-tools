@@ -87,7 +87,6 @@ namespace PerformanceOverlay
                     Nested =
                     {
                         new Entry("<C4><FR><C><A><A1><S1><C4> FPS<C><S><A>"),
-                        new Entry("<C250><A1><S1>| <C><S><A>"),
                         new Entry
                         {
                             Text = "<C4>BAT<C>",
@@ -95,13 +94,15 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_TIME_H}<A1><S1> h </S1><C4><A3>{BATT_TIME_M}<A1><S1> m<C><S><A>") { IgnoreMissing = true }
+                                new Entry("<C4><A3>{BATT_TIME_H}<A1><S1> h <S><C4><A3>{BATT_TIME_M}<A1><S1> m<C><S><A>")
+                                    { IgnoreMissing = true }
                             },
                             Include = { OverlayMode.FPSWithBattery }
                         },
-                        new Entry("<L>1</L><C4><A3>{CURR_TIME}<A><C><L>0</L>")
+                        new Entry("<C4><A3>{CURR_TIME}<A><C>")
                             { Include = { OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime } }
                     },
+                    Separator = "<C250>|<C> ",
                     Include = { OverlayMode.FPS, OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime }
                 },
                 // Battery
