@@ -8,6 +8,7 @@
 
 - PerfomanceOverlay: change battery time to show hours and minutes
 - FpsLimit: add limit equals reshresh rate + 3fps
+- FpsLimit: add half and quarter limit (if such limit exists, will be replaced in list from number to word)
 
 ## 0.7.6
 

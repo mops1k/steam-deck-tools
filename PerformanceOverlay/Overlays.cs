@@ -15,7 +15,7 @@ namespace PerformanceOverlay
             public String Separator { get; init; } = "";
             public bool IgnoreMissing { get; init; }
 
-            private static readonly Regex attributeRegex =
+            private readonly static Regex attributeRegex =
                 new Regex("{([^}]+)}", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
 
             public Entry()
@@ -71,13 +71,13 @@ namespace PerformanceOverlay
             }
         }
 
-        private static readonly string[] Helpers =
+        private readonly static string[] Helpers =
         {
             "<C0=008040><C1=0080C0><C2=C08080><C3=FF0000><C4=FFFFFF><C250=FF8000>",
             "<A0=-4><A1=5><A2=-2><A3=-3><A4=-4><A5=-5><S0=-50><S1=50>",
         };
 
-        private static readonly Entry Osd = new Entry
+        private readonly static Entry Osd = new Entry
         {
             Nested =
             {
@@ -138,13 +138,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<S><A>"),
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_TIME_H}<A><A1><S1>h <S>{BATT_TIME_M}<S1>m <C><S><A>") { IgnoreMissing = true, Include = {
-                                    OverlayMode.Minimal
-                                }},
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<S><A>") { IgnoreMissing = true, Include =
-                                {
-                                    OverlayMode.Detail
-                                }},
+                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<S><A>") { IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_CHARGE_W}<A><A1><S1> W<S><A>")
                                     { IgnoreMissing = true, Include = { OverlayMode.Detail } }
                             }
@@ -193,7 +187,7 @@ namespace PerformanceOverlay
                             Include = { OverlayMode.Detail }
                         }
                     },
-                    Separator = "<C250><A1>|<A><C> ",
+                    Separator = "<C250>|<C> ",
                     Include = { OverlayMode.Minimal, OverlayMode.Detail }
                 },
 
