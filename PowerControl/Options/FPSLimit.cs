@@ -15,39 +15,48 @@ namespace PowerControl.Options
             {
                 int refreshRate = DisplayResolutionController.GetRefreshRate();
         		string[] availableLimits = new string[(refreshRate / 5) + 1];
-        		for (int i = 0; i < refreshRate/5; i++) {
-        			availableLimits[i] = string.Format("{0}", (i + 1) * 5);
+        		for (int i = 0; i < refreshRate/5; i++)
+                {
+                    var val = (i + 1) * 5;
+                    if (val == refreshRate / 2)
+                    {
+                        availableLimits[i] = "Half";
+                        continue;
+                    }
+                    if (val == refreshRate / 4)
+                    {
+                        availableLimits[i] = "Quarter";
+                        continue;
+                    }
+                    
+        			availableLimits[i] = string.Format("{0}", val);
         		}
                 availableLimits[^1] = string.Format("{0}", refreshRate + 3);
-                
+
                 var findHalf = false;
                 var findQuarter = false;
-                var filtered = availableLimits.Select((s) =>
-                {
-                    if (int.Parse(s) == refreshRate / 2)
-                    {
-                        findHalf = true;
-                        return s.Replace(s, "Half");
-                    }
-                    if (int.Parse(s) == refreshRate / 4)
-                    {
-                        findQuarter = true;
-                        return s.Replace(s, "Quarter");
-                    }
-
-                    return s;
-                }).ToArray();
-
+                
                 // dissalow to use fps limits lower than 15
-                string[] allowedLimits = Array.FindAll(filtered, val =>
+                string[] allowedLimits = Array.FindAll(availableLimits, val =>
                 {
                     var isNumeric = int.TryParse(val, out int num);
                     if (isNumeric)
                     {
                         return num >= 15;
                     }
+
+                    if (val == "Half")
+                    {
+                        findHalf = true;
+                        return true;
+                    }
+                    if (val == "Quarter")
+                    {
+                        findQuarter = true;
+                        return true;
+                    }
                     
-                    return val == "half" || val == "quarter";
+                    return  false;
                 });
 
                 var numToExtend = 0;
@@ -68,7 +77,7 @@ namespace PowerControl.Options
                         allowedLimits[^1] = "Quarter";
                         break;
                     case 1:
-                        var value = findHalf ? "Half" : (findQuarter ? "Quarter" : "?");
+                        var value = findHalf ? "Quarter" : (findQuarter ? "Half" : "?");
                         allowedLimits[^1] = value;
                         break;
                 }
