@@ -119,7 +119,9 @@ namespace PerformanceOverlay
 
             public override string? GetValue(Sensors sensors)
             {
-                return base.GetValue(sensors) == null ? null : Value(base.GetValue(sensors));
+                var data = base.GetValue(sensors);
+
+                return data == null ? null : Value(data);
             }
         }
 
