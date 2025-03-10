@@ -32,3 +32,5 @@ echo "nextVer: $nextVer"
 
 dotnet --list-sdks -or winget install Microsoft.DotNet.SDK.6
 dotnet build --configuration "$configuration" "/property:Version=$nextVer" --output "$path"
+
+echo "Build success. Path: $path"
