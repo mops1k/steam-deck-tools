@@ -94,7 +94,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { IgnoreMissing = true }
+                                new Entry("<C4><A3>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A3>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true }
                             },
                             Include = { OverlayMode.FPSWithBattery }
                         },
@@ -116,7 +116,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<C><S><A>") { IgnoreMissing = true }
+                                new Entry("<C4><A3>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A3>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true }
                             }
                         },
                         new Entry("<C4><A2>{CURR_TIME}<A><C>") { Include = { OverlayMode.BatteryWithTime } }
@@ -137,7 +137,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<S><A>"),
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A3>{BATT_MIN}<A><A1><S1> min<S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A3>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true },
                                 new Entry("C<C4><A4>{BATT_CHARGE_W}<A><A1><S1> W<S><A>")
                                     { IgnoreMissing = true, Include = { OverlayMode.Detail } }
                             }
@@ -249,7 +249,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<A5>{BATT_%}<A><A1><S1> %<S><A>"),
                                 new Entry("<A5>{BATT_W}<A><A1><S1> W<S><A>") { IgnoreMissing = true },
-                                new Entry("<A5>{BATT_MIN}<A><A1><S1> min<S><A>") { IgnoreMissing = true },
+                                new Entry("<C4><A3>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A3>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true },
                                 new Entry("<A5>C{BATT_CHARGE_W}<A><A1><S1> W<S><A>") { IgnoreMissing = true }
                             }
                         },

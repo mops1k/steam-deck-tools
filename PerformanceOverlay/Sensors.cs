@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
@@ -107,6 +108,18 @@ namespace PerformanceOverlay
                 }
 
                 return null;
+            }
+        }
+        
+        public class CustomHardwareSensor: HardwareSensor
+        {
+            public delegate string? ValueDelegate(string data);
+
+            public ValueDelegate Value { get; set; }
+
+            public override string? GetValue(Sensors sensors)
+            {
+                return base.GetValue(sensors) == null ? null : Value(base.GetValue(sensors));
             }
         }
 
@@ -334,6 +347,39 @@ namespace PerformanceOverlay
                     SensorName = "Remaining Time (Estimated)",
                     Format = "F0",
                     Multiplier = 1.0f / 60.0f
+                }
+            },
+            {
+                "BATT_TIME_H", new CustomHardwareSensor()
+                {
+                    HardwareType = HardwareType.Battery,
+                    SensorType = SensorType.TimeSpan,
+                    SensorName = "Remaining Time (Estimated)",
+                    Format = "F0",
+                    Multiplier = 1.0f / 60.0f,
+                    Value = delegate(string data)
+                    {
+                        var minutes = int.Parse(data);
+                        var timeSpan = TimeSpan.FromMinutes(minutes);
+                        
+                        return $"{timeSpan.Hours}";
+                    }
+                }
+            },
+            {
+                "BATT_TIME_M", new CustomHardwareSensor()
+                {
+                    HardwareType = HardwareType.Battery,
+                    SensorType = SensorType.TimeSpan,
+                    SensorName = "Remaining Time (Estimated)",
+                    Format = "F0",
+                    Multiplier = 1.0f / 60.0f,
+                    Value = delegate(string data)
+                    {
+                        var minutes = int.Parse(data);
+                        
+                        return $"{minutes % 60}";
+                    }
                 }
             },
             {
