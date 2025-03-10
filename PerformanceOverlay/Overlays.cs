@@ -94,7 +94,7 @@ namespace PerformanceOverlay
                             {
                                 new Entry("<C4><A3>{BATT_%}<A><A1><S1> %<C><S><A>") { IgnoreMissing = true },
                                 new Entry("<C4><A4>{BATT_W}<A><A1><S1> W<C><S><A>") { IgnoreMissing = true },
-                                new Entry("<C4><A4>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A1>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true }
+                                new Entry("<C4><A3>{BATT_TIME_H}</A3><A1><S1> h </S1><C4><A3>{BATT_TIME_M}</A3><A1><S1> m<C><S><A>") { IgnoreMissing = true }
                             },
                             Include = { OverlayMode.FPSWithBattery }
                         },
@@ -119,7 +119,7 @@ namespace PerformanceOverlay
                                 new Entry("<C4><A4>{BATT_TIME_H}<A><A1><S1> h<C><S><A><C4><A1>{BATT_TIME_M}<A><A1><S1> m<C><S><A>") { IgnoreMissing = true }
                             }
                         },
-                        new Entry("<C4><A4>{CURR_TIME}<A><C>") { Include = { OverlayMode.BatteryWithTime } }
+                        new Entry("<C4><A3>{CURR_TIME}<A><C>") { Include = { OverlayMode.BatteryWithTime } }
                     },
                     Separator = "<C250>|<C> ",
                     Include = { OverlayMode.Battery, OverlayMode.BatteryWithTime }
