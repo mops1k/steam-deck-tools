@@ -15,26 +15,28 @@ namespace PowerControl.Options
             {
                 int refreshRate = DisplayResolutionController.GetRefreshRate();
         		string[] availableLimits = new string[(refreshRate / 5) + 1];
+
+                var findHalf = false;
+                var findQuarter = false;
         		for (int i = 0; i < refreshRate/5; i++)
                 {
                     var val = (i + 1) * 5;
                     if (val == refreshRate / 2)
                     {
                         availableLimits[i] = "Half";
+                        findHalf = true;
                         continue;
                     }
                     if (val == refreshRate / 4)
                     {
                         availableLimits[i] = "Quarter";
+                        findQuarter = true;
                         continue;
                     }
                     
         			availableLimits[i] = string.Format("{0}", val);
         		}
                 availableLimits[^1] = string.Format("{0}", refreshRate + 3);
-
-                var findHalf = false;
-                var findQuarter = false;
                 
                 // dissalow to use fps limits lower than 15
                 string[] allowedLimits = Array.FindAll(availableLimits, val =>
@@ -44,19 +46,8 @@ namespace PowerControl.Options
                     {
                         return num >= 15;
                     }
-
-                    if (val == "Half")
-                    {
-                        findHalf = true;
-                        return true;
-                    }
-                    if (val == "Quarter")
-                    {
-                        findQuarter = true;
-                        return true;
-                    }
                     
-                    return  false;
+                    return val == "Half" || val == "Quarter";
                 });
 
                 var numToExtend = 0;
