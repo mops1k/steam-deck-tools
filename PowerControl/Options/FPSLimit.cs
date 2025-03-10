@@ -19,12 +19,50 @@ namespace PowerControl.Options
         			availableLimits[i] = string.Format("{0}", (i + 1) * 5);
         		}
                 availableLimits[^1] = string.Format("{0}", refreshRate + 3);
+                
+                var findHalf = false;
+                var findQuarter = false;
+                var filtered = availableLimits.Select((s) =>
+                {
+                    if (int.Parse(s) == refreshRate / 2)
+                    {
+                        findHalf = true;
+                        return s.Replace(s, "half");
+                    }
+                    if (int.Parse(s) == refreshRate / 4)
+                    {
+                        findQuarter = true;
+                        return s.Replace(s, "quarter");
+                    }
+
+                    return s;
+                }).ToArray();
 
                 // dissalow to use fps limits lower than 15
-                string[] allowedLimits = Array.FindAll(availableLimits, val => val != null && int.Parse(val) >= 15);
-                Array.Resize(ref allowedLimits, allowedLimits.Length + 2);
-                allowedLimits[^2] = "half";
-                allowedLimits[^1] = "quarter";
+                string[] allowedLimits = Array.FindAll(availableLimits, val => int.Parse(val) >= 15 || val == "half" || val == "quarter");
+
+                var numToExtend = 0;
+                if (findHalf)
+                {
+                    ++numToExtend;
+                }
+                if (findQuarter)
+                {
+                    ++numToExtend;
+                }
+                Array.Resize(ref allowedLimits, allowedLimits.Length + numToExtend);
+
+                switch (numToExtend)
+                {
+                    case 2:
+                        allowedLimits[^2] = "half";
+                        allowedLimits[^1] = "quarter";
+                        break;
+                    case 1:
+                        var value = findHalf ? 2 : 4;
+                        allowedLimits[^1] = "half";
+                        break;
+                }
                 
                 return allowedLimits;
             },
@@ -36,9 +74,25 @@ namespace PowerControl.Options
                         return "?";
 
                     RTSS.LoadProfile();
-                    if (RTSS.GetProfileProperty("FramerateLimit", out int framerate))
-                        return (framerate == 0) ? "Off" : framerate.ToString();
-                    return null;
+                    if (!RTSS.GetProfileProperty("FramerateLimit", out int framerate))
+                    {
+                        return null;
+                    }
+                    int refreshRate = DisplayResolutionController.GetRefreshRate();
+                    if (framerate == 0)
+                    {
+                        return "Off";
+                    }
+                    var dig = refreshRate / framerate;
+                    switch (dig)
+                    {
+                        case 2:
+                            return "half";
+                        case 4:
+                            return "quarter";
+                    }
+
+                    return framerate.ToString();
                 }
                 catch (Exception e)
                 {
