@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using SteamController.Helpers;
-
 namespace SteamController.Managers
 {
     public sealed class ProfileSwitcher : Manager

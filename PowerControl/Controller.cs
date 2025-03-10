@@ -1,6 +1,5 @@
 ﻿using CommonHelpers;
 using ExternalHelpers;
-using hidapi;
 using Microsoft.Win32;
 using PowerControl.External;
 using PowerControl.Helpers;

@@ -1,5 +1,3 @@
-using SteamController.Profiles;
-
 namespace SteamController.Managers
 {
     public abstract class Manager : IDisposable

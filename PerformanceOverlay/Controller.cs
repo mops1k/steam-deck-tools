@@ -271,15 +271,14 @@ namespace PerformanceOverlay
                     osdMode = OverlayMode.Full;
             }
 
-            var osdOverlay = Overlays.GetOSD(osdMode, sensors);
+            var osdOverlay = Overlays.GetOsd(osdMode, sensors);
 
             try
             {
                 // recreate OSD if not index 0
                 if (OSDHelpers.OSDIndex("PerformanceOverlay") != 0)
                     osdClose();
-                if (osd == null)
-                    osd = new OSD("PerformanceOverlay");
+                osd ??= new OSD("PerformanceOverlay");
 
                 uint offset = 0;
                 osdEmbedGraph(ref offset, ref osdOverlay, "[OBJ_FT_SMALL]", -8, -1, 1, 0, 50000.0f, EMBEDDED_OBJECT_GRAPH.FLAG_FRAMETIME);

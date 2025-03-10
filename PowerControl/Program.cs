@@ -1,9 +1,5 @@
 using CommonHelpers;
-using PowerControl.Helpers;
 using PowerControl.Helpers.AMD;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-
 namespace PowerControl
 {
     internal static class Program

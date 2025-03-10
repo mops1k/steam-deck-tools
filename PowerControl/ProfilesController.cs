@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using CommonHelpers;
+﻿using CommonHelpers;
 using ExternalHelpers;
 using PowerControl.Helper;
 using PowerControl.Menu;

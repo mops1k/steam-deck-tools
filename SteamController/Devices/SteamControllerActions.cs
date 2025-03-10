@@ -1,7 +1,3 @@
-using hidapi;
-using PowerControl.External;
-using static CommonHelpers.Log;
-
 namespace SteamController.Devices
 {
     public partial class SteamController

@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.RegularExpressions;
 using CommonHelpers;
 using Microsoft.Win32;
