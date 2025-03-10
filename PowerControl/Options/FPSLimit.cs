@@ -27,12 +27,12 @@ namespace PowerControl.Options
                     if (int.Parse(s) == refreshRate / 2)
                     {
                         findHalf = true;
-                        return s.Replace(s, "half");
+                        return s.Replace(s, "Half");
                     }
                     if (int.Parse(s) == refreshRate / 4)
                     {
                         findQuarter = true;
-                        return s.Replace(s, "quarter");
+                        return s.Replace(s, "Quarter");
                     }
 
                     return s;
@@ -55,12 +55,12 @@ namespace PowerControl.Options
                 switch (numToExtend)
                 {
                     case 2:
-                        allowedLimits[^2] = "half";
-                        allowedLimits[^1] = "quarter";
+                        allowedLimits[^2] = "Half";
+                        allowedLimits[^1] = "Quarter";
                         break;
                     case 1:
-                        var value = findHalf ? 2 : 4;
-                        allowedLimits[^1] = "half";
+                        var value = findHalf ? "Half" : "Quarter";
+                        allowedLimits[^1] = value;
                         break;
                 }
                 
@@ -87,9 +87,9 @@ namespace PowerControl.Options
                     switch (dig)
                     {
                         case 2:
-                            return "half";
+                            return "Half";
                         case 4:
-                            return "quarter";
+                            return "Quarter";
                     }
 
                     return framerate.ToString();
@@ -116,10 +116,10 @@ namespace PowerControl.Options
                         case "Off":
                             framerate = 0;
                             break;
-                        case "half":
+                        case "Half":
                             framerate = refreshRate / 2;
                             break;
-                        case "quarter":
+                        case "Quarter":
                             framerate = refreshRate / 4;
                             break;
                         default:
@@ -139,10 +139,10 @@ namespace PowerControl.Options
                     {
                         case "Off":
                             return "Off";
-                        case "half":
-                            return "half";
-                        case "quarter":
-                            return "quarter";
+                        case "Half":
+                            return "Half";
+                        case "Quarter":
+                            return "Quarter";
                         default:
                             return framerate.ToString();
                     }
