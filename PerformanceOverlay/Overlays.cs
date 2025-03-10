@@ -102,7 +102,7 @@ namespace PerformanceOverlay
                         new Entry("<C4><A5>{CURR_TIME}<A><C>")
                             { Include = { OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime } }
                     },
-                    Separator = "<C250><A4>|<A><C> ",
+                    Separator = "<C250><A3>|<A><C> ",
                     Include = { OverlayMode.FPS, OverlayMode.FPSWithBattery, OverlayMode.FPSWithTime }
                 },
                 // Battery
@@ -122,7 +122,7 @@ namespace PerformanceOverlay
                         },
                         new Entry("<C4><A5>{CURR_TIME}<A><C>") { Include = { OverlayMode.BatteryWithTime } }
                     },
-                    Separator = "<C250>|<C> ",
+                    Separator = "<C250><A3>|<A><C> ",
                     Include = { OverlayMode.Battery, OverlayMode.BatteryWithTime }
                 },
 
@@ -187,7 +187,7 @@ namespace PerformanceOverlay
                             Include = { OverlayMode.Detail }
                         }
                     },
-                    Separator = "<C250>|<C> ",
+                    Separator = "<C250><A3>|<A><C> ",
                     Include = { OverlayMode.Minimal, OverlayMode.Detail }
                 },
 

@@ -22,9 +22,9 @@ namespace PowerControl.Options
 
                 // dissalow to use fps limits lower than 15
                 string[] allowedLimits = Array.FindAll(availableLimits, val => val != null && int.Parse(val) >= 15);
-                Array.Resize(ref allowedLimits, allowedLimits.Length + 1);
+                Array.Resize(ref allowedLimits, allowedLimits.Length + 2);
                 allowedLimits[^2] = "half";
-                allowedLimits[^2] = "quarter";
+                allowedLimits[^1] = "quarter";
                 
                 return allowedLimits;
             },
