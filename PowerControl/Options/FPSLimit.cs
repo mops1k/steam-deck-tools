@@ -39,7 +39,7 @@ namespace PowerControl.Options
                 }).ToArray();
 
                 // dissalow to use fps limits lower than 15
-                string[] allowedLimits = Array.FindAll(availableLimits, val => int.Parse(val) >= 15 || val == "half" || val == "quarter");
+                string[] allowedLimits = Array.FindAll(filtered, val => Int32.Parse(val) >= 15 || val == "half" || val == "quarter");
 
                 var numToExtend = 0;
                 if (findHalf)
@@ -59,7 +59,7 @@ namespace PowerControl.Options
                         allowedLimits[^1] = "Quarter";
                         break;
                     case 1:
-                        var value = findHalf ? "Half" : "Quarter";
+                        var value = findHalf ? "Half" : (findQuarter ? "Quarter" : "?");
                         allowedLimits[^1] = value;
                         break;
                 }
