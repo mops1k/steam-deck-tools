@@ -3,28 +3,31 @@ using PowerControl.Helpers;
 
 namespace PowerControl.Options
 {
-    public static class FPSLimit
+    public static class FpsLimit
     {
-        public static Menu.MenuItemWithOptions Instance = new Menu.MenuItemWithOptions()
+        public static readonly Menu.MenuItemWithOptions Instance = new Menu.MenuItemWithOptions()
         {
             Name = "FPS Limit",
             PersistentKey = "FPSLimit",
             ApplyDelay = 500,
-            ResetValue = () => { return "Off"; },
-            OptionsValues = delegate ()
+            ResetValue = () => "Off",
+            OptionsValues = delegate()
             {
-                int refreshRate = DisplayResolutionController.GetRefreshRate();
-        		string[] availableLimits = new string[refreshRate/5];
-        		for (int i = 0; i < refreshRate/5; i++) {
-        			availableLimits[i] = string.Format("{0}", (i + 1) * 5);
-        		}
+                var refreshRate = DisplayResolutionController.GetRefreshRate();
+                var availableLimits = new string[refreshRate / 5 + 1];
+                for (var i = 0; i < refreshRate / 5; i++)
+                {
+                    availableLimits[i] = $"{(i + 1) * 5}";
+                }
+
+                availableLimits[refreshRate / 5 + 1] = (refreshRate + 3).ToString();
 
                 // dissalow to use fps limits lower than 15
-                string[] allowedLimits = Array.FindAll(availableLimits, val => val != null && Int32.Parse(val) >= 15);
-                
+                var allowedLimits = Array.FindAll(availableLimits, val => val != null && int.Parse(val) >= 15);
+
                 return allowedLimits;
             },
-            CurrentValue = delegate ()
+            CurrentValue = delegate()
             {
                 try
                 {
@@ -33,7 +36,10 @@ namespace PowerControl.Options
 
                     RTSS.LoadProfile();
                     if (RTSS.GetProfileProperty("FramerateLimit", out int framerate))
+                    {
                         return (framerate == 0) ? "Off" : framerate.ToString();
+                    }
+
                     return null;
                 }
                 catch (Exception e)
@@ -51,9 +57,11 @@ namespace PowerControl.Options
                     if (!Dependencies.EnsureRTSS(Controller.TitleWithVersion))
                         return null;
 
-                    int framerate = 0;
+                    var framerate = 0;
                     if (selected != "Off")
+                    {
                         framerate = int.Parse(selected);
+                    }
 
                     RTSS.LoadProfile();
                     if (!RTSS.SetProfileProperty("FramerateLimit", framerate))
@@ -62,12 +70,14 @@ namespace PowerControl.Options
                         return null;
                     RTSS.SaveProfile();
                     RTSS.UpdateProfiles();
+
                     return (framerate == 0) ? "Off" : framerate.ToString();
                 }
                 catch (Exception e)
                 {
                     CommonHelpers.Log.TraceException("RTSS", e);
                 }
+
                 return null;
             },
             ImpactedBy = (option, was, isNow) =>
@@ -77,7 +87,7 @@ namespace PowerControl.Options
 
                 try
                 {
-                    if (!Dependencies.EnsureRTSS(null))
+                    if (!Dependencies.EnsureRTSS())
                         return;
 
                     var refreshRate = DisplayResolutionController.GetRefreshRate();
@@ -86,31 +96,42 @@ namespace PowerControl.Options
 
                     RTSS.LoadProfile();
                     RTSS.GetProfileProperty("FramerateLimit", out int fpsLimit);
+
                     if (fpsLimit <= 0)
                         return;
 
-                    if (fpsLimit > refreshRate) {
+                    if (fpsLimit > refreshRate + 3)
+                    {
+                        fpsLimit = refreshRate + 3;
+                    }
+
+                    if (fpsLimit < refreshRate + 3 && fpsLimit >= refreshRate)
+                    {
                         fpsLimit = refreshRate;
                     }
 
-                    if (fpsLimit < 15) {
+                    if (fpsLimit < 15)
+                    {
                         fpsLimit = 15;
                     }
-                    
-                    int convertFpsLimitDividedByFive(int limit) {
-                        var leftOver = limit % 5;
-                        if (leftOver == 0) {
+
+                    int ConvertFpsLimitDividedByFive(int limit, int refreshRateBase)
+                    {
+                        if (limit == refreshRateBase + 3)
+                        {
                             return limit;
                         }
-                        
-                        if (leftOver >= 3) {
-                            return limit + (5 - leftOver);
-                        }
-                        
-                        return limit - leftOver;
+
+                        var leftOver = limit % 5;
+                        return leftOver switch
+                        {
+                            0 => limit,
+                            >= 3 => limit + (5 - leftOver),
+                            _ => limit - leftOver
+                        };
                     }
-                    
-                    RTSS.SetProfileProperty("FramerateLimit", convertFpsLimitDividedByFive(fpsLimit));
+
+                    RTSS.SetProfileProperty("FramerateLimit", ConvertFpsLimitDividedByFive(fpsLimit, refreshRate));
                     RTSS.SaveProfile();
                     RTSS.UpdateProfiles();
                 }

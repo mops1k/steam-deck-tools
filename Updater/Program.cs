@@ -6,8 +6,6 @@ using System.Xml;
 using System.Xml.Serialization;
 using AutoUpdaterDotNET;
 using CommonHelpers;
-using ExternalHelpers;
-using Microsoft.Win32;
 
 namespace Updater
 {

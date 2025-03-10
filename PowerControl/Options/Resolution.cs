@@ -38,7 +38,7 @@ namespace PowerControl.Options
             Impacts =
             {
                 RefreshRate.Instance,
-                FPSLimit.Instance
+                FpsLimit.Instance
             }
         };
     }

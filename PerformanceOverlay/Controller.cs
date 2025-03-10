@@ -271,7 +271,7 @@ namespace PerformanceOverlay
                     osdMode = OverlayMode.Full;
             }
 
-            var osdOverlay = Overlays.GetOSD(osdMode, sensors);
+            var osdOverlay = Overlays.GetOsd(osdMode, sensors);
 
             try
             {

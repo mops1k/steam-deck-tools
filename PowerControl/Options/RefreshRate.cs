@@ -30,7 +30,7 @@ namespace PowerControl.Options
             },
             Impacts =
             {
-                FPSLimit.Instance
+                FpsLimit.Instance
             }
         };
     }

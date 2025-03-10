@@ -1,9 +1,3 @@
-using Nefarius.ViGEm.Client;
-using Nefarius.ViGEm.Client.Exceptions;
-using Nefarius.ViGEm.Client.Targets;
-using Nefarius.ViGEm.Client.Targets.DualShock4;
-using static CommonHelpers.Log;
-
 namespace SteamController.Devices
 {
     public partial class DS4Controller

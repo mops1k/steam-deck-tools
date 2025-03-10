@@ -1,6 +1,5 @@
 ﻿using CommonHelpers;
 using ExternalHelpers;
-using hidapi;
 using Microsoft.Win32;
 using PowerControl.External;
 using PowerControl.Helpers;
@@ -478,7 +477,7 @@ namespace PowerControl
                 new Action(() =>
                 {
                     Options.RefreshRate.Instance?.Reset();
-                    Options.FPSLimit.Instance?.Reset();
+                    Options.FpsLimit.Instance?.Reset();
 
                     rootMenu.Update();
                 })

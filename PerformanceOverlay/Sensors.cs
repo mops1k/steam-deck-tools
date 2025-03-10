@@ -21,19 +21,21 @@ namespace PerformanceOverlay
 
         public abstract class ValueSensor : Sensor
         {
-            public String? Format { get; set; }
+            public string? Format { get; set; }
             public float Multiplier { get; set; } = 1.0f;
             public bool IgnoreZero { get; set; }
 
             protected string? ConvertToString(float? value)
             {
-                if (value is null)
-                    return null;
-                if (value == 0 && IgnoreZero)
-                    return null;
-
-                value *= Multiplier;
-                return value.Value.ToString(Format, CultureInfo.GetCultureInfo("en-US"));
+                switch (value)
+                {
+                    case null:
+                    case 0 when IgnoreZero:
+                        return null;
+                    default:
+                        value *= Multiplier;
+                        return value.Value.ToString(Format, CultureInfo.GetCultureInfo("en-US"));
+                }
             }
         }
 
@@ -48,7 +50,7 @@ namespace PerformanceOverlay
                 return ConvertToString(Value());
             }
         }
-        
+
         public class UserStringValueSensor : ValueSensor
         {
             public delegate string? ValueDelegate();
@@ -72,10 +74,10 @@ namespace PerformanceOverlay
             public bool Matches(ISensor sensor)
             {
                 return sensor != null &&
-                    sensor.Hardware.HardwareType == HardwareType &&
-                    MatchesHardwareName(sensor.Hardware.Name) &&
-                    sensor.SensorType == SensorType &&
-                    sensor.Name == SensorName;
+                       sensor.Hardware.HardwareType == HardwareType &&
+                       MatchesHardwareName(sensor.Hardware.Name) &&
+                       sensor.SensorType == SensorType &&
+                       sensor.Name == SensorName;
             }
 
             private bool MatchesHardwareName(string sensorHardwareName)
@@ -86,22 +88,12 @@ namespace PerformanceOverlay
                         return true;
                 }
 
-                // Empty string matches always
-                if (HardwareName.Length == 0)
-                    return true;
-
-                if (sensorHardwareName.StartsWith(HardwareName))
-                    return true;
-
-                return false;
+                return HardwareName.Length == 0 || sensorHardwareName.StartsWith(HardwareName);
             }
 
             public string? GetValue(ISensor sensor)
             {
-                if (!sensor.Value.HasValue)
-                    return null;
-
-                return ConvertToString(sensor.Value.Value);
+                return !sensor.Value.HasValue ? null : ConvertToString(sensor.Value.Value);
             }
 
             public override string? GetValue(Sensors sensors)
@@ -113,6 +105,7 @@ namespace PerformanceOverlay
                         return GetValue(hwSensor);
                     }
                 }
+
                 return null;
             }
         }
@@ -129,7 +122,7 @@ namespace PerformanceOverlay
 
             public IList<Sensor> Sensors { get; set; } = new List<Sensor>();
             public AggregateType Aggregate { get; set; } = AggregateType.First;
-            public String? Format { get; set; }
+            public string? Format { get; set; }
 
             private IEnumerable<string> GetValues(Sensors sensors)
             {
@@ -171,7 +164,7 @@ namespace PerformanceOverlay
             }
         }
 
-        public readonly Dictionary<String, Sensor> AllSensors = new Dictionary<string, Sensor>
+        private readonly Dictionary<string, Sensor> AllSensors = new Dictionary<string, Sensor>
         {
             {
                 "CPU_%", new HardwareSensor()
@@ -209,7 +202,8 @@ namespace PerformanceOverlay
                 {
                     Format = "F0",
                     Aggregate = CompositeSensor.AggregateType.Max,
-                    Sensors = Enumerable.Range(1, 4).Select((index) => {
+                    Sensors = Enumerable.Range(1, 4).Select((index) =>
+                    {
                         return new HardwareSensor()
                         {
                             HardwareType = HardwareType.Cpu,
@@ -247,7 +241,10 @@ namespace PerformanceOverlay
                 "GPU_%", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.Load,
                     SensorName = "D3D 3D",
                     Format = "F0"
@@ -257,7 +254,10 @@ namespace PerformanceOverlay
                 "GPU_MB", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.SmallData,
                     SensorName = "D3D Dedicated Memory Used",
                     Format = "F0"
@@ -267,18 +267,24 @@ namespace PerformanceOverlay
                 "GPU_GB", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.SmallData,
                     SensorName = "D3D Dedicated Memory Used",
                     Format = "F0",
-                    Multiplier = 1.0f/1024.0f
+                    Multiplier = 1.0f / 1024.0f
                 }
             },
             {
                 "GPU_W", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.Power,
                     SensorName = "GPU SoC",
                     Format = "F1"
@@ -288,7 +294,10 @@ namespace PerformanceOverlay
                 "GPU_MHZ", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.Clock,
                     SensorName = "GPU Core",
                     Format = "F0"
@@ -298,7 +307,10 @@ namespace PerformanceOverlay
                 "GPU_T", new HardwareSensor()
                 {
                     HardwareType = HardwareType.GpuAmd,
-                    HardwareNames = { "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics" },
+                    HardwareNames =
+                    {
+                        "AMD Custom GPU 0932", "AMD Custom GPU 0405", "AMD Radeon 670M", "AMD Radeon RX 670 Graphics"
+                    },
                     SensorType = SensorType.Temperature,
                     SensorName = "GPU Temperature",
                     Format = "F1",
@@ -321,7 +333,7 @@ namespace PerformanceOverlay
                     SensorType = SensorType.TimeSpan,
                     SensorName = "Remaining Time (Estimated)",
                     Format = "F0",
-                    Multiplier = 1.0f/60.0f
+                    Multiplier = 1.0f / 60.0f
                 }
             },
             {
@@ -345,30 +357,24 @@ namespace PerformanceOverlay
             {
                 "FAN_RPM", new UserValueSensor()
                 {
-                    Value = delegate ()
-                    {
-                        return Vlv0100.Instance.GetFanRPM();
-                    },
+                    Value = () => Vlv0100.Instance.GetFanRPM(),
                     Format = "F0"
                 }
             },
             {
                 "CURR_TIME", new UserStringValueSensor()
                 {
-                    Value = delegate ()
+                    Value = delegate()
                     {
-                        DateTime localDate = DateTime.Now;
+                        var localDate = DateTime.Now;
                         return localDate.ToString("t");
                     },
                     Format = "F0"
                 }
             }
         };
-        public IList<ISensor> AllHardwareSensors { get; private set; } = new List<ISensor>();
 
-        public Sensors()
-        {
-        }
+        private IList<ISensor> AllHardwareSensors { get; set; } = new List<ISensor>();
 
         public void Dispose()
         {
@@ -380,13 +386,16 @@ namespace PerformanceOverlay
             {
                 var allSensors = new List<ISensor>();
 
-                foreach (IHardware hardware in Instance.HardwareComputer.Hardware)
+                foreach (var hardware in Instance.HardwareComputer.Hardware)
                 {
                     try
                     {
                         hardware.Update();
                     }
-                    catch (SystemException) { }
+                    catch (SystemException)
+                    {
+                    }
+
                     hardware.Accept(new SensorVisitor(sensor => allSensors.Add(sensor)));
                 }
 
@@ -395,12 +404,12 @@ namespace PerformanceOverlay
             });
         }
 
-        public string? GetValue(String name)
+        public string? GetValue(string name)
         {
-            if (!AllSensors.ContainsKey(name))
+            if (!AllSensors.TryGetValue(name, out var sensor))
                 return null;
 
-            return AllSensors[name].GetValue(this);
+            return sensor.GetValue(this);
         }
     }
 }

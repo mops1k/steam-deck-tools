@@ -39,7 +39,7 @@ namespace PowerControl.Options
             {
                 Resolution.Instance,
                 RefreshRate.Instance,
-                FPSLimit.Instance
+                FpsLimit.Instance
             }
         };
     }

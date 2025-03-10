@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using CommonHelpers;
-using SteamController.Helpers;
 
 namespace SteamController.Managers
 {

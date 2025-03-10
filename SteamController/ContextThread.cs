@@ -1,5 +1,4 @@
 using System.Diagnostics;
-using static CommonHelpers.Log;
 
 namespace SteamController
 {

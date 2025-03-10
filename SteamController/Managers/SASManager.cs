@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using System.Runtime.InteropServices;
-using SteamController.Helpers;
 
 namespace SteamController.Managers
 {

@@ -20,7 +20,7 @@ namespace PowerControl
                 new Menu.MenuItemSeparator(),
                 Options.Resolution.Instance,
                 Options.RefreshRate.Instance,
-                Options.FPSLimit.Instance,
+                Options.FpsLimit.Instance,
                 Options.GPUScalingItem.Instance,
                 #if DEBUG
                 Options.Sharpening.Instance,

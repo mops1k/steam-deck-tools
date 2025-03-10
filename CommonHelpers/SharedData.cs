@@ -62,29 +62,27 @@ namespace CommonHelpers
 
         public bool SetValue(T value)
         {
-            using (MemoryMappedViewStream mmvStream = mmf.CreateViewStream())
+            using var mmvStream = mmf.CreateViewStream();
+            if (!mmvStream.CanWrite)
+                return false;
+
+            var buffer = new byte[size];
+            var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
+            try
             {
-                if (!mmvStream.CanWrite)
-                    return false;
-
-                byte[] buffer = new byte[size];
-                var handle = GCHandle.Alloc(buffer, GCHandleType.Pinned);
-                try
-                {
-                    Marshal.StructureToPtr(value, handle.AddrOfPinnedObject(), false);
-                }
-                catch
-                {
-                    return false;
-                }
-                finally
-                {
-                    handle.Free();
-                }
-
-                mmvStream.Write(buffer, 0, buffer.Length);
-                return true;
+                Marshal.StructureToPtr(value, handle.AddrOfPinnedObject(), false);
             }
+            catch
+            {
+                return false;
+            }
+            finally
+            {
+                handle.Free();
+            }
+
+            mmvStream.Write(buffer, 0, buffer.Length);
+            return true;
         }
 
         public static bool GetExistingValue(out T value)
