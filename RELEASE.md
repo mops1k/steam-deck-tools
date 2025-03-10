@@ -6,6 +6,19 @@
 
 ## #{GIT_TAG_NAME}
 
+- PerfomanceOverlay: change battery time to show hours and minutes
+- FpsLimit: add limit equals reshresh rate + 3fps
+
+## 0.7.6
+
+- PerfomanceOverlay: add overlays with time
+
+## 0.7.4
+
+- FpsLimit: change limits to steps by 5
+
+## 0.7.3
+
 - SteamDeck LCD: Support BIOS F7A0131
 
 ## 0.7.2
