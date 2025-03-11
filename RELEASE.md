@@ -1,10 +1,11 @@
-**Consider donating if you are happy with this project:**
-
-<a href='https://ko-fi.com/ayufan' target='_blank'><img height='35' style='border:0px;height:50px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' alt='Buy Me a Coffee at ko-fi.com' /></a> <a href="https://www.paypal.com/donate/?hosted_button_id=DHNBE2YR9D5Y2" target='_blank'><img height='35' src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" style='border:0px;height:55px;'/></a>
-
 [**READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED**](https://steam-deck-tools.ayufan.dev/#anti-cheat-and-antivirus-software)
 
 ## #{GIT_TAG_NAME}
+
+- PerfomanceOverlay: add possibility to load custom overlay configs
+- PerfomanceOverlay: fix battery time sensors
+
+## 0.7.7
 
 - PerfomanceOverlay: change battery time to show hours and minutes
 - FpsLimit: add limit equals reshresh rate + 3fps
