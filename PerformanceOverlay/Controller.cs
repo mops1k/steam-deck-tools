@@ -215,9 +215,19 @@ namespace PerformanceOverlay
         {
             if (sharedData.GetValue(out var value))
             {
-                Settings.Default.OSDMode = value.Desired;
-                Settings.Default.ShowOSD = true;
-                updateContextItems(contextMenu);
+                var source = new OSDFileManager();
+                var entries = source.GetEntries();
+                var enumNames = Enum.GetNames<OverlayEnabled>();
+                var values = new string[enumNames.Length + entries.Count];
+                enumNames.CopyTo(values, 0);
+                entries.Keys.CopyTo(values, enumNames.Length);
+
+                if (values.Contains(value.Desired))
+                {
+                    Settings.Default.OSDMode = value.Desired;
+                    Settings.Default.ShowOSD = true;
+                    updateContextItems(contextMenu);
+                }
 
                 if (Enum.IsDefined<OverlayEnabled>(value.DesiredEnabled))
                 {
