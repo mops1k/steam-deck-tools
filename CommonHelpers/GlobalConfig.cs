@@ -50,7 +50,7 @@ namespace CommonHelpers
     [StructLayout(LayoutKind.Sequential)]
     public struct OverlayModeSetting
     {
-        public OverlayMode Current, Desired;
+        public string Current, Desired;
         public OverlayEnabled CurrentEnabled, DesiredEnabled;
         public KernelDriversLoaded KernelDriversLoaded;
         public KernelDriversLoaded DesiredKernelDriversLoaded;

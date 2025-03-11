@@ -1,4 +1,5 @@
 using CommonHelpers;
+using CommonHelpers.OSDService;
 
 namespace PowerControl.Options
 {
@@ -11,7 +12,14 @@ namespace PowerControl.Options
             ApplyDelay = 500,
             OptionsValues = delegate ()
             {
-                return Enum.GetNames<OverlayEnabled>();
+                var source = new OSDFileManager();
+                var entries = source.GetEntries();
+                var enumNames = Enum.GetNames<OverlayEnabled>();
+                var modes = new string[enumNames.Length + entries.Count];
+                enumNames.CopyTo(modes, 0);
+                entries.Keys.CopyTo(modes, enumNames.Length);
+
+                return modes.Distinct().ToArray();
             },
             CurrentValue = delegate ()
             {
@@ -37,19 +45,26 @@ namespace PowerControl.Options
             ApplyDelay = 500,
             OptionsValues = delegate ()
             {
-                return Enum.GetNames<OverlayMode>();
+                var source = new OSDFileManager();
+                var entries = source.GetEntries();
+                var enumNames = Enum.GetNames<OverlayEnabled>();
+                var modes = new string[enumNames.Length + entries.Count];
+                enumNames.CopyTo(modes, 0);
+                entries.Keys.CopyTo(modes, enumNames.Length);
+
+                return modes.Distinct().ToArray();
             },
             CurrentValue = delegate ()
             {
                 if (SharedData<OverlayModeSetting>.GetExistingValue(out var value))
-                    return value.Current.ToString();
+                    return value.Current;
                 return null;
             },
             ApplyValue = (selected) =>
             {
                 if (!SharedData<OverlayModeSetting>.GetExistingValue(out var value))
                     return null;
-                value.Desired = Enum.Parse<OverlayMode>(selected);
+                value.Desired = selected;
                 if (!SharedData<OverlayModeSetting>.SetExistingValue(value))
                     return null;
                 return selected;

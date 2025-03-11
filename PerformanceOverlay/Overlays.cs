@@ -1,4 +1,5 @@
 ﻿using CommonHelpers;
+using CommonHelpers.OSDService;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -263,6 +264,29 @@ namespace PerformanceOverlay
             }
         };
 
+        private static class TextEvaluator
+        {
+            private readonly static Regex AttributeRegex =
+                new Regex("{([^}]+)}", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+            public static string EvaluateText(string text, Sensors sensors, bool ignoreMissing = false)
+            {
+                IEnumerable<Match> allAttributes = AttributeRegex.Matches(text ?? "");
+                var output = text ?? "";
+
+                foreach (var attribute in allAttributes)
+                {
+                    var attributeName = attribute.Groups[1].Value;
+                    var value = sensors.GetValue(attributeName);
+                    if (value is null && ignoreMissing)
+                        return "";
+                    output = output.Replace(attribute.Value, value ?? "-");
+                }
+
+                return output;
+            }
+        }
+
         public static string GetOsd(OverlayMode mode, Sensors sensors)
         {
             var sb = new StringBuilder();
@@ -270,7 +294,24 @@ namespace PerformanceOverlay
             sb.AppendJoin("", Helpers);
             sb.Append(Osd.GetValue(mode, sensors) ?? "");
 
-            return sb.ToString();
+            var overlayContent = sb.ToString();
+            new FileSaver().SaveStringToFile(mode.ToString(), overlayContent);
+
+            return overlayContent;
+        }
+
+        public static string? GetOsd(string mode, Sensors sensors)
+        {
+            var osdFileManager = new OSDFileManager();
+
+            var content = osdFileManager.LoadOSDFileContent(mode);
+            if (content == null)
+            {
+                return null;
+            }
+            content = TextEvaluator.EvaluateText(content, sensors, true);
+
+            return content;
         }
     }
 }
