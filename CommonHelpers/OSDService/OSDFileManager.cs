@@ -3,7 +3,6 @@
     public class OSDFileManager
     {
         private string Directory { get; }
-        private Dictionary<string, string> Entries { get; }
         private readonly FileListProvider _fileListProvider;
         private readonly FileSaver _fileSaver = new FileSaver();
         private readonly FileLoader _fileLoader = new FileLoader();
@@ -13,31 +12,23 @@
             var dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
             Directory = Path.Combine(dir, "SteamDeckTools", "Overlays");
             _fileListProvider = new FileListProvider(Directory, "overlay");
-            Entries = new Dictionary<string, string>();
         }
 
-        public Dictionary<string, string> GetEntries()
+        public List<string> GetEntries()
         {
-            if (Entries.Count > 0) {
-                return Entries;
-            }
-            
+            var entries = new List<string>();
             var files = _fileListProvider.GetFiles();
 
             foreach (var file in files) {
-                Entries.Add(Path.GetFileNameWithoutExtension(file), file);
+                entries.Add(Path.GetFileNameWithoutExtension(file));
             }
 
-            return Entries;
+            return entries;
         }
 
         public string? LoadOSDFileContent(string fileName)
         {
-            var path = Entries.GetValueOrDefault(fileName, String.Empty);
-            if (path == String.Empty)
-            {
-                return null;
-            }
+            var path = Path.Combine(Directory, fileName + ".overlay");
             
             return _fileLoader.LoadFile(path);
         }

@@ -5,11 +5,11 @@
         public static string[] List()
         {
             var source = new OSDFileManager();
-            var entries = source.GetEntries();
+            var entries = source.GetEntries().ToArray();
             var enumNames = Enum.GetNames<OverlayMode>();
-            var values = new string[enumNames.Length + entries.Count];
+            var values = new string[enumNames.Length + entries.Length];
             enumNames.CopyTo(values, 0);
-            entries.Keys.CopyTo(values, enumNames.Length);
+            entries.CopyTo(values, enumNames.Length);
 
             return values.Distinct().ToArray();
         }
