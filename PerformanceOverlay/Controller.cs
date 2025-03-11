@@ -61,7 +61,9 @@ namespace PerformanceOverlay
             var enumNames = Enum.GetNames<OverlayEnabled>();
             var modes = new string[enumNames.Length + entries.Count];
             enumNames.CopyTo(modes, 0);
-            entries.Keys.CopyTo(modes, enumNames.Length);
+            entries.Keys.CopyTo(modes, enumNames.Length); 
+            Log.TraceDebug("Available overlays: {0}", String.Join(", ", modes));
+            
             foreach (var mode in modes.Distinct().ToArray())
             {
                 var modeItem = new ToolStripMenuItem(mode);
@@ -166,6 +168,11 @@ namespace PerformanceOverlay
         {
             foreach (ToolStripItem item in contextMenu.Items)
             {
+                if (item is not ToolStripMenuItem)
+                {
+                    continue;
+                }
+                
                 if (item.Tag is OverlayMode mode)
                 {
                     item.Tag = mode.ToString();
