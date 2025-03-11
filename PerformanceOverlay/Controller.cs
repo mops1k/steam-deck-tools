@@ -58,11 +58,10 @@ namespace PerformanceOverlay
             
             var source = new OSDFileManager();
             var entries = source.GetEntries();
-            var enumNames = Enum.GetNames<OverlayEnabled>();
+            var enumNames = Enum.GetNames<OverlayMode>();
             var modes = new string[enumNames.Length + entries.Count];
             enumNames.CopyTo(modes, 0);
-            entries.Keys.CopyTo(modes, enumNames.Length); 
-            Log.TraceDebug("Available overlays: {0}", String.Join(", ", modes));
+            entries.Keys.CopyTo(modes, enumNames.Length);
             
             foreach (var mode in modes.Distinct().ToArray())
             {
@@ -140,7 +139,7 @@ namespace PerformanceOverlay
                 {
                     var source = new OSDFileManager();
                     var entries = source.GetEntries();
-                    var enumNames = Enum.GetNames<OverlayEnabled>();
+                    var enumNames = Enum.GetNames<OverlayMode>();
                     var values = new string[enumNames.Length + entries.Count];
                     enumNames.CopyTo(values, 0);
                     entries.Keys.CopyTo(values, enumNames.Length);
@@ -224,7 +223,7 @@ namespace PerformanceOverlay
             {
                 var source = new OSDFileManager();
                 var entries = source.GetEntries();
-                var enumNames = Enum.GetNames<OverlayEnabled>();
+                var enumNames = Enum.GetNames<OverlayMode>();
                 var values = new string[enumNames.Length + entries.Count];
                 enumNames.CopyTo(values, 0);
                 entries.Keys.CopyTo(values, enumNames.Length);
