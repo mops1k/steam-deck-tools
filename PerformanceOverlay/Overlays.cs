@@ -41,7 +41,7 @@ namespace PerformanceOverlay
 
                 if (Nested.Count > 0)
                 {
-                    var outputs = Nested.Select(entry => entry.GetValue(mode, sensors)).Where(output => output != null);
+                    var outputs = Nested.Select(entry => entry.GetValue(mode, sensors, evaluate)).Where(output => output != null);
                     var enumerable = outputs as string[] ?? outputs.ToArray();
                     if (!enumerable.Any())
                         return null;
