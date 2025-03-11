@@ -56,14 +56,9 @@ namespace PerformanceOverlay
             contextMenu.Items.Add(showItem);
             contextMenu.Items.Add(new ToolStripSeparator());
             
-            var source = new OSDFileManager();
-            var entries = source.GetEntries();
-            var enumNames = Enum.GetNames<OverlayMode>();
-            var modes = new string[enumNames.Length + entries.Count];
-            enumNames.CopyTo(modes, 0);
-            entries.Keys.CopyTo(modes, enumNames.Length);
+            var modes = OSDOverlayListFacade.List();
             
-            foreach (var mode in modes.Distinct().ToArray())
+            foreach (var mode in modes)
             {
                 var modeItem = new ToolStripMenuItem(mode);
                 modeItem.Tag = mode;
@@ -137,14 +132,9 @@ namespace PerformanceOverlay
             {
                 GlobalHotKey.RegisterHotKey(Settings.Default.CycleOSDShortcut, () =>
                 {
-                    var source = new OSDFileManager();
-                    var entries = source.GetEntries();
-                    var enumNames = Enum.GetNames<OverlayMode>();
-                    var values = new string[enumNames.Length + entries.Count];
-                    enumNames.CopyTo(values, 0);
-                    entries.Keys.CopyTo(values, enumNames.Length);
+                    var values = OSDOverlayListFacade.List();
 
-                    int index = Array.IndexOf(values.Distinct().ToArray(), Settings.Default.OSDMode);
+                    int index = Array.IndexOf(values, Settings.Default.OSDMode);
                     Settings.Default.OSDMode = values[(index + 1) % values.Length];
                     Settings.Default.ShowOSD = true;
 
@@ -221,14 +211,7 @@ namespace PerformanceOverlay
         {
             if (sharedData.GetValue(out var value))
             {
-                var source = new OSDFileManager();
-                var entries = source.GetEntries();
-                var enumNames = Enum.GetNames<OverlayMode>();
-                var values = new string[enumNames.Length + entries.Count];
-                enumNames.CopyTo(values, 0);
-                entries.Keys.CopyTo(values, enumNames.Length);
-
-                if (values.Contains(value.Desired))
+                if (OSDOverlayListFacade.List().Contains(value.Desired))
                 {
                     Settings.Default.OSDMode = value.Desired;
                     Settings.Default.ShowOSD = true;
@@ -298,13 +281,15 @@ namespace PerformanceOverlay
             if (Settings.Default.EnableFullOnPowerControl)
             {
                 if (SharedData<PowerControlSetting>.GetExistingValue(out var value) && value.Current == PowerControlVisible.Yes)
-                    osdMode = "Full";
+                    osdMode = OverlayMode.Full.ToString();
             }
 
             // first try to load osd overlay by file, second by enum
             var osdOverlay = Overlays.GetOsd(osdMode, sensors)
-                ?? Overlays.GetOsd(Enum.TryParse(osdMode, out OverlayMode mode) ? mode : OverlayMode.Full,
-                    sensors);
+                ?? Overlays.GetOsd(
+                    Enum.TryParse(osdMode, out OverlayMode mode) ? mode : OverlayMode.Full,
+                    sensors
+                );
 
             try
             {

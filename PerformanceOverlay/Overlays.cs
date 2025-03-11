@@ -16,9 +16,6 @@ namespace PerformanceOverlay
             public String Separator { get; init; } = "";
             public bool IgnoreMissing { get; init; }
 
-            private readonly static Regex attributeRegex =
-                new Regex("{([^}]+)}", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-
             public Entry()
             {
             }
@@ -28,32 +25,19 @@ namespace PerformanceOverlay
                 this.Text = text;
             }
 
-            private IEnumerable<Match> AllAttributes => attributeRegex.Matches(Text ?? "");
-
             private string EvaluateText(Sensors sensors)
             {
-                var output = Text ?? "";
-
-                foreach (var attribute in AllAttributes)
-                {
-                    var attributeName = attribute.Groups[1].Value;
-                    var value = sensors.GetValue(attributeName);
-                    if (value is null && IgnoreMissing)
-                        return "";
-                    output = output.Replace(attribute.Value, value ?? "-");
-                }
-
-                return output;
+                return TextEvaluator.EvaluateText(Text ?? String.Empty, sensors, IgnoreMissing);
             }
 
-            public string? GetValue(OverlayMode mode, Sensors sensors)
+            public string? GetValue(OverlayMode mode, Sensors sensors, bool evaluate = true)
             {
                 if (Exclude.Count > 0 && Exclude.Contains(mode))
                     return null;
                 if (Include.Count > 0 && !Include.Contains(mode))
                     return null;
 
-                var output = EvaluateText(sensors);
+                var output = evaluate ? EvaluateText(sensors) : Text;
 
                 if (Nested.Count > 0)
                 {
@@ -291,27 +275,31 @@ namespace PerformanceOverlay
         {
             var sb = new StringBuilder();
 
-            sb.AppendJoin("", Helpers);
+            sb.AppendJoin(String.Empty, Helpers);
             sb.Append(Osd.GetValue(mode, sensors) ?? "");
 
-            var overlayContent = sb.ToString();
-            new FileSaver().SaveStringToFile(mode.ToString(), overlayContent);
+            var overlayContent = Osd.GetValue(mode, sensors, false) ?? String.Empty;
+            new OSDFileManager().SaveOSDFileContent(mode.ToString(), overlayContent);
 
-            return overlayContent;
+            return sb.ToString();
         }
 
         public static string? GetOsd(string mode, Sensors sensors)
         {
             var osdFileManager = new OSDFileManager();
-
+            var sb = new StringBuilder();
+            sb.AppendJoin(String.Empty, Helpers);
+            
             var content = osdFileManager.LoadOSDFileContent(mode);
             if (content == null)
             {
                 return null;
             }
+            
             content = TextEvaluator.EvaluateText(content, sensors, true);
-
-            return content;
+            sb.Append(content);
+            
+            return sb.ToString();
         }
     }
 }
