@@ -16,14 +16,8 @@ namespace CommonHelpers.OSDService
             Directory = directory;
         }
         
-        public FileListProvider(string directory, string? extension)
+        public FileListProvider(string directory, string? extension): this(directory)
         {
-            if (!Filesystem.Exists(directory))
-            {
-                Filesystem.CreateDirectory(directory);
-            }
-            
-            Directory = directory;
             if (extension == null) {
                 return;
             }
