@@ -166,6 +166,11 @@ namespace PerformanceOverlay
         {
             foreach (ToolStripItem item in contextMenu.Items)
             {
+                if (item.Tag is OverlayMode mode)
+                {
+                    item.Tag = mode.ToString();
+                }
+                
                 ((ToolStripMenuItem)item).Checked = (string)item.Tag == Settings.Default.OSDMode;
             }
 
