@@ -9,7 +9,7 @@ namespace PowerControl
             Name = String.Format(
                 "\r\n\r\nPower Control v{0} <C4>-<C> <TIME={1}>\r\n",
                 Application.ProductVersion.ToString(),
-                Is24hClock ? "%H:%M:%S" : "%I:%M:%S %p"
+                Is24hClock ? "%H:%M" : "%I:%M %p"
             ),
             Items =
             {
