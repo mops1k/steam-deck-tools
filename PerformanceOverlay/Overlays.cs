@@ -59,7 +59,15 @@ namespace PerformanceOverlay
         private readonly static string[] Helpers =
         {
             "<C0=008040><C1=0080C0><C2=C08080><C3=FF0000><C4=FFFFFF><C250=FF8000>",
-            "<A0=-4><A1=5><A2=-2><A3=-3><A4=-4><A5=-5><S0=-50><S1=50>",
+            "<A0=-4><A1=5><A2=-2><A3=-3><A4=-4><A5=-5>",
+            "<S0=-50><S1=50>"
+        };
+
+        private readonly static string[] ResetHelpers =
+        {
+            "<C0=0><C1=0><C2=C0><C3=0><C4=0><C250=0>",
+            "<A0=0><A1=0><A2=0><A3=0><A4=0><A5=0>",
+            "<S0=0><S1=0>"
         };
 
         private readonly static Entry Osd = new Entry
@@ -273,32 +281,32 @@ namespace PerformanceOverlay
 
         public static string GetOsd(OverlayMode mode, Sensors sensors)
         {
-            var sb = new StringBuilder();
-
-            sb.AppendJoin(String.Empty, Helpers);
-            sb.Append(Osd.GetValue(mode, sensors) ?? "");
-
-            var overlayContent = Osd.GetValue(mode, sensors, false) ?? String.Empty;
-            new OSDFileManager().SaveOSDFileContent(mode.ToString(), overlayContent);
-
-            return sb.ToString();
+            return PrepareOverlay(Osd.GetValue(mode, sensors) ?? "");
         }
 
         public static string? GetOsd(string mode, Sensors sensors)
         {
             var osdFileManager = new OSDFileManager();
-            var sb = new StringBuilder();
-            sb.AppendJoin(String.Empty, Helpers);
-            
+
             var content = osdFileManager.LoadOSDFileContent(mode);
             if (content == null)
             {
                 return null;
             }
-            
-            content = TextEvaluator.EvaluateText(content, sensors, true);
+
+            content = TextEvaluator.EvaluateText(content, sensors);
+
+            return PrepareOverlay(content);
+        }
+
+        private static string PrepareOverlay(string content)
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendJoin(String.Empty, Helpers);
             sb.Append(content);
-            
+            sb.AppendJoin(String.Empty, ResetHelpers);
+
             return sb.ToString();
         }
     }

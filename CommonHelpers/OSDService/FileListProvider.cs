@@ -5,23 +5,23 @@ namespace CommonHelpers.OSDService
     {
         private string Directory { get; }
         private string Extension { get; } = "txt";
-        
+
         public FileListProvider(string directory)
         {
             if (!Filesystem.Exists(directory))
             {
                 Filesystem.CreateDirectory(directory);
             }
-            
+
             Directory = directory;
         }
-        
+
         public FileListProvider(string directory, string? extension): this(directory)
         {
             if (extension == null) {
                 return;
             }
-            
+
             Extension = extension;
         }
 

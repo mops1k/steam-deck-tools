@@ -110,7 +110,7 @@ namespace PerformanceOverlay
                 return null;
             }
         }
-        
+
         public class CustomHardwareSensor: HardwareSensor
         {
             public delegate string? ValueDelegate(string data);
@@ -361,9 +361,12 @@ namespace PerformanceOverlay
                     Multiplier = 1.0f / 60.0f,
                     Value = delegate(string data)
                     {
-                        var minutes = int.Parse(data);
+                        if(!int.TryParse(data, out int minutes)) {
+                            return "~";
+                        }
+
                         var timeSpan = TimeSpan.FromMinutes(minutes);
-                        
+
                         return $"{timeSpan.Hours}";
                     }
                 }
@@ -378,8 +381,10 @@ namespace PerformanceOverlay
                     Multiplier = 1.0f / 60.0f,
                     Value = delegate(string data)
                     {
-                        var minutes = int.Parse(data);
-                        
+                        if(!int.TryParse(data, out int minutes)) {
+                            return "~";
+                        }
+
                         return $"{minutes % 60}";
                     }
                 }

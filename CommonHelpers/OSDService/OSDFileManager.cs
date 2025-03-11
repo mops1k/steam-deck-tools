@@ -1,4 +1,6 @@
-﻿namespace CommonHelpers.OSDService
+﻿using System.Windows.Ink;
+
+namespace CommonHelpers.OSDService
 {
     public class OSDFileManager
     {
@@ -29,8 +31,18 @@
         public string? LoadOSDFileContent(string fileName)
         {
             var path = Path.Combine(Directory, fileName + ".overlay");
-            
-            return _fileLoader.LoadFile(path);
+
+            var content = _fileLoader.LoadFile(path);
+
+            if (content == null) {
+                return null;
+            }
+
+            var filtered = content?.Replace("\n", "");
+            filtered = filtered?.Replace("\r", "");
+            filtered = filtered?.Replace("<BR>", "\n");
+
+            return filtered;
         }
 
         public void SaveOSDFileContent(string fileName, string content)
