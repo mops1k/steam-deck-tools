@@ -10,7 +10,10 @@ namespace PowerControl.Options
             Name = "OSD",
             PersistentKey = "PerformanceOverlay",
             ApplyDelay = 500,
-            OptionsValues = OSDOverlayListFacade.List,
+            OptionsValues = delegate ()
+            {
+                return Enum.GetNames<OverlayEnabled>();
+            },
             CurrentValue = delegate ()
             {
                 if (SharedData<OverlayModeSetting>.GetExistingValue(out var value))
@@ -33,7 +36,10 @@ namespace PowerControl.Options
             Name = "OSD Mode",
             PersistentKey = "PerformanceOverlayMode",
             ApplyDelay = 500,
-            OptionsValues = OSDOverlayListFacade.List,
+            OptionsValues = delegate()
+            {
+                return OSDOverlayListFacade.List();
+            },
             CurrentValue = delegate ()
             {
                 if (SharedData<OverlayModeSetting>.GetExistingValue(out var value))
