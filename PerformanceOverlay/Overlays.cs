@@ -1,4 +1,5 @@
 ﻿using CommonHelpers;
+using CommonHelpers.OSDService;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -15,9 +16,6 @@ namespace PerformanceOverlay
             public String Separator { get; init; } = "";
             public bool IgnoreMissing { get; init; }
 
-            private readonly static Regex attributeRegex =
-                new Regex("{([^}]+)}", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
-
             public Entry()
             {
             }
@@ -27,36 +25,23 @@ namespace PerformanceOverlay
                 this.Text = text;
             }
 
-            private IEnumerable<Match> AllAttributes => attributeRegex.Matches(Text ?? "");
-
             private string EvaluateText(Sensors sensors)
             {
-                var output = Text ?? "";
-
-                foreach (var attribute in AllAttributes)
-                {
-                    var attributeName = attribute.Groups[1].Value;
-                    var value = sensors.GetValue(attributeName);
-                    if (value is null && IgnoreMissing)
-                        return "";
-                    output = output.Replace(attribute.Value, value ?? "-");
-                }
-
-                return output;
+                return TextEvaluator.EvaluateText(Text ?? String.Empty, sensors, IgnoreMissing);
             }
 
-            public string? GetValue(OverlayMode mode, Sensors sensors)
+            public string? GetValue(OverlayMode mode, Sensors sensors, bool evaluate = true)
             {
                 if (Exclude.Count > 0 && Exclude.Contains(mode))
                     return null;
                 if (Include.Count > 0 && !Include.Contains(mode))
                     return null;
 
-                var output = EvaluateText(sensors);
+                var output = evaluate ? EvaluateText(sensors) : Text;
 
                 if (Nested.Count > 0)
                 {
-                    var outputs = Nested.Select(entry => entry.GetValue(mode, sensors)).Where(output => output != null);
+                    var outputs = Nested.Select(entry => entry.GetValue(mode, sensors, evaluate)).Where(output => output != null);
                     var enumerable = outputs as string[] ?? outputs.ToArray();
                     if (!enumerable.Any())
                         return null;
@@ -74,7 +59,15 @@ namespace PerformanceOverlay
         private readonly static string[] Helpers =
         {
             "<C0=008040><C1=0080C0><C2=C08080><C3=FF0000><C4=FFFFFF><C250=FF8000>",
-            "<A0=-4><A1=5><A2=-2><A3=-3><A4=-4><A5=-5><S0=-50><S1=50>",
+            "<A0=-4><A1=5><A2=-2><A3=-3><A4=-4><A5=-5>",
+            "<S0=-50><S1=50>"
+        };
+
+        private readonly static string[] ResetHelpers =
+        {
+            "<C0=0><C1=0><C2=C0><C3=0><C4=0><C250=0>",
+            "<A0=0><A1=0><A2=0><A3=0><A4=0><A5=0>",
+            "<S0=0><S1=0>"
         };
 
         private readonly static Entry Osd = new Entry
@@ -263,12 +256,56 @@ namespace PerformanceOverlay
             }
         };
 
+        private static class TextEvaluator
+        {
+            private readonly static Regex AttributeRegex =
+                new Regex("{([^}]+)}", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase);
+
+            public static string EvaluateText(string text, Sensors sensors, bool ignoreMissing = false)
+            {
+                IEnumerable<Match> allAttributes = AttributeRegex.Matches(text ?? "");
+                var output = text ?? "";
+
+                foreach (var attribute in allAttributes)
+                {
+                    var attributeName = attribute.Groups[1].Value;
+                    var value = sensors.GetValue(attributeName);
+                    if (value is null && ignoreMissing)
+                        return "";
+                    output = output.Replace(attribute.Value, value ?? "-");
+                }
+
+                return output;
+            }
+        }
+
         public static string GetOsd(OverlayMode mode, Sensors sensors)
+        {
+            return PrepareOverlay(Osd.GetValue(mode, sensors) ?? "");
+        }
+
+        public static string? GetOsd(string mode, Sensors sensors)
+        {
+            var osdFileManager = new OSDFileManager();
+
+            var content = osdFileManager.LoadOSDFileContent(mode);
+            if (content == null)
+            {
+                return null;
+            }
+
+            content = TextEvaluator.EvaluateText(content, sensors);
+
+            return PrepareOverlay(content);
+        }
+
+        private static string PrepareOverlay(string content)
         {
             var sb = new StringBuilder();
 
-            sb.AppendJoin("", Helpers);
-            sb.Append(Osd.GetValue(mode, sensors) ?? "");
+            sb.AppendJoin(String.Empty, Helpers);
+            sb.Append(content);
+            sb.AppendJoin(String.Empty, ResetHelpers);
 
             return sb.ToString();
         }

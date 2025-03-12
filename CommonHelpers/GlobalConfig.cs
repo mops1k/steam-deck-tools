@@ -47,10 +47,11 @@ namespace CommonHelpers
         public KernelDriversLoaded KernelDriversLoaded;
     }
 
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct OverlayModeSetting
     {
-        public OverlayMode Current, Desired;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+        public String Current, Desired;
         public OverlayEnabled CurrentEnabled, DesiredEnabled;
         public KernelDriversLoaded KernelDriversLoaded;
         public KernelDriversLoaded DesiredKernelDriversLoaded;

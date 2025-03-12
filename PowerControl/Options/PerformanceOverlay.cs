@@ -1,4 +1,5 @@
 using CommonHelpers;
+using CommonHelpers.OSDService;
 
 namespace PowerControl.Options
 {
@@ -35,21 +36,21 @@ namespace PowerControl.Options
             Name = "OSD Mode",
             PersistentKey = "PerformanceOverlayMode",
             ApplyDelay = 500,
-            OptionsValues = delegate ()
+            OptionsValues = delegate()
             {
-                return Enum.GetNames<OverlayMode>();
+                return OSDOverlayListFacade.List();
             },
             CurrentValue = delegate ()
             {
                 if (SharedData<OverlayModeSetting>.GetExistingValue(out var value))
-                    return value.Current.ToString();
+                    return value.Current;
                 return null;
             },
             ApplyValue = (selected) =>
             {
                 if (!SharedData<OverlayModeSetting>.GetExistingValue(out var value))
                     return null;
-                value.Desired = Enum.Parse<OverlayMode>(selected);
+                value.Desired = selected;
                 if (!SharedData<OverlayModeSetting>.SetExistingValue(value))
                     return null;
                 return selected;

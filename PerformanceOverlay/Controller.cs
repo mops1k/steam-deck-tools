@@ -1,4 +1,5 @@
 ﻿using CommonHelpers;
+using CommonHelpers.OSDService;
 using ExternalHelpers;
 using RTSSSharedMemoryNET;
 using System.ComponentModel;
@@ -54,9 +55,12 @@ namespace PerformanceOverlay
             showItem.Checked = Settings.Default.ShowOSD;
             contextMenu.Items.Add(showItem);
             contextMenu.Items.Add(new ToolStripSeparator());
-            foreach (var mode in Enum.GetValues<OverlayMode>())
+            
+            var modes = OSDOverlayListFacade.List();
+            
+            foreach (var mode in modes)
             {
-                var modeItem = new ToolStripMenuItem(mode.ToString());
+                var modeItem = new ToolStripMenuItem(mode);
                 modeItem.Tag = mode;
                 modeItem.Click += delegate
                 {
@@ -128,10 +132,10 @@ namespace PerformanceOverlay
             {
                 GlobalHotKey.RegisterHotKey(Settings.Default.CycleOSDShortcut, () =>
                 {
-                    var values = Enum.GetValues<OverlayMode>().ToList();
+                    var values = OSDOverlayListFacade.List();
 
-                    int index = values.IndexOf(Settings.Default.OSDMode);
-                    Settings.Default.OSDMode = values[(index + 1) % values.Count];
+                    int index = Array.IndexOf(values, Settings.Default.OSDMode);
+                    Settings.Default.OSDMode = values[(index + 1) % values.Length];
                     Settings.Default.ShowOSD = true;
 
                     updateContextItems(contextMenu);
@@ -153,8 +157,17 @@ namespace PerformanceOverlay
         {
             foreach (ToolStripItem item in contextMenu.Items)
             {
-                if (item.Tag is OverlayMode)
-                    ((ToolStripMenuItem)item).Checked = ((OverlayMode)item.Tag == Settings.Default.OSDMode);
+                if (item is not ToolStripMenuItem)
+                {
+                    continue;
+                }
+                
+                if (item.Tag is OverlayMode mode)
+                {
+                    item.Tag = mode.ToString();
+                }
+                
+                ((ToolStripMenuItem)item).Checked = (string)item.Tag == Settings.Default.OSDMode;
             }
 
             showItem.Checked = Settings.Default.ShowOSD;
@@ -198,9 +211,9 @@ namespace PerformanceOverlay
         {
             if (sharedData.GetValue(out var value))
             {
-                if (Enum.IsDefined<OverlayMode>(value.Desired))
+                if (OSDOverlayListFacade.List().Contains(value.Desired))
                 {
-                    Settings.Default.OSDMode = (OverlayMode)value.Desired;
+                    Settings.Default.OSDMode = value.Desired;
                     Settings.Default.ShowOSD = true;
                     updateContextItems(contextMenu);
                 }
@@ -268,10 +281,15 @@ namespace PerformanceOverlay
             if (Settings.Default.EnableFullOnPowerControl)
             {
                 if (SharedData<PowerControlSetting>.GetExistingValue(out var value) && value.Current == PowerControlVisible.Yes)
-                    osdMode = OverlayMode.Full;
+                    osdMode = OverlayMode.Full.ToString();
             }
 
-            var osdOverlay = Overlays.GetOsd(osdMode, sensors);
+            // first try to load osd overlay by file, second by enum
+            var osdOverlay = Overlays.GetOsd(osdMode, sensors)
+                ?? Overlays.GetOsd(
+                    Enum.TryParse(osdMode, out OverlayMode mode) ? mode : OverlayMode.Full,
+                    sensors
+                );
 
             try
             {

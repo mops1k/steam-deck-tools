@@ -11,9 +11,9 @@ namespace PerformanceOverlay
             TouchSettings = true;
         }
 
-        public OverlayMode OSDMode
+        public string OSDMode
         {
-            get { return Get<OverlayMode>("OSDMode", OverlayMode.FPS); }
+            get { return Get<string>("OSDMode", "FPS"); }
             set { Set("OSDMode", value); }
         }
 
