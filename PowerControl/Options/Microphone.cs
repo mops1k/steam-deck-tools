@@ -10,7 +10,7 @@ namespace PowerControl.Options
             PersistentKey = "Microphone",
             PersistOnCreate = false,
             ApplyDelay = 500,
-            Options = { "On", "EnabOffled" },
+            Options = { "On", "Off" },
             ResetValue = () => { return "On"; },
             Visible = WindowsMasterVolume.IsDeviceConnected(MultimediaDeviceType.Microphone),
             CurrentValue = () =>
