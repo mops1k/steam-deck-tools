@@ -66,8 +66,6 @@ namespace SteamController
                 startupManager.Startup = false;
             });
 
-            Log.LogToFile = true;
-
             Instance.RunOnce(TitleWithVersion, "Global\\SteamController");
             Instance.RunUpdater(TitleWithVersion);
 

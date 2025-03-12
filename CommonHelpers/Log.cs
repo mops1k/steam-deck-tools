@@ -12,9 +12,6 @@ namespace CommonHelpers
 {
     public static class Log
     {
-        public static bool LogToFile = true;
-        public static bool LogToFileDebug = false;
-        
         private readonly static ILog _logger = LogManager.GetLogger(Instance.ApplicationName);
 
         private static void Setup()
@@ -32,22 +29,19 @@ namespace CommonHelpers
             };
             patternLayout.ActivateOptions();
 
-            if (LogToFile)
+            var roller = new RollingFileAppender
             {
-                var roller = new RollingFileAppender
-                {
-                    AppendToFile = true,
-                    File = logsFolder,
-                    DatePattern = "dd.MM.yyyy_'"+Instance.ApplicationName+".log'",
-                    Layout = patternLayout,
-                    MaxSizeRollBackups = 5,
-                    MaximumFileSize = "5MB",
-                    RollingStyle = RollingFileAppender.RollingMode.Composite,
-                    StaticLogFileName = false
-                };
-                roller.ActivateOptions();
-                hierarchy.Root.AddAppender(roller);
-            }
+                AppendToFile = true,
+                File = logsFolder + Path.DirectorySeparatorChar,
+                DatePattern = "'"+Instance.ApplicationName+"_'dd.MM.yyyy'.log'",
+                Layout = patternLayout,
+                MaxSizeRollBackups = 5,
+                MaximumFileSize = "5MB",
+                RollingStyle = RollingFileAppender.RollingMode.Composite,
+                StaticLogFileName = false
+            };
+            roller.ActivateOptions();
+            hierarchy.Root.AddAppender(roller);
             
 
             hierarchy.Root.Level = Level.Critical;
