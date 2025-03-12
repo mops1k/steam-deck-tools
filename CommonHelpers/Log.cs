@@ -7,6 +7,7 @@ using log4net.Config;
 using log4net.Core;
 using log4net.Layout;
 using log4net.Repository.Hierarchy;
+using System.Runtime.CompilerServices;
 
 namespace CommonHelpers
 {
@@ -42,17 +43,21 @@ namespace CommonHelpers
             };
             roller.ActivateOptions();
             hierarchy.Root.AddAppender(roller);
-            
 
-            hierarchy.Root.Level = Level.Critical;
+            hierarchy.Root.Level = Level.All;
             hierarchy.Configured = true;
             BasicConfigurator.Configure(hierarchy);
+        }
+        
+        public static void Trace(object subject)
+        {
+            Setup();
+            _logger.Logger.Log(_logger.GetType(), Level.Trace, subject, null);
         }
 
         public static void Trace(string name, object subject)
         {
-            Setup();
-            _logger.Logger.Log(_logger.GetType(), Level.Trace, subject, null);
+            Trace(subject);
         }
 
         public static void Info(string format, params object?[] arg)
