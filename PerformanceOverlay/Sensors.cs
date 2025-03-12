@@ -67,10 +67,12 @@ namespace PerformanceOverlay
         public class HardwareSensor : ValueSensor
         {
             public string HardwareName { get; set; } = "";
+            public bool GetHardwareNameAsValue { get; set; } = false;
             public IList<string> HardwareNames { get; set; } = new List<string>();
             public HardwareType HardwareType { get; set; }
             public string SensorName { get; set; } = "";
             public SensorType SensorType { get; set; }
+            private string HardwareComputedName { get; set; } = "";
 
             public bool Matches(ISensor sensor)
             {
@@ -94,6 +96,11 @@ namespace PerformanceOverlay
 
             public string? GetValue(ISensor sensor)
             {
+                if (GetHardwareNameAsValue)
+                {
+                    return HardwareComputedName;
+                }
+                
                 return !sensor.Value.HasValue ? null : ConvertToString(sensor.Value.Value);
             }
 
@@ -103,6 +110,7 @@ namespace PerformanceOverlay
                 {
                     if (Matches(hwSensor))
                     {
+                        HardwareComputedName = hwSensor.Hardware.Name;
                         return GetValue(hwSensor);
                     }
                 }
@@ -405,6 +413,33 @@ namespace PerformanceOverlay
                     SensorType = SensorType.Power,
                     SensorName = "Charge Rate",
                     Format = "F1"
+                }
+            },
+            {
+                "BATT_T", new HardwareSensor()
+                {
+                    HardwareType = HardwareType.Battery,
+                    SensorType = SensorType.Temperature,
+                    SensorName = "Temperature",
+                    Format = "F0"
+                }
+            },
+            {
+                "SSD_NAME", new HardwareSensor()
+                {
+                    HardwareType = HardwareType.Storage,
+                    SensorName = "Temperature",
+                    SensorType = SensorType.Temperature,
+                    GetHardwareNameAsValue = true
+                }
+            },
+            {
+                "SSD_T", new HardwareSensor()
+                {
+                    HardwareType = HardwareType.Storage,
+                    SensorName = "Temperature",
+                    SensorType = SensorType.Temperature,
+                    Format = "F0"
                 }
             },
             {
