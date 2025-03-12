@@ -1,8 +1,8 @@
+using CommonHelpers;
 using Nefarius.ViGEm.Client;
 using Nefarius.ViGEm.Client.Exceptions;
 using Nefarius.ViGEm.Client.Targets;
 using Nefarius.ViGEm.Client.Targets.Xbox360;
-using static CommonHelpers.Log;
 
 namespace SteamController.Devices
 {
@@ -100,22 +100,20 @@ namespace SteamController.Devices
                 try
                 {
                     device?.Connect();
-                    TraceLine("Connected X360 Controller.");
+                    Log.Info("Connected X360 Controller.");
                 }
                 catch (System.ComponentModel.Win32Exception e)
                 {
                     // This is expected exception (as sometimes device will fail to connect)
                     // ERROR_SUCCESS, which likely means COM did not succeed
-                    if (e.NativeErrorCode == 0)
-                        DebugException("X360", "ConnectExpected", e);
-                    else
-                        TraceException("X360", "ConnectExpected", e);
+                    if (e.NativeErrorCode != 0)
+                        Log.Fatal("X360", "ConnectExpected", e);
                     Fail();
                     return;
                 }
                 catch (Exception e)
                 {
-                    TraceException("X360", "Connect", e);
+                    Log.Fatal("X360", "Connect", e);
                     Fail();
                     return;
                 }
@@ -125,7 +123,7 @@ namespace SteamController.Devices
                 try
                 {
                     device?.Disconnect();
-                    TraceLine("Disconnected X360 Controller.");
+                    Log.Info("Disconnected X360 Controller.");
                 }
                 catch (VigemTargetNotPluggedInException)
                 {
@@ -133,7 +131,7 @@ namespace SteamController.Devices
                 }
                 catch (Exception e)
                 {
-                    TraceException("X360", "Disconnect", e);
+                    Log.Fatal("X360", "Disconnect", e);
                     Fail();
                     return;
                 }
@@ -182,7 +180,7 @@ namespace SteamController.Devices
                 }
                 catch (Exception e)
                 {
-                    TraceException("X360", "SubmitReport", e);
+                    Log.Fatal("X360", "SubmitReport", e);
                 }
             }
 
@@ -196,8 +194,6 @@ namespace SteamController.Devices
 
         private void UpdateMinimumPressedTime()
         {
-            var now = DateTime.Now;
-
             foreach (var key in lastPressed)
             {
                 if (pressed.ContainsKey(key.Key))

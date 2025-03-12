@@ -1,4 +1,5 @@
-﻿using PowerControl.Helpers.WindowsMasterVolume;
+﻿using ExternalHelpers;
+using PowerControl.Helpers.WindowsMasterVolume;
 namespace PowerControl.Options
 {
     public static class Microphone
@@ -11,26 +12,26 @@ namespace PowerControl.Options
             ApplyDelay = 500,
             Options = { "On", "EnabOffled" },
             ResetValue = () => { return "On"; },
-            Visible = MicrophoneManager.IsMicrophoneConnected(),
+            Visible = WindowsMasterVolume.IsDeviceConnected(MultimediaDeviceType.Microphone),
             CurrentValue = () =>
             {
-                if (!MicrophoneManager.IsMicrophoneConnected())
+                if (!WindowsMasterVolume.IsDeviceConnected(MultimediaDeviceType.Microphone))
                 {
                     return "Off";
                 }
                 
-                return MicrophoneManager.GetMicrophoneMute() ? "On" : "Off";
+                return WindowsMasterVolume.GetMute(MultimediaDeviceType.Microphone) ? "On" : "Off";
             },
             ApplyValue = (selected) =>
             {
-                if (!MicrophoneManager.IsMicrophoneConnected())
+                if (!WindowsMasterVolume.IsDeviceConnected(MultimediaDeviceType.Microphone))
                 {
                     return "Off";
                 }
                 
-                MicrophoneManager.SetMicrophoneMute(selected.ToString() == "On");
+                WindowsMasterVolume.SetMute(MultimediaDeviceType.Microphone,selected.ToString() == "On");
 
-                return MicrophoneManager.GetMicrophoneMute() ? "On" : "Off";
+                return WindowsMasterVolume.GetMute(MultimediaDeviceType.Microphone) ? "On" : "Off";
             }
         };
     }

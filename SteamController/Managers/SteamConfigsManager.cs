@@ -63,7 +63,7 @@ namespace SteamController.Managers
             if (!IsActive)
                 return;
 
-            Log.TraceLine("SetSteamControllerFilesLock: {0}", lockConfigs);
+            Log.Info("SetSteamControllerFilesLock: {0}", lockConfigs);
 
             if (lockConfigs)
             {

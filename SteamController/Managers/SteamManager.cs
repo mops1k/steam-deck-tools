@@ -84,7 +84,7 @@ namespace SteamController.Managers
             stateChanged = 0;
 
 #if DEBUG
-            CommonHelpers.Log.TraceLine(
+            CommonHelpers.Log.Info(
                 "SteamManager: uses={0}, isRunning={1}, usesSteamInput={2}, usesX360={3}, usesDS4={4}",
                 usesController,
                 SteamConfiguration.IsRunning,

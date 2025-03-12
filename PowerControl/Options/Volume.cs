@@ -1,3 +1,4 @@
+using ExternalHelpers;
 namespace PowerControl.Options
 {
     public static class Volume
@@ -9,17 +10,17 @@ namespace PowerControl.Options
             CycleOptions = false,
             CurrentValue = delegate ()
             {
-                try { return Helpers.WindowsMasterVolume.AudioManager.GetMasterVolume(5.0).ToString(); }
+                try { return WindowsMasterVolume.GetVolume(5.0).ToString(); }
                 catch (Exception) { return null; }
             },
             ApplyValue = (selected) =>
             {
                 try
                 {
-                    Helpers.WindowsMasterVolume.AudioManager.SetMasterVolumeMute(false);
-                    Helpers.WindowsMasterVolume.AudioManager.SetMasterVolume(int.Parse(selected));
+                    WindowsMasterVolume.SetMute(MultimediaDeviceType.Speaker, false);
+                    WindowsMasterVolume.SetVolume(MultimediaDeviceType.Speaker, Int32.Parse(selected));
 
-                    return Helpers.WindowsMasterVolume.AudioManager.GetMasterVolume(5.0).ToString();
+                    return WindowsMasterVolume.GetVolume(5.0).ToString();
                 }
                 catch (Exception)
                 {

@@ -239,7 +239,7 @@ namespace SteamController.Profiles.Dynamic
         public void Log(string format, params object?[] arg)
         {
             var output = String.Format(format, arg);
-            CommonHelpers.Log.TraceLine("{0}: {1}: {2}", _profile.Name, _context.Steam.ElapsedMilliseconds, output);
+            CommonHelpers.Log.Info("{0}: {1}: {2}", _profile.Name, _context.Steam.ElapsedMilliseconds, output);
         }
     }
 }

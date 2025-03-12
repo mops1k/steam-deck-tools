@@ -12,11 +12,8 @@ namespace FanControl
     {
         static void Main(string[] args)
         {
-            Instance.WithSentry(() =>
-            {
-                ApplicationConfiguration.Initialize();
-                Application.Run(new FanControlForm());
-            });
+            ApplicationConfiguration.Initialize();
+            Application.Run(new FanControlForm());
         }
     }
 }

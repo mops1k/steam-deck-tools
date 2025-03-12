@@ -34,7 +34,7 @@ namespace CommonHelpers
             var message = String.Format("Lock took too long for: {0}\n{1}",
                 this.context, Environment.StackTrace);
 
-            Log.TraceError("RaiseTimeout: {0}", message);
+            Log.Error("RaiseTimeout: {0}", message);
 
             MessageBox.Show(message, "Lock timeout");
             throw new TimeoutException();

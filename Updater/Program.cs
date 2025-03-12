@@ -21,10 +21,7 @@ namespace Updater
         [STAThread]
         static void Main()
         {
-            Instance.WithSentry(() =>
-            {
-                Run();
-            });
+            Run();
         }
 
         static void Run()
@@ -47,7 +44,7 @@ namespace Updater
                         continue;
 
                     var processName = arg.Substring(RunPrefix.Length);
-                    CommonHelpers.Log.TraceLine("Running {0}", processName);
+                    CommonHelpers.Log.Info("Running {0}", processName);
                     try { Process.Start(processName); } catch { }
                 }
                 return;

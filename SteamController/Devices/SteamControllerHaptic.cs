@@ -27,7 +27,7 @@ namespace SteamController.Devices
                 count = count
             };
 
-            Log.TraceLine("STEAM: Feedback: pos={0}, amplitude={1}, period={2}, count={3}",
+            Log.Info("STEAM: Feedback: pos={0}, amplitude={1}, period={2}, count={3}",
                 position, amplitude, period, count);
 
             var bytes = new byte[Marshal.SizeOf<SDCHapticPacket>()];
@@ -40,7 +40,7 @@ namespace SteamController.Devices
             }
             catch (Exception e)
             {
-                TraceException("STEAM", "Feedback", e);
+                Fatal("STEAM", "Feedback", e);
                 return false;
             }
         }
@@ -97,7 +97,7 @@ namespace SteamController.Devices
 
             var haptic = new SDCHapticPacket2(position, style, intensityDB);
 
-            Log.TraceLine("STEAM: Haptic: position={0}, style={1}, intensity={2}",
+            Log.Info("STEAM: Haptic: position={0}, style={1}, intensity={2}",
                 position, style, intensityDB);
 
             var bytes = new byte[Marshal.SizeOf<SDCHapticPacket2>()];
@@ -116,7 +116,7 @@ namespace SteamController.Devices
             }
             catch (Exception e)
             {
-                TraceException("STEAM", "Haptic", e);
+                Fatal("STEAM", "Haptic", e);
                 return false;
             }
         }

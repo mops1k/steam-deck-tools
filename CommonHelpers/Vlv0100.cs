@@ -115,7 +115,7 @@
             }
             catch (Exception e)
             {
-                Log.TraceException("VLV0100", "InpOut", e);
+                Log.Fatal("VLV0100", "InpOut", e);
                 Close();
                 return false;
             }
