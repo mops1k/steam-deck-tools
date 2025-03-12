@@ -47,9 +47,10 @@ Join Us for help or chat. We are at [Official WindowsOnDeck](https://discord.gg/
 
 [READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED](https://steam-deck-tools.ayufan.dev/#anti-cheat-and-antivirus-software).
 
-## Author
+## Authors
 
 Kamil Trzciński, 2022-2024
+Aleksandr Kvintilyanov, 2025
 
 Steam Deck Tools is not affiliated with Valve, Steam, or any of their partners.
 
