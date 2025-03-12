@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 using AutoUpdaterDotNET;
+using AutoUpdaterDotNET.WebView2;
 using CommonHelpers;
 using Newtonsoft.Json;
 
@@ -94,6 +95,7 @@ namespace Updater
             AutoUpdater.ShowSkipButton = true;
             AutoUpdater.Synchronous = true;
             AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
+            AutoUpdater.ChangelogViewerProvider = new WebView2ViewerProvider();
 
             if (!IsUsingInstaller)
             {
@@ -127,7 +129,7 @@ namespace Updater
             UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = json.tag_name.Value.TrimStart('v'),
-                ChangelogURL = json.html_url,
+                ChangelogText = json.body,
                 InstalledVersion = new Version(Instance.ProductVersion ?? "0.0.1")
             };
 
