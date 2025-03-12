@@ -44,7 +44,11 @@ namespace CommonHelpers
             roller.ActivateOptions();
             hierarchy.Root.AddAppender(roller);
 
+#if DEBUG
             hierarchy.Root.Level = Level.All;
+#else
+            hierarchy.Root.Level = Level.Info;
+#endif
             hierarchy.Configured = true;
             BasicConfigurator.Configure(hierarchy);
         }
