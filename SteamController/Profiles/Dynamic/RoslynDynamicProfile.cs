@@ -80,9 +80,9 @@ namespace SteamController.Profiles.Dynamic
                 OnErrorsChanged();
             }
 
-            Log.TraceLine("UserProfile: {0}: Compilation Error", fileName);
+            Log.Info("UserProfile: {0}: Compilation Error", fileName);
             foreach (var error in this.Errors)
-                Log.TraceLine("\t{0}", error);
+                Log.Info("\t{0}", error);
             return false;
         }
 
@@ -106,7 +106,7 @@ namespace SteamController.Profiles.Dynamic
                     if (this.lastModifiedTime >= latest)
                         return;
 
-                    Log.TraceLine("UserProfile: {0}. Detected modification: '{1}' vs '{2}'", fileName, this.lastModifiedTime, latest);
+                    Log.Info("UserProfile: {0}. Detected modification: '{1}' vs '{2}'", fileName, this.lastModifiedTime, latest);
                 }
                 catch (Exception) { return; }
 
@@ -149,12 +149,12 @@ namespace SteamController.Profiles.Dynamic
                 {
                     cancelToken.Cancel();
                     task.Wait();
-                    Log.TraceLine("UserProfile: {0}: Timedout. Canceled.");
+                    Log.Info("UserProfile: {0}: Timedout. Canceled.");
                 }
             }
             catch (Exception e)
             {
-                Log.TraceLine("UserProfile: {0}: {1}", fileName, e);
+                Log.Info("UserProfile: {0}: {1}", fileName, e);
             }
 
             return Status.Continue;

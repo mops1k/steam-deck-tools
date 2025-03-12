@@ -106,7 +106,7 @@ namespace PowerControl.Options
                 catch (Exception e)
                 {
 #if DEBUG
-                    CommonHelpers.Log.TraceException("RTSS", e);
+                    CommonHelpers.Log.Fatal("RTSS", e);
 #endif
                     return "?";
                 }
@@ -159,7 +159,7 @@ namespace PowerControl.Options
                 }
                 catch (Exception e)
                 {
-                    CommonHelpers.Log.TraceException("RTSS", e);
+                    CommonHelpers.Log.Fatal("RTSS", e);
                 }
                 return null;
             },
@@ -223,7 +223,7 @@ namespace PowerControl.Options
                 catch (Exception e)
                 {
 #if DEBUG
-                    CommonHelpers.Log.TraceException("RTSS", e);
+                    CommonHelpers.Log.Fatal("RTSS", e);
 #endif
                 }
             }

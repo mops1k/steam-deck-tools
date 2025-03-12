@@ -70,7 +70,7 @@ namespace CommonHelpers
             if (TryToLoad(dllNames, null, unload))
                 return;
 
-            Log.TraceError("Cannot load: {0}", dllNames);
+            Log.Error("Cannot load: {0}", dllNames);
 
             var result = ShowDialog(
                 title,
@@ -92,7 +92,7 @@ namespace CommonHelpers
             if (title == null)
                 return false;
 
-            Log.TraceError("Cannot load: {0}", dllNames);
+            Log.Error("Cannot load: {0}", dllNames);
 
             var downloadButton = new TaskDialogButton("Download");
 
@@ -118,7 +118,7 @@ namespace CommonHelpers
             if (TryToLoad(dllNames, libraryPath, unload))
                 return;
 
-            Log.TraceError("Cannot load: {0}", dllNames);
+            Log.Error("Cannot load: {0}", dllNames);
 
             var downloadButton = new TaskDialogButton("Download");
             var exitButton = new TaskDialogButton("Exit");

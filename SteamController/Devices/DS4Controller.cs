@@ -135,22 +135,21 @@ namespace SteamController.Devices
                 {
                     device?.Connect();
                     stopwatch.Restart();
-                    TraceLine("Connected DS4 Controller.");
+                    Info("Connected DS4 Controller.");
                 }
                 catch (System.ComponentModel.Win32Exception e)
                 {
                     // This is expected exception (as sometimes device will fail to connect)
                     // ERROR_SUCCESS, which likely means COM did not succeed
-                    if (e.NativeErrorCode == 0)
-                        DebugException("DS4", "ConnectExpected", e);
-                    else
-                        TraceException("DS4", "ConnectExpected", e);
+                    if (e.NativeErrorCode != 0)
+                        // DebugException("DS4", "ConnectExpected", e);
+                        Fatal("DS4", "ConnectExpected", e);
                     Fail();
                     return;
                 }
                 catch (Exception e)
                 {
-                    TraceException("DS4", "Connect", e);
+                    Fatal("DS4", "Connect", e);
                     Fail();
                     return;
                 }
@@ -161,7 +160,7 @@ namespace SteamController.Devices
                 {
                     device?.Disconnect();
                     stopwatch.Stop();
-                    TraceLine("Disconnected DS4 Controller.");
+                    Info("Disconnected DS4 Controller.");
                 }
                 catch (VigemTargetNotPluggedInException)
                 {
@@ -169,7 +168,7 @@ namespace SteamController.Devices
                 }
                 catch (Exception e)
                 {
-                    TraceException("DS4", "Disconnect", e);
+                    Fatal("DS4", "Disconnect", e);
                     Fail();
                     return;
                 }
@@ -202,7 +201,7 @@ namespace SteamController.Devices
                 }
                 catch (Exception e)
                 {
-                    TraceException("DS4", "SubmitReport", e);
+                    Fatal("DS4", "SubmitReport", e);
                 }
             }
 

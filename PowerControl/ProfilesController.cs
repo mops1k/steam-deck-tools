@@ -93,7 +93,7 @@ namespace PowerControl
 
             if (CurrentProfileSettings != profileSettings)
             {
-                Log.TraceLine("ProfilesController: Foreground changed: {0} => {1}",
+                Log.Info("ProfilesController: Foreground changed: {0} => {1}",
                     CurrentProfileSettings?.ProfileName, profileSettings.ProfileName);
                 CurrentProfileSettings = profileSettings;
                 ProfileChanged();
@@ -103,7 +103,7 @@ namespace PowerControl
 
         private void AddProcess(int processId, string processName)
         {
-            Log.TraceLine("ProfilesController: New Process: {0}/{1}", processId, processName);
+            Log.Info("ProfilesController: New Process: {0}/{1}", processId, processName);
 
             if (changedSettings == null)
                 changedSettings = new Dictionary<MenuItemWithOptions, string>();
@@ -122,7 +122,7 @@ namespace PowerControl
             if (CurrentProfileSettings == profileSettings)
                 CurrentProfileSettings = null;
 
-            Log.TraceLine("ProfilesController: Removed Process: {0}", processId);
+            Log.Info("ProfilesController: Removed Process: {0}", processId);
 
             if (watchedProcesses.Any())
                 return;
@@ -139,7 +139,7 @@ namespace PowerControl
             {
                 if (changedSettings?.TryAdd(options, oldValue) == true)
                 {
-                    Log.TraceLine("ProfilesController: Saved change: {0} from {1}", options.PersistentKey, oldValue);
+                    Log.Info("ProfilesController: Saved change: {0} from {1}", options.PersistentKey, oldValue);
                 }
             }
 
@@ -149,7 +149,7 @@ namespace PowerControl
                 CurrentProfileSettings.SetValue(options.PersistentKey, newValue);
                 options.ProfileOption = newValue;
 
-                Log.TraceLine("ProfilesController: Stored: {0} {1} = {2}",
+                Log.Info("ProfilesController: Stored: {0} {1} = {2}",
                     CurrentProfileSettings.ProfileName, options.PersistentKey, newValue);
             }
         }
@@ -168,7 +168,7 @@ namespace PowerControl
 
             profileSettings?.TouchFile();
 
-            Log.TraceLine("ProfilesController: Created Profile: {0}, SaveAll={1}",
+            Log.Info("ProfilesController: Created Profile: {0}, SaveAll={1}",
                 profileSettings?.ProfileName, saveAll);
 
             if (!saveAll)
@@ -189,7 +189,7 @@ namespace PowerControl
             CurrentProfileSettings?.DeleteFile();
             ProfileChanged();
 
-            Log.TraceLine("ProfilesController: Deleted Profile: {0}", CurrentProfileSettings?.ProfileName);
+            Log.Info("ProfilesController: Deleted Profile: {0}", CurrentProfileSettings?.ProfileName);
         }
 
         private void ApplyProfile(ProfileSettings profileSettings)
@@ -215,12 +215,12 @@ namespace PowerControl
                     {
                         menuItem.Set(persistedValue, true, false);
 
-                        Log.TraceLine("ProfilesController: Applied from Profile: {0}: {1} = {2}",
+                        Log.Info("ProfilesController: Applied from Profile: {0}: {1} = {2}",
                             CurrentProfileSettings.ProfileName, menuItem.PersistentKey, persistedValue);
                     }
                     catch (Exception e)
                     {
-                        Log.TraceLine("ProfilesController: Exception Profile: {0}: {1} = {2} => {3}",
+                        Log.Info("ProfilesController: Exception Profile: {0}: {1} = {2} => {3}",
                             CurrentProfileSettings.ProfileName, menuItem.PersistentKey, persistedValue, e);
 
                         CurrentProfileSettings.DeleteKey(menuItem.PersistentKey ?? "");
@@ -254,12 +254,12 @@ namespace PowerControl
                     {
                         menuItem.Set(setting, true, true);
 
-                        Log.TraceLine("ProfilesController: Reset: {0} = {1}",
+                        Log.Info("ProfilesController: Reset: {0} = {1}",
                             menuItem.PersistentKey, setting);
                     }
                     catch (Exception e)
                     {
-                        Log.TraceLine("ProfilesController: Reset Exception: {0} = {1} => {2}",
+                        Log.Info("ProfilesController: Reset Exception: {0} = {1} => {2}",
                             menuItem.PersistentKey, setting, e);
                     }
                 }

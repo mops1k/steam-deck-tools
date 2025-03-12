@@ -81,7 +81,7 @@ namespace PowerControl.Helpers
             if (!EnumDisplaySettings(null, ENUM_CURRENT_SETTINGS, ref oldDm))
                 return false;
 
-            Log.TraceObject("SetDisplaySettings:" + type + ":IN", oldDm);
+            Log.Trace("SetDisplaySettings:" + type + ":IN", oldDm);
 
             DEVMODE dm = best.Value;
 
@@ -89,7 +89,7 @@ namespace PowerControl.Helpers
                 dm.dmPelsHeight == oldDm.dmPelsHeight &&
                 dm.dmDisplayFrequency == oldDm.dmDisplayFrequency)
             {
-                Log.TraceLine(
+                Log.Info(
                     "DispChange: {0}, already set: {1}x{2}@{3}",
                     type,
                     oldDm.dmPelsWidth, oldDm.dmPelsHeight, oldDm.dmDisplayFrequency);
@@ -100,7 +100,7 @@ namespace PowerControl.Helpers
                 null, ref dm, IntPtr.Zero,
                 ChangeDisplaySettingsFlags.CDS_TEST, IntPtr.Zero);
             var applyChange = DISP_CHANGE.NotUpdated;
-            Log.TraceObject("SetDisplaySettings:" + type + ":REQ", dm);
+            Log.Trace("SetDisplaySettings:" + type + ":REQ", dm);
 
             if (testChange == DISP_CHANGE.Successful)
             {
@@ -113,9 +113,9 @@ namespace PowerControl.Helpers
             if (!EnumDisplaySettings(null, ENUM_CURRENT_SETTINGS, ref newDm))
                 return false;
 
-            Log.TraceObject("SetDisplaySettings:" + type + ":OUT", newDm);
+            Log.Trace("SetDisplaySettings:" + type + ":OUT", newDm);
 
-            Log.TraceLine(
+            Log.Info(
                 "DispChange: {0}, Test: {1}, Set: {8}, from: {2}x{3}@{4}, to: {5}x{6}@{7}",
                 type, testChange,
                 oldDm.dmPelsWidth, oldDm.dmPelsHeight, oldDm.dmDisplayFrequency,
@@ -154,7 +154,7 @@ namespace PowerControl.Helpers
             }
             catch (Exception e)
             {
-                Log.TraceException("ResetResolution", e);
+                Log.Fatal("ResetResolution", e);
                 return false;
             }
         }

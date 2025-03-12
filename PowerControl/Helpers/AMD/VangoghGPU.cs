@@ -73,7 +73,7 @@ namespace PowerControl.Helpers.AMD
 
                 if (!discoveredDevices.ContainsKey(deviceName))
                 {
-                    TraceLine("GPU: {0}: Not matched.", deviceName);
+                    Info("GPU: {0}: Not matched.", deviceName);
                     continue;
                 }
 
@@ -81,13 +81,13 @@ namespace PowerControl.Helpers.AMD
                 var ranges = DeviceManager.GetDeviceMemResources(devicePNP);
                 if (ranges is null)
                 {
-                    TraceError("GPU: {0}: {1}: No memory ranges", deviceName, devicePNP);
+                    Error("GPU: {0}: {1}: No memory ranges", deviceName, devicePNP);
                     continue;
                 }
                 var expectedRange = new Tuple<UIntPtr, UIntPtr>(new UIntPtr(device.Item2), new UIntPtr(device.Item3));
                 if (!ranges.Contains(expectedRange))
                 {
-                    TraceError("GPU: {0}: {1}: Memory range not found: {2}",
+                    Error("GPU: {0}: {1}: Memory range not found: {2}",
                         deviceName,
                         devicePNP,
                         String.Join(",", ranges.Select((item) => item.ToString()))
@@ -99,7 +99,7 @@ namespace PowerControl.Helpers.AMD
                 {
                     if (gpu is null)
                     {
-                        TraceError("GPU: {0}: {1}: Failed to open.", deviceName, devicePNP);
+                        Error("GPU: {0}: {1}: Failed to open.", deviceName, devicePNP);
                         continue;
                     }
 
@@ -109,12 +109,12 @@ namespace PowerControl.Helpers.AMD
                         // Silence SMU_Version = 0 since it happens fairly often
                         if (smuVersion != 0)
                         {
-                            TraceError("GPU: {0}: {1}: SMU not supported: {2:X8} (IO: {3})", deviceName, devicePNP, smuVersion, expectedRange);
+                            Error("GPU: {0}: {1}: SMU not supported: {2:X8} (IO: {3})", deviceName, devicePNP, smuVersion, expectedRange);
                         }
                         return DetectionStatus.Retryable;
                     }
 
-                    TraceLine("GPU: {0}: Matched!", deviceName);
+                    Info("GPU: {0}: Matched!", deviceName);
                     DetectedDevice = device;
                     return DetectionStatus.Detected;
                 }

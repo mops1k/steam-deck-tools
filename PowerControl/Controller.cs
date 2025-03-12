@@ -49,10 +49,6 @@ namespace PowerControl
                 startupManager.Startup = false;
             });
 
-            Log.CleanupLogFiles(DateTime.UtcNow.AddDays(-7));
-            Log.LogToFile = true;
-            Log.LogToFileDebug = true;
-
             Instance.RunOnce(TitleWithVersion, "Global\\PowerControl");
             Instance.RunUpdater(TitleWithVersion);
 
@@ -469,7 +465,7 @@ namespace PowerControl
             if (wasInternalDisplayConnected == isInternalDisplayConnected)
                 return;
 
-            Log.TraceLine("SystemEvents_DisplaySettingsChanged: wasConnected={0}, isConnected={1}",
+            Log.Info("SystemEvents_DisplaySettingsChanged: wasConnected={0}, isConnected={1}",
                 wasInternalDisplayConnected, isInternalDisplayConnected);
 
             wasInternalDisplayConnected = isInternalDisplayConnected;

@@ -9,15 +9,12 @@ namespace PerformanceOverlay
         [STAThread]
         static void Main()
         {
-            Instance.WithSentry(() =>
-            {
-                ApplicationConfiguration.Initialize();
+            ApplicationConfiguration.Initialize();
 
-                using (var controller = new Controller())
-                {
-                    Application.Run();
-                }
-            });
+            using (var controller = new Controller())
+            {
+                Application.Run();
+            }
         }
     }
 }

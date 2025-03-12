@@ -112,7 +112,7 @@ namespace PowerControl.Menu
                 }
                 catch (Exception e)
                 {
-                    CommonHelpers.Log.TraceException("FinalizeSet", Name, e);
+                    CommonHelpers.Log.Fatal("FinalizeSet", Name, e);
                     Update();
                 }
             }
@@ -256,7 +256,7 @@ namespace PowerControl.Menu
                 items = leftItems;
             }
 
-            CommonHelpers.Log.TraceLine("PowerControl: Failed to order items: {0}",
+            CommonHelpers.Log.Info("PowerControl: Failed to order items: {0}",
                 string.Join(", ", items.Select((item) => item.Name)));
 
             foreach (var item in items)

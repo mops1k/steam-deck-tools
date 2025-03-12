@@ -177,7 +177,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return null;
             }
         }
@@ -211,7 +211,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return false;
             }
         }
@@ -277,7 +277,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return false;
             }
         }
@@ -300,7 +300,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return null;
             }
         }
@@ -319,7 +319,7 @@ namespace SteamController.Helpers
             catch (FileNotFoundException e)
             {
                 // File was not found (which is valid as it might be before first start of the application)
-                Log.DebugException("STEAM", e);
+                // Log.DebugException("STEAM", e);
                 return false;
             }
             catch (DirectoryNotFoundException)
@@ -337,7 +337,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return null;
             }
         }
@@ -378,7 +378,7 @@ namespace SteamController.Helpers
             }
             catch (IOException e)
             {
-                Log.TraceException("STEAM", "Config", e);
+                Log.Fatal("STEAM", "Config", e);
                 return null;
             }
         }

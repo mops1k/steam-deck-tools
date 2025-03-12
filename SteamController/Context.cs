@@ -86,7 +86,7 @@ namespace SteamController
             Mouse = new Devices.MouseController();
 
             ProfileChanged += (_) => X360.Beep();
-            ProfileChanged += (profile) => TraceLine("Context: Selected Profile: {0}", profile.Name);
+            ProfileChanged += (profile) => Info("Context: Selected Profile: {0}", profile.Name);
         }
 
         public void Dispose()
@@ -109,7 +109,7 @@ namespace SteamController
             foreach (var manager in Managers)
             {
                 try { manager.Tick(this); }
-                catch (Exception e) { TraceException("Controller", manager, e); }
+                catch (Exception e) { Fatal("Controller", manager, e); }
             }
         }
 
@@ -131,7 +131,7 @@ namespace SteamController
             }
             catch (Exception e)
             {
-                TraceException("Context", "Update", e);
+                Fatal("Context", "Update", e);
                 return false;
             }
             finally
@@ -187,7 +187,7 @@ namespace SteamController
                     return;
 
                 // Otherwise use next one
-                TraceLine("Context: SelectController. State={0}", State);
+                Info("Context: SelectController. State={0}", State);
                 SelectNext();
             }
         }
@@ -223,7 +223,7 @@ namespace SteamController
 
         public void BackToDefault()
         {
-            TraceLine("Context: Back To Default.");
+            Info("Context: Back To Default.");
             if (SelectDefault is not null)
                 SelectDefault();
         }
