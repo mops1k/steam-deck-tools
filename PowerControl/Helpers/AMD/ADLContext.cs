@@ -136,9 +136,9 @@ namespace PowerControl.Helpers.AMD
             {
                 return func();
             }
-            catch (DllNotFoundException e) { Log.TraceException("ADL: Method not found", e); }
-            catch (EntryPointNotFoundException e) { Log.TraceException("ADL: Entry point not found", e); }
-            catch (Exception e) { Log.TraceException("ADL: Generic Exception", e); }
+            catch (DllNotFoundException e) { Log.Fatal("ADL: Method not found", e); }
+            catch (EntryPointNotFoundException e) { Log.Fatal("ADL: Entry point not found", e); }
+            catch (Exception e) { Log.Fatal("ADL: Generic Exception", e); }
 
             return default;
         }

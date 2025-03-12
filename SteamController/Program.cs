@@ -10,17 +10,14 @@ namespace SteamController
         [STAThread]
         static void Main()
         {
-            Instance.WithSentry(() =>
-            {
-                // To customize application configuration such as set high DPI settings or default font,
-                // see https://aka.ms/applicationconfiguration.
-                ApplicationConfiguration.Initialize();
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
 
-                using (var controller = new Controller())
-                {
-                    Application.Run();
-                }
-            });
+            using (var controller = new Controller())
+            {
+                Application.Run();
+            }
         }
     }
 }

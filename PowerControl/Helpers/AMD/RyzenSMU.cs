@@ -42,7 +42,7 @@ namespace PowerControl.Helpers.AMD
             }
             catch (Exception e)
             {
-                Log.TraceException("RyzenSMU", e);
+                Log.Fatal("RyzenSMU", e);
                 return false;
             }
 
@@ -103,7 +103,7 @@ namespace PowerControl.Helpers.AMD
             }
             finally
             {
-                Log.TraceLine("Wreg: reg={0:X}, value={1:X} => success={2}",
+                Log.Info("Wreg: reg={0:X}, value={1:X} => success={2}",
                        reg, value, success);
             }
         }
@@ -134,7 +134,7 @@ namespace PowerControl.Helpers.AMD
             }
             finally
             {
-                Log.TraceLine("Rreg: reg={0:X} => read={1}/{1:X}, success={2}",
+                Log.Info("Rreg: reg={0:X} => read={1}/{1:X}, success={2}",
                        reg, value, success);
             }
         }
@@ -189,7 +189,7 @@ namespace PowerControl.Helpers.AMD
             }
             finally
             {
-                Log.TraceLine(">> SendMsg: msg={0:X}, param={1:X} => arg={2}/{2:X}, success={3}",
+                Log.Info(">> SendMsg: msg={0:X}, param={1:X} => arg={2}/{2:X}, success={3}",
                        msg, param, arg, success);
             }
         }

@@ -12,34 +12,31 @@ namespace PowerControl
         [STAThread]
         static void Main()
         {
-            Instance.WithSentry(() =>
+            // To customize application configuration such as set high DPI settings or default font,
+            // see https://aka.ms/applicationconfiguration.
+            ApplicationConfiguration.Initialize();
+
+            if (Settings.Default.EnableExperimentalFeatures)
             {
-                // To customize application configuration such as set high DPI settings or default font,
-                // see https://aka.ms/applicationconfiguration.
-                ApplicationConfiguration.Initialize();
+                if (!AntiCheatSettings.Default.AckAntiCheat(
+                    Controller.TitleWithVersion,
+                    "You are running EXPERIMENTAL build.", null, false))
+                    return;
+            }
 
-                if (Settings.Default.EnableExperimentalFeatures)
-                {
-                    if (!AntiCheatSettings.Default.AckAntiCheat(
-                        Controller.TitleWithVersion,
-                        "You are running EXPERIMENTAL build.", null, false))
-                        return;
-                }
+            for (int i = 0; !VangoghGPU.IsSupported && i < MAX_GPU_RETRIES; i++)
+            {
+                var status = Instance.WithGlobalMutex(1000, () => VangoghGPU.Detect());
+                if (status != VangoghGPU.DetectionStatus.Retryable)
+                    break;
 
-                for (int i = 0; !VangoghGPU.IsSupported && i < MAX_GPU_RETRIES; i++)
-                {
-                    var status = Instance.WithGlobalMutex(1000, () => VangoghGPU.Detect());
-                    if (status != VangoghGPU.DetectionStatus.Retryable)
-                        break;
+                Thread.Sleep(300);
+            }
 
-                    Thread.Sleep(300);
-                }
-
-                using (var controller = new Controller())
-                {
-                    Application.Run();
-                }
-            });
+            using (var controller = new Controller())
+            {
+                Application.Run();
+            }
         }
     }
 }

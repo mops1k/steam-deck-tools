@@ -176,20 +176,6 @@ namespace CommonHelpers
             }
         }
 
-        public static void WithSentry(Action action, string? dsn = null)
-        {
-            // Overwrite DSN
-            if (dsn != null)
-            {
-                Log.SENTRY_DSN = dsn;
-            }
-
-            using (Sentry.SentrySdk.Init(Log.SentryOptions))
-            {
-                action();
-            }
-        }
-
         public static String ApplicationName
         {
             get { return Assembly.GetEntryAssembly()?.GetName().Name ?? "unknown"; }
@@ -254,7 +240,7 @@ namespace CommonHelpers
         public static void Fatal(String? title, String message, bool capture = true)
         {
             if (capture)
-                Log.TraceError("FATAL: {0}", message);
+                Log.Error("FATAL: {0}", message);
             if (title is not null)
                 MessageBox.Show(message, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
             Environment.Exit(1);

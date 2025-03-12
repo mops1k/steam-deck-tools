@@ -103,7 +103,7 @@ namespace CommonHelpers
             }
             catch (Exception e)
             {
-                Log.TraceLine("Settings: {0}/{1}: {2}", SettingsKey, key, e);
+                Log.Info("Settings: {0}/{1}: {2}", SettingsKey, key, e);
                 cachedValues[key] = defaultValue;
                 return defaultValue;
             }

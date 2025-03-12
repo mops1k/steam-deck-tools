@@ -19,7 +19,7 @@ namespace SteamController
 
             if (profile != debugLastProfile)
             {
-                Log.TraceLine("ProfileChanged: {0} to {1}", debugLastProfile?.Name ?? "null", profile?.Name ?? "null");
+                Log.Info("ProfileChanged: {0} to {1}", debugLastProfile?.Name ?? "null", profile?.Name ?? "null");
                 debugLastProfile = profile;
             }
 
@@ -58,7 +58,7 @@ namespace SteamController
 
             if (!items.SequenceEqual(debugLastItems))
             {
-                Log.TraceDebug("DEBUG: {0}", String.Join(" ", items));
+                Log.Debug("DEBUG: {0}", String.Join(" ", items));
                 debugLastItems = items;
             }
         }
