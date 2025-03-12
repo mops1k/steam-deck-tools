@@ -124,12 +124,11 @@ namespace Updater
             var json = JsonConvert.DeserializeObject<dynamic>(args.RemoteData);
             if (json == null) return;
 
-            // if (json.draft == true || json.pre_release == true) return;
-
             UpdateInfo = new UpdateInfoEventArgs
             {
                 CurrentVersion = json.tag_name.Value.TrimStart('v'),
-                ChangelogURL = json.html_url
+                ChangelogURL = json.html_url,
+                InstalledVersion = new Version(Instance.ProductVersion ?? "0.0.1")
             };
 
             var matchName = "SteamDeckTools-"+UpdateInfo.CurrentVersion+"-portable.zip";
