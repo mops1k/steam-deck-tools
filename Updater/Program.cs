@@ -124,7 +124,7 @@ namespace Updater
             var json = JsonConvert.DeserializeObject<dynamic>(args.RemoteData);
             if (json == null) return;
 
-            if (json.draft.Value == true || json.pre_release.Value == true) return;
+            // if (json.draft == true || json.pre_release == true) return;
 
             UpdateInfo = new UpdateInfoEventArgs
             {
@@ -137,7 +137,7 @@ namespace Updater
             {
                 if (asset.name.Value == matchName)
                 {
-                    UpdateInfo.DownloadURL = asset.browser_download_url.Value;
+                    UpdateInfo.DownloadURL = asset.browser_download_url;
                     break;
                 }
             }
