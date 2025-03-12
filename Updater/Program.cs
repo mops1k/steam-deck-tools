@@ -2,10 +2,10 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Reflection;
 using System.Web;
-using System.Xml;
-using System.Xml.Serialization;
 using AutoUpdaterDotNET;
+using AutoUpdaterDotNET.Markdown;
 using CommonHelpers;
+using Newtonsoft.Json;
 
 namespace Updater
 {
@@ -21,7 +21,15 @@ namespace Updater
         [STAThread]
         static void Main()
         {
-            Run();
+            try
+            {
+                Run();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal("Update failed!", null, e);
+                throw;
+            }
         }
 
         static void Run()
@@ -79,7 +87,7 @@ namespace Updater
             AutoUpdater.ShowRemindLaterButton = true;
             AutoUpdater.HttpUserAgent = String.Format("AutoUpdater/{0}/{1}/{2}",
                 InstallationTime,
-                Instance.ProductVersionWithSha,
+                Instance.ProductVersion,
                 Instance.IsProductionBuild ? "prod" : "dev");
             AutoUpdater.PersistenceProvider = persistence;
             AutoUpdater.ReportErrors = userCheck || cmdLine;
@@ -87,6 +95,7 @@ namespace Updater
             AutoUpdater.ShowSkipButton = true;
             AutoUpdater.Synchronous = true;
             AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
+            AutoUpdater.ChangelogViewerProvider = new MarkdownViewerProvider();
 
             if (!IsUsingInstaller)
             {
@@ -102,39 +111,9 @@ namespace Updater
             TrackProcess("PerformanceOverlay", usedTools);
             TrackProcess("SteamController", usedTools);
 
-            var last1Match = DateTimeOffset.UtcNow.DayOfYear;
-            var last1 = Settings.Default.GetRunTimes("Last1", last1Match) + 1;
-            var last3Match = DateTimeOffset.UtcNow.DayOfYear / 3;
-            var last3 = Settings.Default.GetRunTimes("Last3", last3Match) + 1;
-            var last7Match = DateTimeOffset.UtcNow.DayOfYear / 7;
-            var last7 = Settings.Default.GetRunTimes("Last7", last7Match) + 1;
-
-            AutoUpdater.ParseUpdateInfoEvent += delegate
-            {
-                Settings.Default.SetRunTimes("Last1", last1Match, last1);
-                Settings.Default.SetRunTimes("Last3", last3Match, last3);
-                Settings.Default.SetRunTimes("Last7", last7Match, last7);
-            };
-
-            // This method requests an auto-update from remote server.
-            // It includes the following information:
-            // - Type of installation: prod/dev, release/debug, setup/zip
-            // - Version of application: 0.5.40+12345cdef
-            // - Installation time: when the application was installed
-            // - Used Tools: which application of suite are running, like: FanControl,PerformanceOverlay
-            // - Updates 1, 3 and 7 days: amount of times update run in 1 day, 3 and 7 days
-
             var updateURL = String.Format(
-                "https://steam-deck-tools.ayufan.dev/updates/{4}_{0}_{1}.xml?version={2}&installTime={3}&env={4}&apps={5}&updatesLast1={6}&updatesLast3={7}&updatesLast7={8}",
-                Instance.IsDEBUG ? "debug" : "release",
-                IsUsingInstaller ? "setup" : "zip",
-                HttpUtility.UrlEncode(Instance.ProductVersionWithSha),
-                InstallationTime,
-                Instance.IsProductionBuild ? "prod" : "dev",
-                HttpUtility.UrlEncode(String.Join(",", usedTools)),
-                last1,
-                last3,
-                last7
+                "https://api.github.com/repos/{0}/steam-deck-tools/releases/latest",
+                "mops1k"
             );
 
             AutoUpdater.Start(updateURL);
@@ -144,13 +123,27 @@ namespace Updater
 
         private static void ParseUpdateInfoEvent(ParseUpdateInfoEventArgs args)
         {
-            XmlSerializer xmlSerializer = new XmlSerializer(typeof(UpdateInfoEventArgs));
-            XmlTextReader xmlTextReader = new XmlTextReader(new StringReader(args.RemoteData)) { XmlResolver = null };
-            UpdateInfo = xmlSerializer.Deserialize(xmlTextReader) as UpdateInfoEventArgs;
-            if (UpdateInfo is not null)
+            var json = JsonConvert.DeserializeObject<dynamic>(args.RemoteData);
+            if (json == null) return;
+
+            UpdateInfo = new UpdateInfoEventArgs
             {
-                args.UpdateInfo = UpdateInfo;
+                CurrentVersion = json.tag_name.Value.TrimStart('v'),
+                ChangelogText = json.body,
+                InstalledVersion = new Version(Instance.ProductVersion ?? "0.0.1")
+            };
+
+            var matchName = "SteamDeckTools-"+UpdateInfo.CurrentVersion+"-portable.zip";
+            foreach (var asset in json.assets)
+            {
+                if (asset.name.Value == matchName)
+                {
+                    UpdateInfo.DownloadURL = asset.browser_download_url;
+                    break;
+                }
             }
+
+            args.UpdateInfo = UpdateInfo;
         }
 
         private static bool TrackProcess(String processFilterName, List<string>? usedTools = null)
