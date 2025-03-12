@@ -20,7 +20,15 @@ namespace Updater
         [STAThread]
         static void Main()
         {
-            Run();
+            try
+            {
+                Run();
+            }
+            catch (Exception e)
+            {
+                Log.Fatal("Update failed!", null, e);
+                throw;
+            }
         }
 
         static void Run()
