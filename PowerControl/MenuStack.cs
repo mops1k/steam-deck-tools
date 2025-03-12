@@ -17,6 +17,7 @@ namespace PowerControl
                 new Menu.MenuItemSeparator(),
                 Options.Brightness.Instance,
                 Options.Volume.Instance,
+                Options.Microphone.Instance,
                 new Menu.MenuItemSeparator(),
                 Options.Resolution.Instance,
                 Options.RefreshRate.Instance,

@@ -9,17 +9,17 @@ namespace PowerControl.Options
             CycleOptions = false,
             CurrentValue = delegate ()
             {
-                try { return Helpers.AudioManager.GetMasterVolume(5.0).ToString(); }
+                try { return Helpers.WindowsMasterVolume.AudioManager.GetMasterVolume(5.0).ToString(); }
                 catch (Exception) { return null; }
             },
             ApplyValue = (selected) =>
             {
                 try
                 {
-                    Helpers.AudioManager.SetMasterVolumeMute(false);
-                    Helpers.AudioManager.SetMasterVolume(int.Parse(selected));
+                    Helpers.WindowsMasterVolume.AudioManager.SetMasterVolumeMute(false);
+                    Helpers.WindowsMasterVolume.AudioManager.SetMasterVolume(int.Parse(selected));
 
-                    return Helpers.AudioManager.GetMasterVolume(5.0).ToString();
+                    return Helpers.WindowsMasterVolume.AudioManager.GetMasterVolume(5.0).ToString();
                 }
                 catch (Exception)
                 {
