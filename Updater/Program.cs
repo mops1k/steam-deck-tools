@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Web;
 using AutoUpdaterDotNET;
-using AutoUpdaterDotNET.WebView2;
+using AutoUpdaterDotNET.Markdown;
 using CommonHelpers;
 using Newtonsoft.Json;
 
@@ -95,7 +95,7 @@ namespace Updater
             AutoUpdater.ShowSkipButton = true;
             AutoUpdater.Synchronous = true;
             AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
-            AutoUpdater.ChangelogViewerProvider = new WebView2ViewerProvider();
+            AutoUpdater.ChangelogViewerProvider = new MarkdownViewerProvider();
 
             if (!IsUsingInstaller)
             {
