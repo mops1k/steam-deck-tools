@@ -208,7 +208,7 @@
         }
         private void SetRampRate(byte rampRate)
         {
-            byte[] data = BitConverter.GetBytes(rampRate);
+            byte[] data = new byte[] { rampRate };
             inpOut?.WriteMemory(FRPR, data);
         }
     }
