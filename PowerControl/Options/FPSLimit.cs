@@ -14,7 +14,7 @@ namespace PowerControl.Options
             OptionsValues = delegate ()
             {
                 int refreshRate = DisplayResolutionController.GetRefreshRate();
-        		string[] availableLimits = new string[(refreshRate / 5) + 1];
+        		string[] availableLimits = new string[(refreshRate / 5) + 2];
 
                 var findHalf = false;
                 var findQuarter = false;
@@ -23,19 +23,20 @@ namespace PowerControl.Options
                     var val = (i + 1) * 5;
                     if (val == refreshRate / 2)
                     {
-                        availableLimits[i] = "Half";
+                        availableLimits[i + 1] = "Half";
                         findHalf = true;
                         continue;
                     }
                     if (val == refreshRate / 4)
                     {
-                        availableLimits[i] = "Quarter";
+                        availableLimits[i + 1] = "Quarter";
                         findQuarter = true;
                         continue;
                     }
                     
-        			availableLimits[i] = string.Format("{0}", val);
+        			availableLimits[i + 1] = string.Format("{0}", val);
         		}
+                availableLimits[0] = "Off";
                 availableLimits[^1] = string.Format("{0}", refreshRate + 3);
                 
                 // dissalow to use fps limits lower than 15
@@ -47,7 +48,7 @@ namespace PowerControl.Options
                         return num >= 15;
                     }
                     
-                    return val == "Half" || val == "Quarter";
+                    return val == "Half" || val == "Quarter" || val == "Off";
                 });
 
                 var numToExtend = 0;
@@ -148,6 +149,7 @@ namespace PowerControl.Options
                     switch (selected)
                     {
                         case "Off":
+                        case "?":
                             return "Off";
                         case "Half":
                             return "Half";

@@ -3,7 +3,7 @@ on:
 
 env:
   RELEASE_NAME: SteamDeckTools
-  DOTNET_VERSION: '6.0.x'
+  DOTNET_VERSION: '9.0.x'
 
 jobs:
   build-and-release:
