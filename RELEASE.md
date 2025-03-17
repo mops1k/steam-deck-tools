@@ -2,6 +2,11 @@
 
 ## #{GIT_TAG_NAME}
 
+- Project: update to .NET 9
+- PowerControl: add "Off" otion to FpsLimit for possibility unset limits
+
+## 0.8.2
+
 - Updater: change updates download from github release page
 
 ## 0.8.1
