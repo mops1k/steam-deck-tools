@@ -21,14 +21,14 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: Build without Version
-      run: dotnet build --configuration Debug --output ${{ env.RELEASE_NAME }}-debug/
+      run: dotnet build --configuration Debug --property:OutputPath=${{ env.RELEASE_NAME }}-debug/
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    - uses: vimtor/action-zip@v1
-      with:
-        files: ${{ env.RELEASE_NAME }}-debug
-        dest: ${{ env.RELEASE_NAME }}-debug.zip
-        recursive: true
+    # - uses: vimtor/action-zip@v1
+    #   with:
+    #     files: ${{ env.RELEASE_NAME }}-debug
+    #     dest: ${{ env.RELEASE_NAME }}-debug.zip
+    #     recursive: true
     - name: Install NSIS
       run: choco install nsis
     - name: Create debug installer
@@ -43,8 +43,8 @@ jobs:
     - name: 'Upload Artifact debug.zip'
       uses: actions/upload-artifact@v4
       with:
-        name: debug.zip
-        path: ${{ env.RELEASE_NAME }}-debug.zip
+        name: ${{ env.RELEASE_NAME }}-debug.zip
+        path: ${{ env.RELEASE_NAME }}-debug/
         retention-days: 14
     - name: 'Upload Artifact setup-debug.exe'
       uses: actions/upload-artifact@v4
