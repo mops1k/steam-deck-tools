@@ -24,32 +24,9 @@ jobs:
       run: dotnet build --configuration Debug --output ${{ env.RELEASE_NAME }}-debug/
     - name: Test
       run: dotnet test --no-restore --verbosity normal
-    # - uses: vimtor/action-zip@v1
-    #   with:
-    #     files: ${{ env.RELEASE_NAME }}-debug
-    #     dest: ${{ env.RELEASE_NAME }}-debug.zip
-    #     recursive: true
-    # - name: Install NSIS
-    #   run: choco install nsis
-    # - name: Create debug installer
-    #   uses: joncloud/makensis-action@v3.7
-    #   with:
-    #     script-file: scripts/SteamDeckTools_Setup.nsi
-    #     arguments:
-    #       /V3
-    #       /DUSE_WINGET
-    #       /DBUILD_DIR=../${{ env.RELEASE_NAME }}-debug
-    #       /DOUTPUT_FILE=../${{ env.RELEASE_NAME }}-setup-debug.exe
-    - name: 'Upload Artifact debug.zip'
+    - name: 'Upload Debug Artifact'
       uses: actions/upload-artifact@v4
       with:
-        name: ${{ env.RELEASE_NAME }}-debug.zip
+        name: ${{ env.RELEASE_NAME }}-debug
         path: ${{ env.RELEASE_NAME }}-debug/
         retention-days: 14
-    # - name: 'Upload Artifact setup-debug.exe'
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: setup-debug.exe
-    #     path: ${{ env.RELEASE_NAME }}-setup-debug.exe
-    #     retention-days: 14
-
