@@ -109,32 +109,35 @@ namespace PowerControl
                 contextMenu.Items.Add(startupItem);
             }
             
+            //==> SteamControllerKiller block
+            var steamControllerKillerTimer = new Timer(components);
+            steamControllerKillerTimer.Interval = 1000;
+            steamControllerKillerTimer.Tick += delegate
+            {
+                SteamControllerKiller.ToggleSteamController();
+            };
+            steamControllerKillerTimer.Enabled = false;
+            
             var steamControllerKiller = new ToolStripMenuItem("Auto Kill Steam Controller");
             steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
             steamControllerKiller.Click += delegate
             {
-                var timer = new Timer(components);
-                timer.Interval = 1000;
-                timer.Tick += delegate
-                {
-                    SteamControllerKiller.ToggleSteamController();
-                };
-
                 if (steamControllerKiller.Enabled)
                 {
-                    timer.Enabled = true;
-                    timer.Start();
+                    steamControllerKillerTimer.Enabled = true;
+                    steamControllerKillerTimer.Start();
                     
                     return;
                 }
 
-                timer.Enabled = false;
-                timer.Stop();
-                timer.Dispose();
+                steamControllerKillerTimer.Enabled = false;
+                steamControllerKillerTimer.Stop();
+                steamControllerKillerTimer.Dispose();
             };
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add(steamControllerKiller);
             contextMenu.Items.Add(new ToolStripSeparator());
+            //<== SteamControllerKiller block
 
             var missingRTSSItem = contextMenu.Items.Add("&Install missing RTSS");
             missingRTSSItem.Click += delegate { Dependencies.OpenLink(Dependencies.RTSSURL); };
@@ -270,6 +273,14 @@ namespace PowerControl
                     dismissNeptuneInput();
                 });
             }
+            
+            //==> SteamControllerKiller startup block
+            if (Settings.Default.EnableSteamControllerKiller)
+            {
+                steamControllerKillerTimer.Enabled = true;
+                steamControllerKillerTimer.Start();
+            }
+            //<== SteamControllerKiller startup block
 
             wasInternalDisplayConnected = ExternalHelpers.DisplayConfig.IsInternalConnected.GetValueOrDefault(false);
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
