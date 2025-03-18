@@ -30,7 +30,7 @@ if ($lastVer) {
 }
 echo "nextVer: $nextVer"
 
-dotnet --list-sdks -or winget install Microsoft.DotNet.SDK.6
+dotnet --list-sdks -or winget install Microsoft.DotNet.SDK.9
 dotnet build --configuration "$configuration" "/property:Version=$nextVer" --output "$path"
 
 echo "Build success. Path: $path"
