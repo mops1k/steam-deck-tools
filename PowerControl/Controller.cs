@@ -116,24 +116,15 @@ namespace PowerControl
             {
                 SteamControllerKiller.ToggleSteamController();
             };
-            steamControllerKillerTimer.Enabled = false;
-            
+            steamControllerKillerTimer.Enabled = Settings.Default.EnableSteamControllerKiller;
+
             var steamControllerKiller = new ToolStripMenuItem("Auto Kill Steam Controller");
             steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
             steamControllerKiller.Click += delegate
             {
-                if (steamControllerKiller.Checked)
-                {
-                    Settings.Default.EnableSteamControllerKiller = true;
-                    steamControllerKillerTimer.Enabled = true;
-                    steamControllerKillerTimer.Start();
-
-                    return;
-                }
-
-                Settings.Default.EnableSteamControllerKiller = false;
-                steamControllerKillerTimer.Enabled = false;
-                steamControllerKillerTimer.Stop();
+                Settings.Default.EnableSteamControllerKiller = !steamControllerKiller.Checked;
+                steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
+                steamControllerKillerTimer.Enabled = Settings.Default.EnableSteamControllerKiller;
             };
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add(steamControllerKiller);
@@ -274,19 +265,6 @@ namespace PowerControl
                     dismissNeptuneInput();
                 });
             }
-            
-            //==> SteamControllerKiller startup block
-            if (Settings.Default.EnableSteamControllerKiller)
-            {
-                steamControllerKillerTimer.Enabled = true;
-                steamControllerKillerTimer.Start();
-            }
-            else
-            {
-                steamControllerKillerTimer.Enabled = false;
-                steamControllerKillerTimer.Stop();
-            }
-            //<== SteamControllerKiller startup block
 
             wasInternalDisplayConnected = ExternalHelpers.DisplayConfig.IsInternalConnected.GetValueOrDefault(false);
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
