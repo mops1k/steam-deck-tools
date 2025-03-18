@@ -274,11 +274,6 @@ namespace PowerControl
             wasInternalDisplayConnected = ExternalHelpers.DisplayConfig.IsInternalConnected.GetValueOrDefault(false);
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
         }
-        
-        private void SteamControllerKiller_Click(object? sender, EventArgs e)
-        {
-            throw new NotImplementedException();
-        }
 
         private void OsdTimer_Tick(object? sender, EventArgs e)
         {
