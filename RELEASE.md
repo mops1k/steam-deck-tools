@@ -2,6 +2,10 @@
 
 ## #{GIT_TAG_NAME}
 
+- Launcher: new mini application to run all tools
+
+## 0.8.4
+
 - PowerControl: add "Auto Kill Steam Controller" menu item, which stopping `SteamColntroller` when `Steam` has started
 and vice versa.
 
