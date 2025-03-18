@@ -122,17 +122,18 @@ namespace PowerControl
             steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
             steamControllerKiller.Click += delegate
             {
-                if (steamControllerKiller.Enabled)
+                if (steamControllerKiller.Checked)
                 {
+                    Settings.Default.EnableSteamControllerKiller = true;
                     steamControllerKillerTimer.Enabled = true;
                     steamControllerKillerTimer.Start();
-                    
+
                     return;
                 }
 
+                Settings.Default.EnableSteamControllerKiller = false;
                 steamControllerKillerTimer.Enabled = false;
                 steamControllerKillerTimer.Stop();
-                steamControllerKillerTimer.Dispose();
             };
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add(steamControllerKiller);
@@ -279,6 +280,11 @@ namespace PowerControl
             {
                 steamControllerKillerTimer.Enabled = true;
                 steamControllerKillerTimer.Start();
+            }
+            else
+            {
+                steamControllerKillerTimer.Enabled = false;
+                steamControllerKillerTimer.Stop();
             }
             //<== SteamControllerKiller startup block
 
