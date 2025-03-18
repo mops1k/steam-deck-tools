@@ -26,44 +26,46 @@ namespace Launcher
         [STAThread]
         static void Main()
         {
-            ApplicationConfiguration.Initialize();
-            Application.Run();
-        
+            // ApplicationConfiguration.Initialize();
+            // Application.Run();
             try
             {
                 foreach (var tool in _toolsToRun)
                 {
-                    RunTool(tool);
+                    if (RunTool(tool))
+                    {
+                        Log.Info($"{tool} started");
+
+                        continue;
+                    }
+                    
+                    Log.Info($"Starting {tool} failed");
                 }
             }
             catch (Exception e)
             {
                 Log.Fatal("Process start fail", e);
             }
-            finally
-            {
-                Application.Exit();
-            }
         }
 
-        private static void RunTool(string name)
+        private static bool RunTool(string name)
         {
             if (IsToolRunned(name))
             {
-                return;
+                return false;
             }
         
             var process = new Process();
             var dir = CurrentProcessDir;
             if (dir == null)
             {
-                return;
+                return false;
             }
             
             process.StartInfo.FileName = Path.Combine(dir, name+".exe");
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
-            process.Start();
+            return process.Start();
         }
 
         private static bool IsToolRunned(string name)
