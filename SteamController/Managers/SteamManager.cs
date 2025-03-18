@@ -1,7 +1,7 @@
+using CommonHelpers;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
-using SteamController.Helpers;
 
 namespace SteamController.Managers
 {
@@ -58,17 +58,17 @@ namespace SteamController.Managers
 
             if (usesController is not null)
             {
-                context.State.SteamUsesSteamInput = Helpers.SteamConfiguration.IsControllerBlacklisted(
+                context.State.SteamUsesSteamInput = SteamConfiguration.IsControllerBlacklisted(
                     Devices.SteamController.VendorID,
                     Devices.SteamController.ProductID
                 ) != true;
 
-                context.State.SteamUsesX360Controller = Helpers.SteamConfiguration.IsControllerBlacklisted(
+                context.State.SteamUsesX360Controller = SteamConfiguration.IsControllerBlacklisted(
                     Devices.Xbox360Controller.VendorID,
                     Devices.Xbox360Controller.ProductID
                 ) != true;
 
-                context.State.SteamUsesDS4Controller = Helpers.SteamConfiguration.IsControllerBlacklisted(
+                context.State.SteamUsesDS4Controller = SteamConfiguration.IsControllerBlacklisted(
                     Devices.DS4Controller.VendorID,
                     Devices.DS4Controller.ProductID
                 ) != true;

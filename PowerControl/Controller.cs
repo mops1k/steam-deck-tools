@@ -6,6 +6,7 @@ using PowerControl.Helpers;
 using RTSSSharedMemoryNET;
 using System.ComponentModel;
 using System.Diagnostics;
+using Timer = System.Windows.Forms.Timer;
 
 namespace PowerControl
 {
@@ -107,6 +108,29 @@ namespace PowerControl
                 };
                 contextMenu.Items.Add(startupItem);
             }
+            
+            var steamControllerKiller = new ToolStripMenuItem("Auto Kill Steam Controller");
+            steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
+            steamControllerKiller.Click += delegate
+            {
+                var timer = new Timer(components);
+                timer.Interval = 1000;
+                timer.Tick += delegate
+                {
+                    SteamControllerKiller.ToggleSteamController();
+                };
+
+                if (steamControllerKiller.Enabled)
+                {
+                    timer.Start();
+                }
+
+                timer.Stop();
+                timer.Dispose();
+            };
+            contextMenu.Items.Add(new ToolStripSeparator());
+            contextMenu.Items.Add(steamControllerKiller);
+            contextMenu.Items.Add(new ToolStripSeparator());
 
             var missingRTSSItem = contextMenu.Items.Add("&Install missing RTSS");
             missingRTSSItem.Click += delegate { Dependencies.OpenLink(Dependencies.RTSSURL); };
@@ -126,7 +150,7 @@ namespace PowerControl
             var exitItem = contextMenu.Items.Add("&Exit");
             exitItem.Click += ExitItem_Click;
 
-            notifyIcon = new System.Windows.Forms.NotifyIcon(components);
+            notifyIcon = new NotifyIcon(components);
             notifyIcon.Icon = WindowsDarkMode.IsDarkModeEnabled ? Resources.traffic_light_outline_light : Resources.traffic_light_outline;
             notifyIcon.Text = TitleWithVersion;
             notifyIcon.Visible = true;
@@ -136,7 +160,7 @@ namespace PowerControl
             contextMenu.Show();
             contextMenu.Close();
 
-            osdDismissTimer = new System.Windows.Forms.Timer(components);
+            osdDismissTimer = new Timer(components);
             osdDismissTimer.Interval = 3000;
             osdDismissTimer.Tick += delegate (object? sender, EventArgs e)
             {
@@ -245,6 +269,11 @@ namespace PowerControl
 
             wasInternalDisplayConnected = ExternalHelpers.DisplayConfig.IsInternalConnected.GetValueOrDefault(false);
             SystemEvents.DisplaySettingsChanged += SystemEvents_DisplaySettingsChanged;
+        }
+        
+        private void SteamControllerKiller_Click(object? sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         private void OsdTimer_Tick(object? sender, EventArgs e)

@@ -58,5 +58,10 @@ namespace PowerControl
             get { return Instance.IsDEBUG; }
         }
 
+        public bool EnableSteamControllerKiller
+        {
+            get { return Get<bool>("EnableSteamControllerKiller", true); }
+            set { Set("EnableSteamControllerKiller", value); }
+        }
     }
 }

@@ -52,14 +52,14 @@ namespace SteamController
         {
             Instance.OnUninstall(() =>
             {
-                Helpers.SteamConfiguration.KillSteam();
-                Helpers.SteamConfiguration.WaitForSteamClose(5000);
-                Helpers.SteamConfiguration.BackupSteamConfig();
+                SteamConfiguration.KillSteam();
+                SteamConfiguration.WaitForSteamClose(5000);
+                SteamConfiguration.BackupSteamConfig();
 
-                var steamControllerUpdate = Helpers.SteamConfiguration.UpdateControllerBlacklist(
+                var steamControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
                     Devices.SteamController.VendorID, Devices.SteamController.ProductID, false
                 );
-                var x360ControllerUpdate = Helpers.SteamConfiguration.UpdateControllerBlacklist(
+                var x360ControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
                     Devices.Xbox360Controller.VendorID, Devices.Xbox360Controller.ProductID, false
                 );
                 Settings.Default.EnableSteamDetection = false;
@@ -251,15 +251,15 @@ namespace SteamController
 
         public void SetupSteam(bool always)
         {
-            var blacklistedSteamController = Helpers.SteamConfiguration.IsControllerBlacklisted(
+            var blacklistedSteamController = SteamConfiguration.IsControllerBlacklisted(
                 Devices.SteamController.VendorID,
                 Devices.SteamController.ProductID
             );
-            var blacklistedX360Controller = Helpers.SteamConfiguration.IsControllerBlacklisted(
+            var blacklistedX360Controller = SteamConfiguration.IsControllerBlacklisted(
                 Devices.Xbox360Controller.VendorID,
                 Devices.Xbox360Controller.ProductID
             );
-            var blacklistedDS4Controller = Helpers.SteamConfiguration.IsControllerBlacklisted(
+            var blacklistedDS4Controller = SteamConfiguration.IsControllerBlacklisted(
                 Devices.DS4Controller.VendorID,
                 Devices.DS4Controller.ProductID
             );
@@ -336,21 +336,21 @@ namespace SteamController
             if (result != continueButton)
                 return;
 
-            Helpers.SteamConfiguration.KillSteam();
-            Helpers.SteamConfiguration.WaitForSteamClose(5000);
-            Helpers.SteamConfiguration.BackupSteamConfig();
+            SteamConfiguration.KillSteam();
+            SteamConfiguration.WaitForSteamClose(5000);
+            SteamConfiguration.BackupSteamConfig();
 
-            var steamControllerUpdate = Helpers.SteamConfiguration.UpdateControllerBlacklist(
+            var steamControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
                 Devices.SteamController.VendorID,
                 Devices.SteamController.ProductID,
                 useXInputController.Checked
             );
-            var x360ControllerUpdate = Helpers.SteamConfiguration.UpdateControllerBlacklist(
+            var x360ControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
                 Devices.Xbox360Controller.VendorID,
                 Devices.Xbox360Controller.ProductID,
                 useSteamInput.Checked
             );
-            var ds4ControllerUpdate = Helpers.SteamConfiguration.UpdateControllerBlacklist(
+            var ds4ControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
                 Devices.DS4Controller.VendorID,
                 Devices.DS4Controller.ProductID,
                 useSteamInput.Checked
