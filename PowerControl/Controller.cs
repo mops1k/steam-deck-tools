@@ -175,59 +175,59 @@ namespace PowerControl
             osdTimer.Enabled = true;
 
             profilesController = new ProfilesController();
-
-            GlobalHotKey.RegisterHotKey(Settings.Default.MenuUpKey, () =>
-            {
-                if (!OSDHelpers.IsOSDForeground())
-                    return;
-                rootMenu.Next(-1);
-                setDismissTimer();
-                dismissNeptuneInput();
-            }, true);
-
-            GlobalHotKey.RegisterHotKey(Settings.Default.MenuDownKey, () =>
-            {
-                if (!OSDHelpers.IsOSDForeground())
-                    return;
-                rootMenu.Next(1);
-                setDismissTimer();
-                dismissNeptuneInput();
-            }, true);
-
-            GlobalHotKey.RegisterHotKey(Settings.Default.MenuLeftKey, () =>
-            {
-                if (!OSDHelpers.IsOSDForeground())
-                    return;
-                rootMenu.SelectNext(-1);
-                setDismissTimer();
-                dismissNeptuneInput();
-            });
-
-            GlobalHotKey.RegisterHotKey(Settings.Default.MenuRightKey, () =>
-            {
-                if (!OSDHelpers.IsOSDForeground())
-                    return;
-                rootMenu.SelectNext(1);
-                setDismissTimer();
-                dismissNeptuneInput();
-            });
-
-            GlobalHotKey.RegisterHotKey(Settings.Default.MenuToggle, () =>
-            {
-                isOSDToggled = !rootMenu.Visible;
-
-                if (!OSDHelpers.IsOSDForeground())
-                    return;
-
-                if (isOSDToggled)
-                {
-                    showOSD();
-                }
-                else
-                {
-                    hideOSD();
-                }
-            }, true);
+            //
+            // GlobalHotKey.RegisterHotKey(Settings.Default.MenuUpKey, () =>
+            // {
+            //     if (!OSDHelpers.IsOSDForeground())
+            //         return;
+            //     rootMenu.Next(-1);
+            //     setDismissTimer();
+            //     dismissNeptuneInput();
+            // }, true);
+            //
+            // GlobalHotKey.RegisterHotKey(Settings.Default.MenuDownKey, () =>
+            // {
+            //     if (!OSDHelpers.IsOSDForeground())
+            //         return;
+            //     rootMenu.Next(1);
+            //     setDismissTimer();
+            //     dismissNeptuneInput();
+            // }, true);
+            //
+            // GlobalHotKey.RegisterHotKey(Settings.Default.MenuLeftKey, () =>
+            // {
+            //     if (!OSDHelpers.IsOSDForeground())
+            //         return;
+            //     rootMenu.SelectNext(-1);
+            //     setDismissTimer();
+            //     dismissNeptuneInput();
+            // });
+            //
+            // GlobalHotKey.RegisterHotKey(Settings.Default.MenuRightKey, () =>
+            // {
+            //     if (!OSDHelpers.IsOSDForeground())
+            //         return;
+            //     rootMenu.SelectNext(1);
+            //     setDismissTimer();
+            //     dismissNeptuneInput();
+            // });
+            //
+            // GlobalHotKey.RegisterHotKey(Settings.Default.MenuToggle, () =>
+            // {
+            //     isOSDToggled = !rootMenu.Visible;
+            //
+            //     if (!OSDHelpers.IsOSDForeground())
+            //         return;
+            //
+            //     if (isOSDToggled)
+            //     {
+            //         showOSD();
+            //     }
+            //     else
+            //     {
+            //         hideOSD();
+            //     }
+            // }, true);
 
             if (Settings.Default.EnableNeptuneController)
             {
