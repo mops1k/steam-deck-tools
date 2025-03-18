@@ -1,18 +1,20 @@
 # README
 
-[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/ayufan/steam-deck-tools?label=stable&style=flat-square)](https://github.com/ayufan/steam-deck-tools/releases/latest)
-[![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/ayufan/steam-deck-tools?color=red&include_prereleases&label=beta&style=flat-square)](https://github.com/ayufan/steam-deck-tools/releases)
-![GitHub all releases](https://img.shields.io/github/downloads/ayufan/steam-deck-tools/total?style=flat-square)
+[![GitHub release (latest SemVer)](https://img.shields.io/github/v/release/mops1k/steam-deck-tools?label=stable&style=flat-square)](https://github.com/mops1k/steam-deck-tools/releases/latest)
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/mops1k/steam-deck-tools?color=red&include_prereleases&label=beta&style=flat-square)
+![GitHub all releases](https://img.shields.io/github/downloads/mops1k/steam-deck-tools/total?style=flat-square)
+
+**This is a fork with my own extensions for overlays and other settings**
+
+This repository contains my own personal set of tools to help running Windows on Steam Deck.
 
 **This software is provided on best-effort basis and can break your SteamDeck.**
 
-<img src="images/overlay.png" height="400"/>
+<img src="../docs/images/overlay.png" height="400"/>
 
-## Help this project
+## Install
 
-**Consider donating if you are happy with this project:**
-
-<a href='https://ko-fi.com/ayufan' target='_blank'><img height='35' style='border:0px;height:50px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' alt='Buy Me a Coffee at ko-fi.com' /></a> <a href="https://www.paypal.com/donate/?hosted_button_id=DHNBE2YR9D5Y2" target='_blank'><img height='35' src="https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png" alt="Donate with PayPal" style='border:0px;height:55px;'/></a>
+See all instructions here: [Install](#Install).
 
 ## Applications
 
@@ -25,7 +27,8 @@ This project provides the following applications:
 
 ## Install
 
-Download and install latest `SteamDeckTools-<version>-setup.exe` from [Latest GitHub Releases](https://github.com/ayufan/steam-deck-tools/releases/latest).
+Download and install latest `SteamDeckTools-<version>-setup.exe` from [Latest GitHub Releases](https://github.
+com/mops1k/steam-deck-tools/releases/latest).
 
 This project requires those dependencies to be installed in order to function properly. Those dependencies needs to be manually installed if portable archive is to be used:
 
@@ -46,11 +49,11 @@ It is strongly advised that following software is uninstalled or disabled:
 - [Risks](risks.md) - this project uses kernel manipulation and might result in unstable system.
 - [Privacy](privacy.md) - this project can connect to remote server to check for auto-updates or track errors
 - [Troubleshooting](troubleshooting.md) - if you encounter any problems.
-- The latest beta version can be found in [GitHub Releases](https://github.com/ayufan/steam-deck-tools/releases).
+- The latest beta version can be found in [GitHub Releases](https://github.com/mops1k/steam-deck-tools/releases).
 
 ## Join Us
 
-Join Us for help or chat. We are at [#windows of Steam Deck Discord](https://discord.gg/steamdeck).
+Join Us for help or chat. We are at [Steam Deck Windows | Legion GO](https://t.me/steamdeckwin) .
 
 ## Anti-Cheat and Antivirus software
 
@@ -105,7 +108,8 @@ So, it validates bios version. Those are currently supported:
 
 ## Author
 
-Kamil Trzciński, 2022-2023
+Kamil Trzciński, 2022-2024
+Aleksandr Kvintilyanov, 2025
 
 Steam Deck Tools is not affiliated with Valve, Steam, or any of their partners.
 
@@ -113,4 +117,4 @@ Steam Deck Tools is not affiliated with Valve, Steam, or any of their partners.
 
 [Creative Commons Attribution-NonCommercial-ShareAlike (CC-BY-NC-SA)](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-Free for personal use. Contact me in other cases (`ayufan@ayufan.eu`).
+Free for personal use. Contact me in other cases (`bednyj.mops@gmail.com`).

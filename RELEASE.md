@@ -1,6 +1,11 @@
-[**READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED**](https://steam-deck-tools.ayufan.dev/#anti-cheat-and-antivirus-software)
+[**READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED**](docs/anticheat.md)
 
 ## #{GIT_TAG_NAME}
+
+- PowerControl: add "Auto Kill Steam Controller" menu item, which stopping `SteamColntroller` when `Steam` has started
+and vice versa.
+
+## 0.8.3
 
 - Project: update to .NET 9
 - PowerControl: add "Off" otion to FpsLimit for possibility unset limits

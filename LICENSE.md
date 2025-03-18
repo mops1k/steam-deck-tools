@@ -5,7 +5,6 @@ By running this project you agree to the following licenses and policies:
 
 This project might connect to remote server and share the following information unless it is disabled by creation of the `DisableCheckForUpdates.txt` in the root folder of the project:
 - During updates checking it might share version, type of installation and installation time of the application
-- Exceptions raised by the application might be logged using Sentry.io: this includes OS version, exception message, application version, stack trace and loaded libraries
 
 This project requires the following dependencies:
 - Microsoft Visual C++ Redistributable - https://aka.ms/vs/17/release/vc_redist.x64.exe

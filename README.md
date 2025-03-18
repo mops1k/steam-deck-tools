@@ -14,32 +14,32 @@ This repository contains my own personal set of tools to help running Windows on
 
 ## Install
 
-See all instructions here: [https://steam-deck-tools.ayufan.dev/](https://steam-deck-tools.ayufan.dev/).
+See all instructions here: [Documentation](docs/README.md).
 
 ## Applications
 
 This project provides the following applications:
 
-- [Fan Control](https://steam-deck-tools.ayufan.dev/fan-control) - control Fan on Windows
-- [Performance Overlay](https://steam-deck-tools.ayufan.dev/performance-overlay) - see FPS and other stats
-- [Power Control](https://steam-deck-tools.ayufan.dev/power-control) - change TDP or refresh rate
-- [Steam Controller](https://steam-deck-tools.ayufan.dev/steam-controller) - use Steam Deck with Game Pass
+- [Fan Control](docs/fan-control.md) - control Fan on Windows
+- [Performance Overlay](docs/performance-overlay.md) - see FPS and other stats
+- [Power Control](docs/power-control.md) - change TDP or refresh rate
+- [Steam Controller](docs/steam-controller.md) - use Steam Deck with Game Pass
 
 ## Additional informations
 
-- [Controller Shortcuts](https://steam-deck-tools.ayufan.dev/shortcuts) - default shortcuts when using [Steam Controller](https://steam-deck-tools.ayufan.dev/steam-controller).
-- [Development](https://steam-deck-tools.ayufan.dev/development) - how to compile this project.
-- [Risks](https://steam-deck-tools.ayufan.dev/risks) - this project uses kernel manipulation and might result in unstable system.
-- [Privacy](https://steam-deck-tools.ayufan.dev/privacy) - this project can connect to remote server to check for auto-updates or track errors
-- [Troubleshooting](https://steam-deck-tools.ayufan.dev/troubleshooting) - if you encounter any problems.
+- [Controller Shortcuts](docs/shortcuts.md) - default shortcuts when using [Steam Controller](docs/steam-controller.md).
+- [Development](docs/development.md) - how to compile this project.
+- [Risks](docs/risks.md) - this project uses kernel manipulation and might result in unstable system.
+- [Privacy](docs/privacy.md) - this project can connect to remote server to check for auto-updates or track errors
+- [Troubleshooting](docs/troubleshooting.md) - if you encounter any problems.
 
 ## Join Us
 
-Join Us for help or chat. We are at [Official WindowsOnDeck](https://discord.gg/uF7kd33u7u) Discord server.
+Join Us for help or chat. We are at [Steam Deck Windows | Legion GO](https://t.me/steamdeckwin) Telegram Channel.
 
 ## Anti-Cheat and Antivirus software
 
-[READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED](https://steam-deck-tools.ayufan.dev/#anti-cheat-and-antivirus-software).
+[READ IF PLAYING ONLINE GAMES AND/OR GAMES THAT HAVE ANTI-CHEAT ENABLED](docs/anticheat.md).
 
 ## Authors
 
@@ -52,4 +52,4 @@ Steam Deck Tools is not affiliated with Valve, Steam, or any of their partners.
 
 [Creative Commons Attribution-NonCommercial-ShareAlike (CC-BY-NC-SA)](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
-Free for personal use. Contact me in other cases (`ayufan@ayufan.eu`).
+Free for personal use. Contact me in other cases (`bednyj.mops@gmail.com`).

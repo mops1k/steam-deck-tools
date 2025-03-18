@@ -1,18 +1,6 @@
 # Privacy
 
-This project might connect to remote server and share the following information unless it is disabled
-by creation of the `DisableCheckForUpdates.txt` in the root folder of the project:
-
 ## Error Tracking
-
-To aid the application development this project uses [Sentry.io](https://sentry.io/)
-to track all exceptions raised by the application. It is essential to identify bugs
-and fix them with minimal user intervention superseeding the need to user
-[troubleshooting](troubleshooting.md). The Sentry is configured to not track PII.
-
-As part of Sentry error tracking the following information is being sent and is logged
-including: Windows Version, .NET Framework Version, Exception Stack Trace, Application Version,
-Type of installation.
 
 You can see exact exceptions being sent in `Documents/SteamDeckTools/Logs`
 - if it is empty it means nothing was sent.
