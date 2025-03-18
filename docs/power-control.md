@@ -9,6 +9,7 @@ There are currently configurable settings:
 
 - Volume
 - Brightness
+- Microphone
 - Refresh Rate
 - Resolution (requires enabling `EnableExperimentalFeatures` in `appconfig`)
 - FPS Limit (requires: RTSS > Setup > Enable Framelimit)
@@ -16,6 +17,7 @@ There are currently configurable settings:
 - SMT (Each core of AMD has 2 threads, this allows to enable/disable second threads)
 - OSD / OSDMode (requires PerformanceOverlay running)
 - Fan (requires FanControl running)
+- Auto kill/start SteamController (when Steam started/stopped)
 
 <img src="images/power_control.png" height="250"/>
 

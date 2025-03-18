@@ -1,3 +1,4 @@
+using CommonHelpers;
 using System.Diagnostics;
 using ExternalHelpers;
 using PowerControl.Helpers;
@@ -29,7 +30,7 @@ namespace SteamController.Profiles.Default
 
             if (c.Steam.BtnB.HoldOnce(HoldForClose, ShortcutConsumed))
             {
-                Helpers.ForegroundProcess.Store();
+                ForegroundProcess.Store();
 
                 // close application
                 c.Keyboard.KeyPress(VirtualKeyCode.LMENU, VirtualKeyCode.F4);
@@ -38,7 +39,7 @@ namespace SteamController.Profiles.Default
             {
                 // We want to KILL only the process that
                 // was foreground last time
-                Helpers.ForegroundProcess.Kill(true);
+                ForegroundProcess.Kill(true);
             }
 
             if (c.Steam.BtnX.Pressed())

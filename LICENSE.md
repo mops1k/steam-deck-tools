@@ -5,11 +5,10 @@ By running this project you agree to the following licenses and policies:
 
 This project might connect to remote server and share the following information unless it is disabled by creation of the `DisableCheckForUpdates.txt` in the root folder of the project:
 - During updates checking it might share version, type of installation and installation time of the application
-- Exceptions raised by the application might be logged using Sentry.io: this includes OS version, exception message, application version, stack trace and loaded libraries
 
 This project requires the following dependencies:
 - Microsoft Visual C++ Redistributable - https://aka.ms/vs/17/release/vc_redist.x64.exe
-- .NET Desktop Runtime 6.0 - https://dotnet.microsoft.com/en-us/download/dotnet/thank-you/runtime-desktop-6.0.11-windows-x64-installer
+- .NET Desktop Runtime 9.0 - https://dotnet.microsoft.com/ru-ru/download/dotnet/thank-you/sdk-9.0.201-windows-x64-installer
 - Rivatuner Statistics Server - https://www.guru3d.com/files-details/rtss-rivatuner-statistics-server-download.html
 - ViGEmBus - https://github.com/ViGEm/ViGEmBus/releases
 

@@ -1,9 +1,9 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace SteamController.Helpers
+namespace CommonHelpers
 {
-    internal static class ForegroundProcess
+    public static class ForegroundProcess
     {
         private static int? lastForegroundProcess;
 

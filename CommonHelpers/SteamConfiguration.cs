@@ -1,12 +1,11 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using CommonHelpers;
 using Microsoft.Win32;
 
-namespace SteamController.Helpers
+namespace CommonHelpers
 {
-    internal static class SteamConfiguration
+    public static class SteamConfiguration
     {
         public const String SteamKey = @"Software\Valve\Steam";
         public const String RunningAppIDValue = @"RunningAppID";

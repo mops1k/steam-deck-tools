@@ -51,7 +51,7 @@ namespace SteamController.Managers
             if (!IsActive)
                 return;
 
-            bool running = Helpers.SteamConfiguration.IsRunning;
+            bool running = SteamConfiguration.IsRunning;
             if (running == filesLocked)
                 return;
 
@@ -68,14 +68,14 @@ namespace SteamController.Managers
             if (lockConfigs)
             {
                 foreach (var config in lockedSteamControllerFiles)
-                    Helpers.SteamConfiguration.OverwriteConfigFile(config.Key, config.Value, true);
+                    SteamConfiguration.OverwriteConfigFile(config.Key, config.Value, true);
                 foreach (var config in installedSteamControllerFiles)
-                    Helpers.SteamConfiguration.OverwriteConfigFile(config.Key, config.Value, false);
+                    SteamConfiguration.OverwriteConfigFile(config.Key, config.Value, false);
             }
             else
             {
                 foreach (var config in lockedSteamControllerFiles)
-                    Helpers.SteamConfiguration.ResetConfigFile(config.Key);
+                    SteamConfiguration.ResetConfigFile(config.Key);
             }
             filesLocked = lockConfigs;
         }

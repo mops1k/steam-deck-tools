@@ -6,6 +6,7 @@ using PowerControl.Helpers;
 using RTSSSharedMemoryNET;
 using System.ComponentModel;
 using System.Diagnostics;
+using Timer = System.Windows.Forms.Timer;
 
 namespace PowerControl
 {
@@ -107,6 +108,28 @@ namespace PowerControl
                 };
                 contextMenu.Items.Add(startupItem);
             }
+            
+            //==> SteamControllerKiller block
+            var steamControllerKillerTimer = new Timer(components);
+            steamControllerKillerTimer.Interval = 1000;
+            steamControllerKillerTimer.Tick += delegate
+            {
+                SteamControllerKiller.ToggleSteamController();
+            };
+            steamControllerKillerTimer.Enabled = Settings.Default.EnableSteamControllerKiller;
+
+            var steamControllerKiller = new ToolStripMenuItem("Auto Kill Steam Controller");
+            steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
+            steamControllerKiller.Click += delegate
+            {
+                Settings.Default.EnableSteamControllerKiller = !steamControllerKiller.Checked;
+                steamControllerKiller.Checked = Settings.Default.EnableSteamControllerKiller;
+                steamControllerKillerTimer.Enabled = Settings.Default.EnableSteamControllerKiller;
+            };
+            contextMenu.Items.Add(new ToolStripSeparator());
+            contextMenu.Items.Add(steamControllerKiller);
+            contextMenu.Items.Add(new ToolStripSeparator());
+            //<== SteamControllerKiller block
 
             var missingRTSSItem = contextMenu.Items.Add("&Install missing RTSS");
             missingRTSSItem.Click += delegate { Dependencies.OpenLink(Dependencies.RTSSURL); };
@@ -126,7 +149,7 @@ namespace PowerControl
             var exitItem = contextMenu.Items.Add("&Exit");
             exitItem.Click += ExitItem_Click;
 
-            notifyIcon = new System.Windows.Forms.NotifyIcon(components);
+            notifyIcon = new NotifyIcon(components);
             notifyIcon.Icon = WindowsDarkMode.IsDarkModeEnabled ? Resources.traffic_light_outline_light : Resources.traffic_light_outline;
             notifyIcon.Text = TitleWithVersion;
             notifyIcon.Visible = true;
@@ -136,7 +159,7 @@ namespace PowerControl
             contextMenu.Show();
             contextMenu.Close();
 
-            osdDismissTimer = new System.Windows.Forms.Timer(components);
+            osdDismissTimer = new Timer(components);
             osdDismissTimer.Interval = 3000;
             osdDismissTimer.Tick += delegate (object? sender, EventArgs e)
             {
