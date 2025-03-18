@@ -122,9 +122,13 @@ namespace PowerControl
 
                 if (steamControllerKiller.Enabled)
                 {
+                    timer.Enabled = true;
                     timer.Start();
+                    
+                    return;
                 }
 
+                timer.Enabled = false;
                 timer.Stop();
                 timer.Dispose();
             };
