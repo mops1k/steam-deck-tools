@@ -96,6 +96,7 @@ namespace Updater
             AutoUpdater.Synchronous = true;
             AutoUpdater.ParseUpdateInfoEvent += ParseUpdateInfoEvent;
             AutoUpdater.ChangelogViewerProvider = new MarkdownViewerProvider();
+            AutoUpdater.Icon = Resources.update1;
 
             if (!IsUsingInstaller)
             {

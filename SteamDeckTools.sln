@@ -38,6 +38,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SteamController", "SteamCon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Updater", "Updater\Updater.csproj", "{7FBC87CE-5C6E-4A8E-AF07-E310AD311073}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher\Launcher.csproj", "{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -132,6 +134,18 @@ Global
 		{7FBC87CE-5C6E-4A8E-AF07-E310AD311073}.Release|x64.Build.0 = Release|Any CPU
 		{7FBC87CE-5C6E-4A8E-AF07-E310AD311073}.Release|x86.ActiveCfg = Release|Any CPU
 		{7FBC87CE-5C6E-4A8E-AF07-E310AD311073}.Release|x86.Build.0 = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|x64.Build.0 = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Debug|x86.Build.0 = Debug|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|x64.ActiveCfg = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|x64.Build.0 = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|x86.ActiveCfg = Release|Any CPU
+		{0E85465C-5EBB-43DD-A5D3-ECC0822F6EFC}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -193,10 +193,7 @@ SectionEnd
 
 Section "Desktop Shortcut" DesktopShortcut
   SetShellVarContext All
-  CreateShortcut "$DESKTOP\Fan Control.lnk" "$INSTDIR\FanControl.exe"
-  CreateShortcut "$DESKTOP\Performance Overlay.lnk" "$INSTDIR\PerformanceOverlay.exe"
-  CreateShortcut "$DESKTOP\Power Control.lnk" "$INSTDIR\PowerControl.exe"
-  CreateShortcut "$DESKTOP\Steam Controller.lnk" "$INSTDIR\SteamController.exe"
+  CreateShortcut "$DESKTOP\Run SteamDeckTools.lnk" "$INSTDIR\Launcher.exe"
 SectionEnd
 
 Section "Programs Folder Shortcut" ProgramsShortcut
@@ -206,6 +203,7 @@ Section "Programs Folder Shortcut" ProgramsShortcut
   CreateShortcut "$SMPROGRAMS\Steam Deck Tools\Power Control.lnk" "$INSTDIR\PowerControl.exe"
   CreateShortcut "$SMPROGRAMS\Steam Deck Tools\Steam Controller.lnk" "$INSTDIR\SteamController.exe"
   CreateShortcut "$SMPROGRAMS\Steam Deck Tools\Check for Updates.lnk" "$INSTDIR\Updater.exe"
+  CreateShortcut "$SMPROGRAMS\Steam Deck Tools\Run SteamDeckTools.lnk" "$INSTDIR\Launcher.exe"
   CreateShortcut "$SMPROGRAMS\Steam Deck Tools\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
 SectionEnd
 
@@ -301,11 +299,13 @@ Section "Uninstall"
   Delete "$DESKTOP\Performance Overlay.lnk"
   Delete "$DESKTOP\Power Control.lnk"
   Delete "$DESKTOP\Steam Controller.lnk"
+  Delete "$DESKTOP\Run SteamDeckTools.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Fan Control.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Performance Overlay.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Power Control.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Steam Controller.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Check for Updates.lnk"
+  Delete "$SMPROGRAMS\Steam Deck Tools\Run SteamDeckTools.lnk.lnk"
   Delete "$SMPROGRAMS\Steam Deck Tools\Uninstall.lnk"
   RMDir "$SMPROGRAMS\Steam Deck Tools"
 

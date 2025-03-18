@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net9.0-windows</TargetFramework>
+        <Nullable>enable</Nullable>
+        <UseWindowsForms>true</UseWindowsForms>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PublishRepositoryUrl>false</PublishRepositoryUrl>
+        <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+        <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CommonHelpers\CommonHelpers.csproj" />
+      <ProjectReference Include="..\ExternalHelpers\ExternalHelpers.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Resources.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Resources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>Resources.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
