@@ -61,17 +61,17 @@ namespace PowerControl.Helpers
             {
                 return true;
             }
-            
+
             var process = new Process();
             var dir = CurrentProcessDir;
             if (dir == null)
             {
                 return false;
             }
-            
+
             process.StartInfo.FileName = Path.Combine(dir, "SteamController.exe");
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-            
+
             return process.Start();
         }
 
