@@ -24,11 +24,11 @@ This project provides the following applications:
 - [Performance Overlay](performance-overlay.md) - see FPS and other stats
 - [Power Control](power-control.md) - change TDP or refresh rate
 - [Steam Controller](steam-controller.md) - use Steam Deck with Game Pass
+- Launcher - launch all tools in one place
 
 ## Install
 
-Download and install latest `SteamDeckTools-<version>-setup.exe` from [Latest GitHub Releases](https://github.
-com/mops1k/steam-deck-tools/releases/latest).
+Download and install latest `SteamDeckTools-<version>-setup.exe` from [Latest GitHub Releases](https://github.com/mops1k/steam-deck-tools/releases/latest).
 
 This project requires those dependencies to be installed in order to function properly. Those dependencies needs to be manually installed if portable archive is to be used:
 
