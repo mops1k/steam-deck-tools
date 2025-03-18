@@ -6,16 +6,18 @@ namespace Launcher
     {
         private static string? CurrentProcessDir
         {
-            get {
+            get
+            {
                 var currentProcess = Process.GetCurrentProcess();
 
                 return Path.GetDirectoryName(currentProcess.MainModule?.FileName);
             }
         }
-    
-        private readonly static string[] _toolsToRun = [
+
+        private readonly static string[] _toolsToRun =
+        [
             "FanControl",
-            "PerfomanceOverlay",
+            "PerformanceOverlay",
             "SteamController",
             "PowerControl"
         ];
@@ -26,11 +28,10 @@ namespace Launcher
         [STAThread]
         static void Main()
         {
-            // ApplicationConfiguration.Initialize();
-            // Application.Run();
-            try
+            ApplicationConfiguration.Initialize();
+            foreach (var tool in _toolsToRun)
             {
-                foreach (var tool in _toolsToRun)
+                try
                 {
                     if (RunTool(tool))
                     {
@@ -38,13 +39,19 @@ namespace Launcher
 
                         continue;
                     }
-                    
+
                     Log.Info($"Starting {tool} failed");
                 }
-            }
-            catch (Exception e)
-            {
-                Log.Fatal("Process start fail", e);
+                catch (Exception e)
+                {
+                    MessageBox.Show(
+                        String.Format(Resources.ErrorMessage, tool),
+                        Resources.ErrorTitle,
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                    Log.Fatal("Process start fail.", e);
+                }
             }
         }
 
@@ -54,15 +61,15 @@ namespace Launcher
             {
                 return false;
             }
-        
+
             var process = new Process();
             var dir = CurrentProcessDir;
             if (dir == null)
             {
                 return false;
             }
-            
-            process.StartInfo.FileName = Path.Combine(dir, name+".exe");
+
+            process.StartInfo.FileName = Path.Combine(dir, name + ".exe");
             process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
             return process.Start();
@@ -71,7 +78,7 @@ namespace Launcher
         private static bool IsToolRunned(string name)
         {
             var processes = Process.GetProcessesByName(name);
-        
+
             return processes.Length > 0;
         }
     }
