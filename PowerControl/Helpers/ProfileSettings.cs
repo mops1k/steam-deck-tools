@@ -28,8 +28,8 @@ namespace PowerControl.Helper
 
         public ProfileSettings(string profileName) : base("PersistentSettings")
         {
-            ProfileName = Path.GetFileNameWithoutExtension(profileName);
-            ConfigFile = Path.Combine(UserProfilesPath, $"{profileName}.ini");
+            ProfileName = profileName;
+            ConfigFile = Path.Combine(UserProfilesPath, $"{ProfileName}.ini");
 
             SettingChanging += delegate { };
             SettingChanged += delegate { };
