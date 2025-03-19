@@ -2,6 +2,13 @@
 
 ## #{GIT_TAG_NAME}
 
+- PowerControl: change game profiles directory to `Documents`
+- PowerControl: change game profile naming to `{Game_Process_Name}.ini`
+- Global: change apps settings directory to `Documents`
+- SteamController: set settings use `ignoreSteam` by default
+
+## 0.8.6
+
 - Launcher: Added support for stopping tools (all or specific).
 - Launcher: Added shortcut generation for easier tool management.
 - Launcher: Improved shutdown process with graceful and forceful termination.

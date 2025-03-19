@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
 
@@ -19,38 +20,44 @@ namespace CommonHelpers
         [Browsable(false)]
         public String SettingsKey { get; protected set; }
 
+        private string ConfigDir
+        {
+            get
+            {
+                var dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                
+                var settingsDir = Path.Combine(dir, "SteamDeckTools", "Settings");
+                if (!Directory.Exists(settingsDir))
+                    Directory.CreateDirectory(settingsDir);
+
+                return settingsDir;
+            }
+        }
+
         [Browsable(false)]
-        public String ConfigFile { get; protected set; }
+        protected String ConfigFile { get; set; }
 
         protected BaseSettings(string settingsKey)
         {
-            this.SettingsKey = settingsKey;
-            this.ConfigFile = System.Reflection.Assembly.GetEntryAssembly()?.Location + ".ini";
+            SettingsKey = settingsKey;
 
-            this.SettingChanging += delegate { };
-            this.SettingChanged += delegate { };
+            var currentProcess = Process.GetCurrentProcess();
+            var appFullPath = Path.GetFileNameWithoutExtension(currentProcess.MainModule?.FileName);
+            ConfigFile = Path.Combine(ConfigDir, Path.GetFileNameWithoutExtension(appFullPath) + ".ini");
+
+            SettingChanging += delegate { };
+            SettingChanged += delegate { };
         }
 
         [Browsable(false)]
         public bool Exists
         {
-            get { return File.Exists(this.ConfigFile); }
+            get { return File.Exists(ConfigFile); }
         }
 
         public override string ToString()
         {
             return "";
-        }
-
-        protected bool SetRelativeConfigFile(string relativePath)
-        {
-            var currentDir = Path.GetDirectoryName(
-                System.Reflection.Assembly.GetEntryAssembly()?.Location);
-            if (currentDir is null)
-                return false;
-
-            this.ConfigFile = Path.Combine(currentDir, relativePath);
-            return true;
         }
 
         protected bool Set<T>(string key, T value)

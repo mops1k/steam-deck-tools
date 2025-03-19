@@ -298,7 +298,7 @@ namespace SteamController
 
             var ignoreSteam = page.RadioButtons.Add("&Ignore Steam (only if you know why you need it)");
             ignoreSteam.Text += "\n- Will revert all previously made changes.";
-            ignoreSteam.Checked = Settings.Default.EnableSteamDetection == false;
+            ignoreSteam.Checked = Settings.Default.EnableSteamDetection == false || Settings.Default.EnableSteamDetection == null;
 
             bool valid = ignoreSteam.Checked || useXInputController.Checked || useSteamInput.Checked;
 
