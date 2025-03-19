@@ -15,12 +15,12 @@ namespace PowerControl.Helper
         {
             get
             {
-                var exePath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-                var exeFolder = Path.GetDirectoryName(exePath) ?? Directory.GetCurrentDirectory();
-                var exeGameProfiles = Path.Combine(exeFolder, "GameProfiles");
-                if (!Directory.Exists(exeGameProfiles))
-                    Directory.CreateDirectory(exeGameProfiles);
-                return exeGameProfiles;
+                var dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var settingsDir = Path.Combine(dir, "SteamDeckTools", "GameProfiles");
+                if (!Directory.Exists(settingsDir))
+                    Directory.CreateDirectory(settingsDir);
+
+                return settingsDir;
             }
         }
 

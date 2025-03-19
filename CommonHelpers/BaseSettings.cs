@@ -19,13 +19,28 @@ namespace CommonHelpers
         [Browsable(false)]
         public String SettingsKey { get; protected set; }
 
+        private string ConfigDir
+        {
+            get
+            {
+                var dir = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                
+                var settingsDir = Path.Combine(dir, "SteamDeckTools", "Settings");
+                if (!Directory.Exists(settingsDir))
+                    Directory.CreateDirectory(settingsDir);
+
+                return settingsDir;
+            }
+        }
+
         [Browsable(false)]
-        public String ConfigFile { get; protected set; }
+        protected String ConfigFile { get; set; }
 
         protected BaseSettings(string settingsKey)
         {
             this.SettingsKey = settingsKey;
-            this.ConfigFile = System.Reflection.Assembly.GetEntryAssembly()?.Location + ".ini";
+            var appFullPath = System.Reflection.Assembly.GetEntryAssembly()?.FullName;
+            this.ConfigFile = Path.Combine(ConfigDir, Path.GetFileNameWithoutExtension(appFullPath) + ".ini");
 
             this.SettingChanging += delegate { };
             this.SettingChanged += delegate { };
