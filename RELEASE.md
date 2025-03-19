@@ -2,6 +2,14 @@
 
 ## #{GIT_TAG_NAME}
 
+- Launcher: Added support for stopping tools (all or specific).
+- Launcher: Added shortcut generation for easier tool management.
+- Launcher: Improved shutdown process with graceful and forceful termination.
+- Launcher: Enhanced logging for better user feedback and debugging.
+- Launcher: Simplified usage with intuitive command-line arguments.
+
+## 0.8.5
+
 - Launcher: new mini application to run all tools
 
 ## 0.8.4

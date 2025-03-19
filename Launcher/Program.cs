@@ -1,85 +1,33 @@
 using CommonHelpers;
+using Launcher.Helper;
 using System.Diagnostics;
 namespace Launcher
 {
     internal static class Program
     {
-        private static string? CurrentProcessDir
-        {
-            get
-            {
-                var currentProcess = Process.GetCurrentProcess();
-
-                return Path.GetDirectoryName(currentProcess.MainModule?.FileName);
-            }
-        }
-
-        private readonly static string[] _toolsToRun =
-        [
-            "FanControl",
-            "PerformanceOverlay",
-            "SteamController",
-            "PowerControl"
-        ];
-
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
-        static void Main()
+        static void Main(string[] args)
         {
-            ApplicationConfiguration.Initialize();
-            foreach (var tool in _toolsToRun)
+            var processHelper = new ProcessHelper();
+            var toolsToRun = new[] { "FanControl", "PerformanceOverlay", "SteamController", "PowerControl" };
+            var toolManager = new ToolManager(processHelper, toolsToRun);
+            var shortcutGenerator = new ShortcutGenerator();
+
+            if (args.Contains("--generate-links"))
             {
-                try
-                {
-                    if (RunTool(tool))
-                    {
-                        Log.Info($"{tool} started");
-
-                        continue;
-                    }
-
-                    Log.Info($"Starting {tool} failed");
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show(
-                        String.Format(Resources.ErrorMessage, tool),
-                        Resources.ErrorTitle,
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
-                    Log.Fatal("Process start fail.", e);
-                }
-            }
-        }
-
-        private static bool RunTool(string name)
-        {
-            if (IsToolRunned(name))
-            {
-                return false;
+                shortcutGenerator.GenerateShortcuts();
+                return;
             }
 
-            var process = new Process();
-            var dir = CurrentProcessDir;
-            if (dir == null)
+            if (args.Contains("--stop-apps") || args.Contains("-s"))
             {
-                return false;
+                string? toolToStop = args.Length > 1 ? args[1] : null;
+                toolManager.StopTools(toolToStop);
             }
-
-            process.StartInfo.FileName = Path.Combine(dir, name + ".exe");
-            process.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
-
-            return process.Start();
-        }
-
-        private static bool IsToolRunned(string name)
-        {
-            var processes = Process.GetProcessesByName(name);
-
-            return processes.Length > 0;
+            else
+            {
+                toolManager.StartTools();
+            }
         }
     }
 }
