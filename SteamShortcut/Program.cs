@@ -63,7 +63,7 @@ static class Program
         }
         else
         {
-            MessageBox.Show("Finished! Start Steam to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            MessageBox.Show("Finished! You should start Steam to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         Thread.Sleep(5000);
     }
@@ -75,16 +75,26 @@ static class Program
             return;
         }
 
+        var isBigPictureMode = false;
         if (SteamConfiguration.IsRunning)
         {
+            isBigPictureMode = SteamConfiguration.IsBigPictureMode ?? false;
             if (!SteamConfiguration.ShutdownSteam())
             {
                 SteamConfiguration.KillSteam();
             }
 
             SteamConfiguration.WaitForSteamClose(5000);
+            Log.Info("Steam Shutdown Success!");
+            Thread.Sleep(5000);
         }
-        
-        SteamConfiguration.StartSteam();
+
+        if (SteamConfiguration.StartSteam(isBigPictureMode))
+        {
+            Log.Info("Steam Started!");
+            return;
+        }
+
+        Log.Info("Steam starting failed!");
     }
 }
