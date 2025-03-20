@@ -21,7 +21,7 @@ namespace CommonHelpers
 
         public static bool IsExists()
         {
-            return ContextMenuManager.IsContextMenuExists(".exe", MenuName);
+            return ContextMenuManager.IsContextMenuExists("exefile", MenuName);
         }
 
         public static void Add()
@@ -36,12 +36,12 @@ namespace CommonHelpers
                 throw new FileNotFoundException($"SteamShortcut executable not found at: {ExeFullPath}");
             }
 
-            ContextMenuManager.AddContextMenu(".exe", MenuName, ExeFullPath + " \"%1\"");
+            ContextMenuManager.AddContextMenu("exefile", MenuName, ExeFullPath + " \"%1\"");
         }
 
         public static void Remove()
         {
-            ContextMenuManager.RemoveContextMenu(".exe", MenuName);
+            ContextMenuManager.RemoveContextMenu("exefile", MenuName);
         }
     }
 }
