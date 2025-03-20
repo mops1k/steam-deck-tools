@@ -141,10 +141,12 @@ namespace PowerControl
                 {
                     if (SteamShortcutContextMenu.IsExists())
                     {
+                        Log.Info("Remove context menu item.");
                         SteamShortcutContextMenu.Remove();
                         return;
                     }
 
+                    Log.Info("Add context menu item.");
                     SteamShortcutContextMenu.Add();
                 }
                 finally
