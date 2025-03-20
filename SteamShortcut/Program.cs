@@ -54,14 +54,27 @@ static class Program
             return;
         }
         
-        Log.Info("Shorcut Added! Restart Steam...");
-        MessageBox.Show("Finished! Steam will be restarted to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        RestartSteam();
+        Log.Info("Shorcut Added!");
+        if (SteamConfiguration.IsRunning)
+        {
+            MessageBox.Show("Finished! Steam will be restarted to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            Log.Info("Restart Steam...");
+            RestartSteam();
+        }
+        else
+        {
+            MessageBox.Show("Finished! Start Steam to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
         Thread.Sleep(5000);
     }
 
     private static void RestartSteam()
     {
+        if (!SteamConfiguration.IsRunning)
+        {
+            return;
+        }
+
         if (SteamConfiguration.IsRunning)
         {
             if (!SteamConfiguration.ShutdownSteam())
@@ -71,7 +84,7 @@ static class Program
 
             SteamConfiguration.WaitForSteamClose(5000);
         }
-
+        
         SteamConfiguration.StartSteam();
     }
 }
