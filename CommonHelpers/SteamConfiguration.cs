@@ -117,6 +117,23 @@ namespace CommonHelpers
             return process is not null;
         }
 
+        public static bool StartSteam()
+        {
+            var steamExe = SteamExe;
+            if (steamExe is null)
+                return false;
+
+            var process = Process.Start(new ProcessStartInfo()
+            {
+                FileName = steamExe,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            });
+
+            return process is not null;
+        }
+
         public static bool KillSteam()
         {
             var process = SteamProcess;

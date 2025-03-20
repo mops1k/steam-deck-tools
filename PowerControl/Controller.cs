@@ -137,14 +137,20 @@ namespace PowerControl
             steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
             steamShortcutItem.Click += delegate
             {
-                if (SteamShortcutContextMenu.IsExists())
+                try
                 {
-                    SteamShortcutContextMenu.Remove();
-                    return;
-                }
+                    if (SteamShortcutContextMenu.IsExists())
+                    {
+                        SteamShortcutContextMenu.Remove();
+                        return;
+                    }
 
-                SteamShortcutContextMenu.Add();
-                steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
+                    SteamShortcutContextMenu.Add();
+                }
+                finally
+                {
+                    steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
+                }
             };
             contextMenu.Items.Add(steamShortcutItem);
             contextMenu.Items.Add(new ToolStripSeparator());
