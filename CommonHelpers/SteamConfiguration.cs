@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using Microsoft.Win32;
+using System.Collections.ObjectModel;
 
 namespace CommonHelpers
 {
@@ -115,6 +116,31 @@ namespace CommonHelpers
                 CreateNoWindow = true
             });
             return process is not null;
+        }
+
+        public static bool StartSteam(bool isBigPictureMode)
+        {
+            var steamExe = SteamExe;
+            if (steamExe is null)
+                return false;
+
+            var processStartInfo = new ProcessStartInfo()
+            {
+                FileName = steamExe,
+                WindowStyle = ProcessWindowStyle.Hidden,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            if (isBigPictureMode)
+            {
+                processStartInfo.ArgumentList.Add("-bigpicture");
+            }
+
+            var process = new Process();
+            process.StartInfo = processStartInfo;
+
+            return process.Start();
         }
 
         public static bool KillSteam()

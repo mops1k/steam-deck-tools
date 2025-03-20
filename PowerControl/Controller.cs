@@ -67,7 +67,10 @@ namespace PowerControl
             rootMenu.Update();
             rootMenu.CreateMenu(contextMenu);
             rootMenu.VisibleChanged += delegate { updateOSD(); };
-            contextMenu.Items.Add(new ToolStripSeparator());
+            if (contextMenu.Items.Count > 0)
+            {
+                contextMenu.Items.Add(new ToolStripSeparator());
+            }
 
             if (Settings.Default.EnableExperimentalFeatures)
             {
@@ -128,8 +131,35 @@ namespace PowerControl
             };
             contextMenu.Items.Add(new ToolStripSeparator());
             contextMenu.Items.Add(steamControllerKiller);
-            contextMenu.Items.Add(new ToolStripSeparator());
             //<== SteamControllerKiller block
+            
+            var steamShortcutItem = new ToolStripMenuItem("Enable Steam Shortcut context menu");
+            steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
+            steamShortcutItem.Click += delegate
+            {
+                try
+                {
+                    if (SteamShortcutContextMenu.IsExists())
+                    {
+                        Log.Info("Remove context menu item.");
+                        SteamShortcutContextMenu.Remove();
+                        return;
+                    }
+
+                    Log.Info("Add context menu item.");
+                    SteamShortcutContextMenu.Add();
+                }
+                catch (Exception ex)
+                {
+                    Log.Fatal("Context menu item add fail.", ex);
+                }
+                finally
+                {
+                    steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
+                }
+            };
+            contextMenu.Items.Add(steamShortcutItem);
+            contextMenu.Items.Add(new ToolStripSeparator());
 
             var missingRTSSItem = contextMenu.Items.Add("&Install missing RTSS");
             missingRTSSItem.Click += delegate { Dependencies.OpenLink(Dependencies.RTSSURL); };
