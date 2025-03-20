@@ -41,6 +41,13 @@ namespace SteamShortcut.VdfHelper
             // Если Steam не запущен, предлагаем пользователю выбрать юзера
             if (!IsSteamRunning())
             {
+                // Если пользователь только один, выбираем его автоматически
+                if (directories.Count == 1 && int.TryParse(directories[0].Name, out int singleUserId))
+                {
+                 _cachedUserId = singleUserId; // Кэшируем ID единственного пользователя
+                 return _cachedUserId.Value;
+                }
+
                 _cachedUserId = PromptUserToSelectSteamUser(directories); // Кэшируем выбранный ID
                 return _cachedUserId.Value;
             }
@@ -91,23 +98,39 @@ namespace SteamShortcut.VdfHelper
             using (var buttonOk = new Button())
             {
                 form.Text = "Выберите Steam-пользователя";
-                label.Text = "Пользователь:";
-                comboBox.DataSource = users.Select(u => $"{u.Name} (ID: {u.Id})").ToList();
-                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
-                buttonOk.Text = "OK";
-                buttonOk.DialogResult = DialogResult.OK;
-
-                label.SetBounds(9, 20, 372, 13);
-                comboBox.SetBounds(12, 40, 372, 20);
-                buttonOk.SetBounds(309, 80, 75, 23);
-
-                form.ClientSize = new Size(396, 107);
-                form.Controls.AddRange(label, comboBox, buttonOk);
                 form.FormBorderStyle = FormBorderStyle.FixedDialog;
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.MinimizeBox = false;
                 form.MaximizeBox = false;
 
+                // Настройка Label
+                label.Text = "Пользователь:";
+                label.AutoSize = true;
+                label.Location = new System.Drawing.Point(10, 10); // Отступ слева и сверху
+
+                // Настройка ComboBox
+                comboBox.DataSource = users.Select(u => $"{u.Name} (ID: {u.Id})").ToList();
+                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                comboBox.Location = new System.Drawing.Point(10, label.Bottom + 5); // Располагаем под Label
+                comboBox.Width = 250; // Фиксированная ширина
+
+                // Настройка кнопки OK
+                buttonOk.Text = "OK";
+                buttonOk.DialogResult = DialogResult.OK;
+                buttonOk.Location = new System.Drawing.Point(comboBox.Right - buttonOk.Width, comboBox.Bottom + 10); // Располагаем под ComboBox
+
+                // Настройка размеров формы
+                form.ClientSize = new System.Drawing.Size(
+                    Math.Max(comboBox.Right, buttonOk.Right) + 20, // Ширина формы
+                    buttonOk.Bottom + 20 // Высота формы
+                );
+
+                // Добавляем элементы на форму
+                form.Controls.Add(label);
+                form.Controls.Add(comboBox);
+                form.Controls.Add(buttonOk);
+
+                // Отображаем форму и возвращаем результат
                 if (form.ShowDialog() == DialogResult.OK)
                 {
                     // Получаем выбранный ID пользователя
