@@ -19,7 +19,7 @@ namespace CommonHelpers
             try
             {
                 // Open the key for the specified file extension
-                using (RegistryKey key = Registry.ClassesRoot.OpenSubKey($"{fileExtension}\\shell"))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey($"Software\\Classes\\{fileExtension}\\shell", true))
                 {
                     if (key != null)
                     {
@@ -63,24 +63,32 @@ namespace CommonHelpers
             try
             {
                 // Open the key for the specified file extension
-                using (RegistryKey key = Registry.ClassesRoot.OpenSubKey($"{fileExtension}\\shell", true))
+                var key = Registry.CurrentUser.OpenSubKey($"Software\\Classes\\{fileExtension}\\shell", true);
+                if (key == null)
                 {
-                    if (key != null)
+                    try
                     {
-                        // Create a new subkey for the context menu item
-                        using (RegistryKey newKey = key.CreateSubKey(menuName))
+                        key = Registry.CurrentUser.CreateSubKey($"Software\\Classes\\{fileExtension}\\shell");
+                    }
+                    catch (Exception e)
+                    {
+                        Log.Fatal(e.Message, e);
+                        return;
+                    }
+                }
+
+                // Create a new subkey for the context menu item
+                using (RegistryKey newKey = key.CreateSubKey(menuName))
+                {
+                    if (newKey != null)
+                    {
+                        // Create the "command" subkey and set the command
+                        using (RegistryKey commandKey = newKey.CreateSubKey("command"))
                         {
-                            if (newKey != null)
+                            if (commandKey != null)
                             {
-                                // Create the "command" subkey and set the command
-                                using (RegistryKey commandKey = newKey.CreateSubKey("command"))
-                                {
-                                    if (commandKey != null)
-                                    {
-                                        commandKey.SetValue("", menuCommand);
-                                        Log.Info($"Context menu item '{menuName}' for extension '{fileExtension}' added successfully.");
-                                    }
-                                }
+                                commandKey.SetValue("", menuCommand);
+                                Log.Info($"Context menu item '{menuName}' for extension '{fileExtension}' added successfully.");
                             }
                         }
                     }
@@ -113,7 +121,7 @@ namespace CommonHelpers
             try
             {
                 // Open the key for the specified file extension
-                using (RegistryKey key = Registry.ClassesRoot.OpenSubKey($"{fileExtension}\\shell", true))
+                using (RegistryKey key = Registry.CurrentUser.OpenSubKey($"Software\\Classes\\{fileExtension}\\shell", true))
                 {
                     if (key != null)
                     {
