@@ -8,6 +8,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <PublishRepositoryUrl>false</PublishRepositoryUrl>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
+        <ApplicationIcon>SteamShortcut.ico</ApplicationIcon>
     </PropertyGroup>
 
     <ItemGroup>
