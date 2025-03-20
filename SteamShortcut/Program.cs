@@ -55,16 +55,18 @@ static class Program
         }
         
         Log.Info("Shorcut Added!");
-        if (SteamConfiguration.IsRunning)
+        switch (SteamConfiguration.IsRunning)
         {
-            MessageBox.Show("Finished! Steam will be restarted to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            Log.Info("Restart Steam...");
-            RestartSteam();
+            case true:
+                MessageBox.Show("Finished! Steam will be restarted to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Log.Info("Restart Steam...");
+                RestartSteam();
+                break;
+            case false:
+                MessageBox.Show("Finished! You should start Steam to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                break;
         }
-        else
-        {
-            MessageBox.Show("Finished! You should start Steam to view the new shortcut", "Steam Shortcut Added", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
+
         Thread.Sleep(5000);
     }
 
