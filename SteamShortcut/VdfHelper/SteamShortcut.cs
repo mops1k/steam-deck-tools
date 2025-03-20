@@ -7,6 +7,8 @@ namespace SteamShortcut.VdfHelper
 {
     public static class GetSteamShortcutPath
     {
+        private static int? _cachedUserId = null; // Кэшируем выбранный ID пользователя
+
         public static string GetUserDataPath()
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
@@ -24,6 +26,10 @@ namespace SteamShortcut.VdfHelper
 
         public static int GetCurrentlyLoggedInUser()
         {
+            // Если ID пользователя уже кэширован, возвращаем его
+            if (_cachedUserId.HasValue)
+                return _cachedUserId.Value;
+
             string userDataPath = GetUserDataPath();
             if (!Directory.Exists(userDataPath))
                 return -1;
@@ -35,19 +41,22 @@ namespace SteamShortcut.VdfHelper
             // Если Steam не запущен, предлагаем пользователю выбрать юзера
             if (!IsSteamRunning())
             {
-                return PromptUserToSelectSteamUser(directories);
+                _cachedUserId = PromptUserToSelectSteamUser(directories); // Кэшируем выбранный ID
+                return _cachedUserId.Value;
             }
 
             // Если Steam запущен, возвращаем активного пользователя
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
-                return (int)Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam\\ActiveProcess", "ActiveUser", -1);
+                _cachedUserId = (int)Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam\\ActiveProcess", "ActiveUser", -1);
+                return _cachedUserId.Value;
             }
             else
             {
                 int a = -1;
                 List<DirectoryInfo> validDirectories = directories.Where(x => int.TryParse(x.Name, out a) && File.Exists(Path.Join(x.FullName, "config", "localconfig.vdf"))).ToList();
-                return int.Parse(validDirectories.OrderByDescending(x => File.GetLastWriteTime(Path.Join(x.FullName, "config", "localconfig.vdf"))).First().Name);
+                _cachedUserId = int.Parse(validDirectories.OrderByDescending(x => File.GetLastWriteTime(Path.Join(x.FullName, "config", "localconfig.vdf"))).First().Name);
+                return _cachedUserId.Value;
             }
         }
 
@@ -89,11 +98,11 @@ namespace SteamShortcut.VdfHelper
                 buttonOk.DialogResult = DialogResult.OK;
 
                 label.SetBounds(9, 20, 372, 13);
-                comboBox.SetBounds(12, 36, 372, 20);
-                buttonOk.SetBounds(309, 72, 75, 23);
+                comboBox.SetBounds(12, 40, 372, 20);
+                buttonOk.SetBounds(309, 80, 75, 23);
 
-                form.ClientSize = new System.Drawing.Size(396, 107);
-                form.Controls.AddRange(new Control[] { label, comboBox, buttonOk });
+                form.ClientSize = new Size(396, 107);
+                form.Controls.AddRange(label, comboBox, buttonOk);
                 form.FormBorderStyle = FormBorderStyle.FixedDialog;
                 form.StartPosition = FormStartPosition.CenterScreen;
                 form.MinimizeBox = false;

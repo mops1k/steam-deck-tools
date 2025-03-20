@@ -23,7 +23,7 @@ static class Program
         SteamManager manager = new SteamManager();
         if (!manager.InitialisePaths())
         {
-            MessageBox.Show("Steam must be started for possibility to add shortcut!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show("Steam user not defined!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Log.Error("Could not initialise paths.");
             return;
         }
