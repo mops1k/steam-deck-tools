@@ -134,7 +134,7 @@ namespace CommonHelpers
 
             if (isBigPictureMode)
             {
-                processStartInfo.ArgumentList.Add("steam://open/bigpicture");
+                processStartInfo.ArgumentList.Add("-bigpicture");
             }
 
             var process = new Process();

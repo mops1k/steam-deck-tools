@@ -23,6 +23,7 @@ static class Program
         SteamManager manager = new SteamManager();
         if (!manager.InitialisePaths())
         {
+            MessageBox.Show("Steam must be started for possibility to add shortcut!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             Log.Error("Could not initialise paths.");
             return;
         }
@@ -80,7 +81,7 @@ static class Program
         var isBigPictureMode = false;
         if (SteamConfiguration.IsRunning)
         {
-            isBigPictureMode = SteamConfiguration.IsBigPictureMode ?? false;
+            isBigPictureMode = SteamConfiguration.IsBigPictureMode.GetValueOrDefault(false);
             if (!SteamConfiguration.ShutdownSteam())
             {
                 SteamConfiguration.KillSteam();

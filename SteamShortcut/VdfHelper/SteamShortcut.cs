@@ -18,12 +18,27 @@ namespace SteamShortcut.VdfHelper
             }
             else
             {
-                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".steam","steam","userdata");
+                return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".steam", "steam", "userdata");
             }
         }
 
         public static int GetCurrentlyLoggedInUser()
         {
+            string userDataPath = GetUserDataPath();
+            if (!Directory.Exists(userDataPath))
+                return -1;
+
+            List<DirectoryInfo> directories = new DirectoryInfo(userDataPath).GetDirectories().ToList();
+            if (directories.Count == 0)
+                return -1;
+
+            // Если Steam не запущен, предлагаем пользователю выбрать юзера
+            if (!IsSteamRunning())
+            {
+                return PromptUserToSelectSteamUser(directories);
+            }
+
+            // Если Steam запущен, возвращаем активного пользователя
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
             {
                 return (int)Registry.GetValue("HKEY_CURRENT_USER\\SOFTWARE\\Valve\\Steam\\ActiveProcess", "ActiveUser", -1);
@@ -31,21 +46,119 @@ namespace SteamShortcut.VdfHelper
             else
             {
                 int a = -1;
-
-                List<DirectoryInfo> directories = new DirectoryInfo(GetUserDataPath()).GetDirectories().ToList();
                 List<DirectoryInfo> validDirectories = directories.Where(x => int.TryParse(x.Name, out a) && File.Exists(Path.Join(x.FullName, "config", "localconfig.vdf"))).ToList();
                 return int.Parse(validDirectories.OrderByDescending(x => File.GetLastWriteTime(Path.Join(x.FullName, "config", "localconfig.vdf"))).First().Name);
             }
         }
 
+        private static bool IsSteamRunning()
+        {
+            // Проверяем, запущен ли Steam (например, через поиск процесса)
+            return System.Diagnostics.Process.GetProcessesByName("steam").Length > 0;
+        }
+
+        private static int PromptUserToSelectSteamUser(List<DirectoryInfo> directories)
+        {
+            // Создаем список пользователей с их именами
+            var users = new List<(string Id, string Name)>();
+            foreach (var dir in directories)
+            {
+                string localConfigPath = Path.Combine(dir.FullName, "config", "localconfig.vdf");
+                if (File.Exists(localConfigPath))
+                {
+                    string username = GetUsernameFromLocalConfig(localConfigPath);
+                    users.Add((dir.Name, username ?? "Unknown User"));
+                }
+                else
+                {
+                    users.Add((dir.Name, "Unknown User"));
+                }
+            }
+
+            // Создаем форму для выбора пользователя
+            using (var form = new Form())
+            using (var label = new Label())
+            using (var comboBox = new ComboBox())
+            using (var buttonOk = new Button())
+            {
+                form.Text = "Выберите Steam-пользователя";
+                label.Text = "Пользователь:";
+                comboBox.DataSource = users.Select(u => $"{u.Name} (ID: {u.Id})").ToList();
+                comboBox.DropDownStyle = ComboBoxStyle.DropDownList;
+                buttonOk.Text = "OK";
+                buttonOk.DialogResult = DialogResult.OK;
+
+                label.SetBounds(9, 20, 372, 13);
+                comboBox.SetBounds(12, 36, 372, 20);
+                buttonOk.SetBounds(309, 72, 75, 23);
+
+                form.ClientSize = new System.Drawing.Size(396, 107);
+                form.Controls.AddRange(new Control[] { label, comboBox, buttonOk });
+                form.FormBorderStyle = FormBorderStyle.FixedDialog;
+                form.StartPosition = FormStartPosition.CenterScreen;
+                form.MinimizeBox = false;
+                form.MaximizeBox = false;
+
+                if (form.ShowDialog() == DialogResult.OK)
+                {
+                    // Получаем выбранный ID пользователя
+                    string selectedUser = comboBox.SelectedItem.ToString();
+                    string selectedId = selectedUser.Split(new[] { "(ID: " }, StringSplitOptions.None)[1].TrimEnd(')');
+                    if (int.TryParse(selectedId, out int selectedUserId))
+                    {
+                        return selectedUserId;
+                    }
+                }
+            }
+
+            return -1; // Если пользователь не выбрал ничего
+        }
+
+        private static string GetUsernameFromLocalConfig(string localConfigPath)
+        {
+            try
+            {
+                // Читаем файл localconfig.vdf
+                var lines = File.ReadAllLines(localConfigPath);
+                foreach (var line in lines)
+                {
+                    // Ищем строку с именем пользователя
+                    if (line.Contains("PersonaName"))
+                    {
+                        // Пример строки: "PersonaName"		"Username"
+                        var parts = line.Split(new[] { '\t', '"' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (parts.Length >= 2)
+                        {
+                            return parts[1];
+                        }
+                    }
+                }
+            }
+            catch
+            {
+                // В случае ошибки возвращаем null
+                return null;
+            }
+
+            return null;
+        }
+
         public static string GetShortcutsPath()
         {
-            return Path.Combine(GetUserDataPath(), GetCurrentlyLoggedInUser().ToString(), "config", "shortcuts.vdf");
+            int userId = GetCurrentlyLoggedInUser();
+            if (userId == -1)
+                return "";
+
+            return Path.Combine(GetUserDataPath(), userId.ToString(), "config", "shortcuts.vdf");
         }
 
         public static string GetGridPath()
         {
-            string path = Path.Combine(GetUserDataPath(), GetCurrentlyLoggedInUser().ToString(), "config", "grid");
+            int userId = GetCurrentlyLoggedInUser();
+            if (userId == -1)
+                return "";
+
+            string path = Path.Combine(GetUserDataPath(), userId.ToString(), "config", "grid");
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
             return path;
