@@ -149,6 +149,10 @@ namespace PowerControl
                     Log.Info("Add context menu item.");
                     SteamShortcutContextMenu.Add();
                 }
+                catch (Exception ex)
+                {
+                    Log.Fatal("Context menu item add fail.", ex);
+                }
                 finally
                 {
                     steamShortcutItem.Checked = SteamShortcutContextMenu.IsExists();
