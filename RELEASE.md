@@ -2,6 +2,11 @@
 
 ## #{GIT_TAG_NAME}
 
+- SteamShortcut: new app to add .exe to Steam library from context menu
+- PowerControl: add menu item to enable or disable "Add to Steam" context menu item in windows for exe files
+
+## 0.8.7
+
 - PowerControl: change game profiles directory to `Documents`
 - PowerControl: change game profile naming to `{Game_Process_Name}.ini`
 - Global: change apps settings directory to `Documents`

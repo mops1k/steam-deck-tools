@@ -24,6 +24,8 @@ This project provides the following applications:
 - [Performance Overlay](docs/performance-overlay.md) - see FPS and other stats
 - [Power Control](docs/power-control.md) - change TDP or refresh rate
 - [Steam Controller](docs/steam-controller.md) - use Steam Deck with Game Pass
+- Launcher - manage tools launch in one click
+- SteamShortcut - add .exe to steam library thru windows context menu
 
 ## Additional informations
 
