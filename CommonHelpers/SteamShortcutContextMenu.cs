@@ -14,8 +14,8 @@ namespace CommonHelpers
                 {
                     return null;
                 }
-                
-                return Path.Combine(exePath, "SteamShortcut.exe");
+
+                return Path.Combine(Path.GetDirectoryName(exePath), "SteamShortcut.exe");
             }
         }
 
@@ -30,7 +30,12 @@ namespace CommonHelpers
             {
                 throw new FileNotFoundException("Could not find the SteamShortcut executable.");
             }
-            
+
+            if (!File.Exists(ExeFullPath))
+            {
+                throw new FileNotFoundException($"SteamShortcut executable not found at: {ExeFullPath}");
+            }
+
             ContextMenuManager.AddContextMenu(".exe", MenuName, ExeFullPath + " \"%1\"");
         }
 
