@@ -63,10 +63,23 @@ namespace CommonHelpers.OSDService
             var watcher = new FileSystemWatcher();
             watcher.Path = Directory;
             watcher.Filter = "*.overlay";
-            watcher.NotifyFilter = NotifyFilters.LastWrite;
-            watcher.Created += (s, e) => action();
-            watcher.Deleted += (s, e) => action();
-            
+            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+            watcher.Created += (s, e) =>
+            {
+                action();
+                Log.Info($"Overlay created {e.Name}.");
+            };
+            watcher.Deleted += (s, e) =>
+            {
+                Log.Info($"Overlay deleted {e.Name}.");
+                action();
+            };
+            watcher.Renamed += (s, e) =>
+            {
+                Log.Info($"Overlay renamed {e.OldName}.");
+                action();
+            };
+
             watcher.EnableRaisingEvents = true;
         }
     }
