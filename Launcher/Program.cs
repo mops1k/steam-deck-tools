@@ -1,4 +1,5 @@
 using CommonHelpers;
+using Launcher.Handler;
 using Launcher.Helper;
 using System.Diagnostics;
 namespace Launcher
@@ -8,26 +9,13 @@ namespace Launcher
         [STAThread]
         static void Main(string[] args)
         {
-            var processHelper = new ProcessHelper();
-            var toolsToRun = new[] { "FanControl", "PerformanceOverlay", "SteamController", "PowerControl" };
-            var toolManager = new ToolManager(processHelper, toolsToRun);
-            var shortcutGenerator = new ShortcutGenerator();
+            var runner = new CommandRunner();
+            runner.RegisterHandler(new StartHandler(), true);
+            runner.RegisterHandler(new StopHandler());
+            runner.RegisterHandler(new RestartHandler());
+            runner.RegisterHandler(new GenerateLinksHandler());
 
-            if (args.Contains("--generate-links"))
-            {
-                shortcutGenerator.GenerateShortcuts();
-                return;
-            }
-
-            if (args.Contains("--stop-apps") || args.Contains("-s"))
-            {
-                string? toolToStop = args.Length > 1 ? args[1] : null;
-                toolManager.StopTools(toolToStop);
-            }
-            else
-            {
-                toolManager.StartTools();
-            }
+            runner.Run(args);
         }
     }
 }
