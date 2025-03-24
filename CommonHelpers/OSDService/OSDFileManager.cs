@@ -58,12 +58,18 @@ namespace CommonHelpers.OSDService
             }
         }
 
-        public void Watch(Action action)
+        public FileSystemWatcher Watch(Action action)
         {
             var watcher = new FileSystemWatcher();
             watcher.Path = Directory;
             watcher.Filter = "*.overlay";
-            watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
+            watcher.NotifyFilter = NotifyFilters.Attributes |
+                NotifyFilters.CreationTime |
+                NotifyFilters.FileName |
+                NotifyFilters.LastAccess |
+                NotifyFilters.LastWrite |
+                NotifyFilters.Size |
+                NotifyFilters.Security;
             watcher.Created += (s, e) =>
             {
                 action();
@@ -81,6 +87,8 @@ namespace CommonHelpers.OSDService
             };
 
             watcher.EnableRaisingEvents = true;
+
+            return watcher;
         }
     }
 }
