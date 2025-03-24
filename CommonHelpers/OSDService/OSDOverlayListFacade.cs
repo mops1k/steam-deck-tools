@@ -14,10 +14,5 @@
 
             return values.Distinct().ToArray();
         }
-
-        public static void Watch(Action action)
-        {
-            _source.Watch(action);//.WaitForChanged(WatcherChangeTypes.Created | WatcherChangeTypes.Deleted | WatcherChangeTypes.Renamed);
-        }
     }
 }

@@ -39,7 +39,6 @@ namespace PerformanceOverlay
 
             _contextMenu = new ContextMenuStrip(_components);
             BuildContextMenu();
-            OSDOverlayListFacade.Watch(BuildContextMenu);
 
             _notifyIcon = new NotifyIcon(_components);
             _notifyIcon.Icon = WindowsDarkMode.IsDarkModeEnabled ? Resources.poll_light : Resources.poll;
@@ -53,7 +52,7 @@ namespace PerformanceOverlay
         private void BuildContextMenu()
         {
             _contextMenu.Items.Clear();
-            
+
             SharedData_Update();
             Instance.Open(TitleWithVersion, Settings.Default.EnableKernelDrivers, "Global\\PerformanceOverlay");
             Instance.RunUpdater(TitleWithVersion);
@@ -70,12 +69,10 @@ namespace PerformanceOverlay
             _contextMenu.Items.Add(_showItem);
             _contextMenu.Items.Add(new ToolStripSeparator());
 
-            GetModeItems(OSDOverlayListFacade.List(), out var toolStripMenuItems);
-            foreach (var menuItem in toolStripMenuItems)
-            {
-                _contextMenu.Items.Add(menuItem);
-                UpdateContextItems(_contextMenu);
-            }
+            var modesMenuItem = new ToolStripMenuItem("&Modes");
+            // var toolStripMenuItems = GetModeItems(OSDOverlayListFacade.List());
+            modesMenuItem.DropDownItems.AddRange(GetModeItems(OSDOverlayListFacade.List()).ToArray());
+            _contextMenu.Items.Add(modesMenuItem);
             UpdateContextItems(_contextMenu);
 
             _contextMenu.Items.Add(new ToolStripSeparator());
@@ -144,9 +141,9 @@ namespace PerformanceOverlay
             }
         }
 
-        private void GetModeItems(string[] modes, out List<ToolStripMenuItem> toolStripMenuItems)
+        private List<ToolStripItem> GetModeItems(string[] modes)
         {
-            toolStripMenuItems = [];
+            var toolStripMenuItems = new List<ToolStripItem>();
 
             foreach (var mode in modes)
             {
@@ -158,6 +155,8 @@ namespace PerformanceOverlay
                 };
                 toolStripMenuItems.Add(modeItem);
             }
+
+            return toolStripMenuItems;
         }
 
         private void SystemEvents_PowerModeChanged(object sender, Microsoft.Win32.PowerModeChangedEventArgs e)

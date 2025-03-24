@@ -45,7 +45,8 @@ namespace CommonHelpers
         /// <param name="fileExtension">The file extension (e.g., ".exe").</param>
         /// <param name="menuName">The name of the context menu item.</param>
         /// <param name="menuCommand">The command to execute.</param>
-        public static void AddContextMenu(string fileExtension, string menuName, string menuCommand)
+        /// <param name="iconPath"></param>
+        public static void AddContextMenu(string fileExtension, string menuName, string menuCommand, string iconPath)
         {
             if (String.IsNullOrEmpty(fileExtension) || String.IsNullOrEmpty(menuName) || String.IsNullOrEmpty(menuCommand))
             {
@@ -78,19 +79,14 @@ namespace CommonHelpers
                 }
 
                 // Create a new subkey for the context menu item
-                using (RegistryKey newKey = key.CreateSubKey(menuName))
+                using (var newKey = key.CreateSubKey(menuName))
                 {
-                    if (newKey != null)
+                    newKey.SetValue("Icon", iconPath);
+                    // Create the "command" subkey and set the command
+                    using (RegistryKey commandKey = newKey.CreateSubKey("command"))
                     {
-                        // Create the "command" subkey and set the command
-                        using (RegistryKey commandKey = newKey.CreateSubKey("command"))
-                        {
-                            if (commandKey != null)
-                            {
-                                commandKey.SetValue("", menuCommand);
-                                Log.Info($"Context menu item '{menuName}' for extension '{fileExtension}' added successfully.");
-                            }
-                        }
+                        commandKey.SetValue("", menuCommand);
+                        Log.Info($"Context menu item '{menuName}' for extension '{fileExtension}' added successfully.");
                     }
                 }
             }

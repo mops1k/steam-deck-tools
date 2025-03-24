@@ -57,38 +57,5 @@ namespace CommonHelpers.OSDService
                 // ignored
             }
         }
-
-        public FileSystemWatcher Watch(Action action)
-        {
-            var watcher = new FileSystemWatcher();
-            watcher.Path = Directory;
-            watcher.Filter = "*.overlay";
-            watcher.NotifyFilter = NotifyFilters.Attributes |
-                NotifyFilters.CreationTime |
-                NotifyFilters.FileName |
-                NotifyFilters.LastAccess |
-                NotifyFilters.LastWrite |
-                NotifyFilters.Size |
-                NotifyFilters.Security;
-            watcher.Created += (s, e) =>
-            {
-                action();
-                Log.Info($"Overlay created {e.Name}.");
-            };
-            watcher.Deleted += (s, e) =>
-            {
-                Log.Info($"Overlay deleted {e.Name}.");
-                action();
-            };
-            watcher.Renamed += (s, e) =>
-            {
-                Log.Info($"Overlay renamed {e.OldName}.");
-                action();
-            };
-
-            watcher.EnableRaisingEvents = true;
-
-            return watcher;
-        }
     }
 }

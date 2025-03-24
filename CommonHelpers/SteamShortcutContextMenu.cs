@@ -36,7 +36,7 @@ namespace CommonHelpers
                 throw new FileNotFoundException($"SteamShortcut executable not found at: {ExeFullPath}");
             }
 
-            ContextMenuManager.AddContextMenu("exefile", MenuName, ExeFullPath + " \"%1\"");
+            ContextMenuManager.AddContextMenu("exefile", MenuName, $"{ExeFullPath} \"%1\"", $"\"{ExeFullPath}\",0");
         }
 
         public static void Remove()
