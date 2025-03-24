@@ -2,10 +2,11 @@
 {
     public static class OSDOverlayListFacade
     {
+        private static OSDFileManager _source = new OSDFileManager();
+        
         public static string[] List()
         {
-            var source = new OSDFileManager();
-            var entries = source.GetEntries().ToArray();
+            var entries = _source.GetEntries().ToArray();
             var enumNames = Enum.GetNames<OverlayMode>();
             var values = new string[enumNames.Length + entries.Length];
             enumNames.CopyTo(values, 0);

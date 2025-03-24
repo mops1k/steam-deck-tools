@@ -61,16 +61,17 @@ namespace PowerControl
             var notRunningRTSSItem = contextMenu.Items.Add("&RTSS is not running");
             notRunningRTSSItem.Enabled = false;
             contextMenu.Opening += delegate { notRunningRTSSItem.Visible = Dependencies.EnsureRTSS(null) && !OSDHelpers.IsLoaded; };
-
-            rootMenu.Init();
-            rootMenu.Visible = false;
-            rootMenu.Update();
-            rootMenu.CreateMenu(contextMenu);
-            rootMenu.VisibleChanged += delegate { updateOSD(); };
+#if DEBUG
             if (contextMenu.Items.Count > 0)
             {
                 contextMenu.Items.Add(new ToolStripSeparator());
             }
+#endif
+            rootMenu.Init();
+            rootMenu.Visible = false;
+            rootMenu.Update();
+            rootMenu.CreateMenu(contextMenu);
+            rootMenu.VisibleChanged += updateOSD;
 
             if (Settings.Default.EnableExperimentalFeatures)
             {

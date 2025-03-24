@@ -2,6 +2,12 @@
 
 ## #{GIT_TAG_NAME}
 
+- PerformanceOverlay: change context menu for overlay selection
+- PerformanceOverlay: overlays now dinamycly loaded to menu from "Overlays" folder
+- PowerControl: add icon on enabling to "Add to Steam" context menu item in windows for exe files
+
+## 0.8.8
+
 - SteamShortcut: new app to add .exe to Steam library from context menu
 - PowerControl: add menu item to enable or disable "Add to Steam" context menu item in windows for exe files
 
