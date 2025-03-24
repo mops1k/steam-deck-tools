@@ -57,5 +57,17 @@ namespace CommonHelpers.OSDService
                 // ignored
             }
         }
+
+        public void Watch(Action action)
+        {
+            var watcher = new FileSystemWatcher();
+            watcher.Path = Directory;
+            watcher.Filter = "*.overlay";
+            watcher.NotifyFilter = NotifyFilters.LastWrite;
+            watcher.Created += (s, e) => action();
+            watcher.Deleted += (s, e) => action();
+            
+            watcher.EnableRaisingEvents = true;
+        }
     }
 }
