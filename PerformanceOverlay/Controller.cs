@@ -70,6 +70,7 @@ namespace PerformanceOverlay
             _contextMenu.Items.Add(new ToolStripSeparator());
 
             var modesMenuItem = new ToolStripMenuItem("&Overlays");
+            modesMenuItem.DropDownItems.AddRange(GetModeItems(OSDOverlayListFacade.List()).ToArray());
             modesMenuItem.DropDownOpening += delegate
             {
                 modesMenuItem.DropDownItems.Clear();
