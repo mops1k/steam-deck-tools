@@ -69,9 +69,12 @@ namespace PerformanceOverlay
             _contextMenu.Items.Add(_showItem);
             _contextMenu.Items.Add(new ToolStripSeparator());
 
-            var modesMenuItem = new ToolStripMenuItem("&Modes");
-            // var toolStripMenuItems = GetModeItems(OSDOverlayListFacade.List());
-            modesMenuItem.DropDownItems.AddRange(GetModeItems(OSDOverlayListFacade.List()).ToArray());
+            var modesMenuItem = new ToolStripMenuItem("&Overlays");
+            modesMenuItem.DropDownOpening += delegate
+            {
+                modesMenuItem.DropDownItems.Clear();
+                modesMenuItem.DropDownItems.AddRange(GetModeItems(OSDOverlayListFacade.List()).ToArray());
+            };
             _contextMenu.Items.Add(modesMenuItem);
             UpdateContextItems(_contextMenu);
 
@@ -153,6 +156,7 @@ namespace PerformanceOverlay
                 {
                     Settings.Default.OSDMode = mode;
                 };
+                modeItem.Checked = Settings.Default.OSDMode == mode;
                 toolStripMenuItems.Add(modeItem);
             }
 
