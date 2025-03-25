@@ -2,6 +2,12 @@
 
 ## #{GIT_TAG_NAME}
 
+- Launcher: add --restart command line option
+- Launcher: add UI
+- Launcher: fully refactored application
+
+## 0.8.9
+
 - PerformanceOverlay: change context menu for overlay selection
 - PerformanceOverlay: overlays now dinamycly loaded to menu from "Overlays" folder
 - PowerControl: add icon on enabling to "Add to Steam" context menu item in windows for exe files

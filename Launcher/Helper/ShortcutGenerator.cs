@@ -9,20 +9,23 @@ namespace Launcher.Helper
     {
         public void GenerateShortcuts()
         {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            string exePath = Process.GetCurrentProcess().MainModule?.FileName;
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var exePath = Process.GetCurrentProcess().MainModule?.FileName;
 
-            if (string.IsNullOrEmpty(exePath))
+            if (String.IsNullOrEmpty(exePath))
             {
                 Log.Error("Could not determine the current executable path.");
                 return;
             }
 
             // Создаем ярлык для запуска всех инструментов
-            CreateShortcut(Path.Combine(desktopPath, "Run SteamDeck Tools.lnk"), exePath, "");
+            CreateShortcut(Path.Combine(desktopPath, "Run SteamDeck Tools.lnk"), exePath, "--start");
 
             // Создаем ярлык для остановки всех инструментов
-            CreateShortcut(Path.Combine(desktopPath, "Stop SteamDeck Tools.lnk"), exePath, "--stop-apps");
+            CreateShortcut(Path.Combine(desktopPath, "Stop SteamDeck Tools.lnk"), exePath, "--stop");
+
+            // Создаем ярлык для перезапуска всех инструментов
+            CreateShortcut(Path.Combine(desktopPath, "Restart SteamDeck Tools.lnk"), exePath, "--restart");
 
             Log.Info("Shortcuts generated successfully.");
         }

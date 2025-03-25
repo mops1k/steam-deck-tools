@@ -1,6 +1,5 @@
-using CommonHelpers;
-using Launcher.Helper;
-using System.Diagnostics;
+using Launcher.Handler;
+
 namespace Launcher
 {
     internal static class Program
@@ -8,26 +7,20 @@ namespace Launcher
         [STAThread]
         static void Main(string[] args)
         {
-            var processHelper = new ProcessHelper();
-            var toolsToRun = new[] { "FanControl", "PerformanceOverlay", "SteamController", "PowerControl" };
-            var toolManager = new ToolManager(processHelper, toolsToRun);
-            var shortcutGenerator = new ShortcutGenerator();
-
-            if (args.Contains("--generate-links"))
+            if (args.Length == 0)
             {
-                shortcutGenerator.GenerateShortcuts();
+                ApplicationConfiguration.Initialize();
+                Application.Run(new LauncherForm());
                 return;
             }
 
-            if (args.Contains("--stop-apps") || args.Contains("-s"))
-            {
-                string? toolToStop = args.Length > 1 ? args[1] : null;
-                toolManager.StopTools(toolToStop);
-            }
-            else
-            {
-                toolManager.StartTools();
-            }
+            var runner = new CommandRunner();
+            runner.RegisterHandler(new StartHandler());
+            runner.RegisterHandler(new StopHandler());
+            runner.RegisterHandler(new RestartHandler());
+            runner.RegisterHandler(new GenerateLinksHandler());
+
+            runner.Run(args);
         }
     }
 }

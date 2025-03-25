@@ -3,15 +3,24 @@ namespace Launcher.Helper
 {
     public interface IToolManager
     {
-        void StartTools();
-        void StopTools(string? toolToStop = null);
+        void StartTools(string? name = null);
+        void StopTools(string? name = null);
+        void RestartTools(string? name = null);
     }
-    
-    public class ToolManager(IProcessHelper processHelper, string[] toolsToRun) : IToolManager
+
+    public class ToolManager(IProcessHelper processHelper, List<string> toolsToRun) : IToolManager
     {
-        public void StartTools()
+        public void StartTools(string? name = null)
         {
-            foreach (var tool in toolsToRun)
+            if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
+            {
+                Log.Info($"Tool \"{name}\" does not exist.");
+                return;
+            }
+            
+            var tools = string.IsNullOrEmpty(name) ? toolsToRun : [name];
+
+            foreach (var tool in tools)
             {
                 if (processHelper.IsToolRunning(tool))
                 {
@@ -23,14 +32,26 @@ namespace Launcher.Helper
             }
         }
 
-        public void StopTools(string? toolToStop = null)
+        public void StopTools(string? name = null)
         {
-            var tools = string.IsNullOrEmpty(toolToStop) ? toolsToRun : [toolToStop];
+            if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
+            {
+                Log.Info($"Tool \"{name}\" does not exist.");
+                return;
+            }
+
+            var tools = string.IsNullOrEmpty(name) ? toolsToRun : [name];
 
             foreach (var tool in tools)
             {
                 Log.Info(processHelper.StopTool(tool) ? $"{tool} stopped." : $"{tool} is not running.");
             }
+        }
+        
+        public void RestartTools(string? name = null)
+        {
+            StopTools(name);
+            StartTools(name);
         }
     }
 }
