@@ -1,7 +1,5 @@
-using CommonHelpers;
 using Launcher.Handler;
-using Launcher.Helper;
-using System.Diagnostics;
+
 namespace Launcher
 {
     internal static class Program
@@ -9,8 +7,15 @@ namespace Launcher
         [STAThread]
         static void Main(string[] args)
         {
+            if (args.Length == 0)
+            {
+                ApplicationConfiguration.Initialize();
+                Application.Run(new LauncherForm());
+                return;
+            }
+
             var runner = new CommandRunner();
-            runner.RegisterHandler(new StartHandler(), true);
+            runner.RegisterHandler(new StartHandler());
             runner.RegisterHandler(new StopHandler());
             runner.RegisterHandler(new RestartHandler());
             runner.RegisterHandler(new GenerateLinksHandler());

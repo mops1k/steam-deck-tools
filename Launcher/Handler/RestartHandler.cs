@@ -1,14 +1,8 @@
 ﻿using Launcher.Helper;
 namespace Launcher.Handler
 {
-    public class RestartHandler: AbstractCommandHandler
+    public class RestartHandler(): AbstractCommandHandler("restart", "r")
     {
-        public RestartHandler()
-        {
-            base.FullName = "restart";
-            base.ShortName = "r";
-        }
-
         public override int Run(params string[] arguments)
         {
             var allowedTools = Enum.GetNames<Tools>();
@@ -29,8 +23,7 @@ namespace Launcher.Handler
             }
 
             var processHelper = new ProcessHelper();
-            var toolsToRun = new[] { "FanControl", "PerformanceOverlay", "SteamController", "PowerControl" };
-            var toolManager = new ToolManager(processHelper, toolsToRun);
+            var toolManager = new ToolManager(processHelper, tools);
 
             foreach (var tool in tools)
             {

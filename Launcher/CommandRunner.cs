@@ -24,7 +24,7 @@ namespace Launcher
             {
                 _isDefault = handler;
             }
-            
+
             return this;
         }
 

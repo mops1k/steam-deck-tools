@@ -1,18 +1,18 @@
 ﻿namespace Launcher.Handler
 {
-    public abstract class AbstractCommandHandler : ICommandHandler
+    public abstract class AbstractCommandHandler(string fullName, string? shortName = null) : ICommandHandler
     {
-        protected string FullName;
-        protected string? ShortName = null;
-        
+        protected string FullName { get; init; } = fullName;
+        protected string? ShortName { get; init; } = shortName;
+
         public string GetFullName()
         {
-            return this.FullName;
+            return FullName;
         }
 
         public string? GetShortName()
         {
-            return this.ShortName;
+            return ShortName;
         }
 
         public abstract int Run(params string[] arguments);

@@ -8,11 +8,11 @@ namespace Launcher.Helper
         void RestartTools(string? name = null);
     }
 
-    public class ToolManager(IProcessHelper processHelper, string[] toolsToRun) : IToolManager
+    public class ToolManager(IProcessHelper processHelper, List<string> toolsToRun) : IToolManager
     {
         public void StartTools(string? name = null)
         {
-            if (toolsToRun.Contains(name))
+            if (String.IsNullOrEmpty(name) || toolsToRun.Contains(name))
             {
                 return;
             }
@@ -33,13 +33,12 @@ namespace Launcher.Helper
 
         public void StopTools(string? name = null)
         {
-            if (toolsToRun.Contains(name))
+            if (String.IsNullOrEmpty(name) || toolsToRun.Contains(name))
             {
                 return;
             }
 
             var tools = string.IsNullOrEmpty(name) ? toolsToRun : [name];
-            
 
             foreach (var tool in tools)
             {

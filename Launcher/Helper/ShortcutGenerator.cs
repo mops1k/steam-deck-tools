@@ -9,10 +9,10 @@ namespace Launcher.Helper
     {
         public void GenerateShortcuts()
         {
-            string desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
-            string exePath = Process.GetCurrentProcess().MainModule?.FileName;
+            var desktopPath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory);
+            var exePath = Process.GetCurrentProcess().MainModule?.FileName;
 
-            if (string.IsNullOrEmpty(exePath))
+            if (String.IsNullOrEmpty(exePath))
             {
                 Log.Error("Could not determine the current executable path.");
                 return;
