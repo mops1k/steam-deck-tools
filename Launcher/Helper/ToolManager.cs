@@ -12,8 +12,9 @@ namespace Launcher.Helper
     {
         public void StartTools(string? name = null)
         {
-            if (String.IsNullOrEmpty(name) || toolsToRun.Contains(name))
+            if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
             {
+                Log.Info($"Tool \"{name}\" does not exist.");
                 return;
             }
             
@@ -33,8 +34,9 @@ namespace Launcher.Helper
 
         public void StopTools(string? name = null)
         {
-            if (String.IsNullOrEmpty(name) || toolsToRun.Contains(name))
+            if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
             {
+                Log.Info($"Tool \"{name}\" does not exist.");
                 return;
             }
 
