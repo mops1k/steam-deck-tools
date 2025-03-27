@@ -10,6 +10,7 @@ namespace Launcher
             if (args.Length == 0)
             {
                 ApplicationConfiguration.Initialize();
+                Application.EnableVisualStyles();
                 Application.Run(new LauncherForm());
                 return;
             }

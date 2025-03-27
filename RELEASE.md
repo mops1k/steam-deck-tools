@@ -2,6 +2,10 @@
 
 ## #{GIT_TAG_NAME}
 
+- Launcher: new better UI
+
+## 0.8.10
+
 - Launcher: add --restart command line option
 - Launcher: add UI
 - Launcher: fully refactored application

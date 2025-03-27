@@ -60,6 +60,16 @@ namespace Launcher {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap bg {
+            get {
+                object obj = ResourceManager.GetObject("bg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error while starting {0}. See logs..
         /// </summary>
         public static string ErrorMessage {
@@ -100,6 +110,16 @@ namespace Launcher {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        public static System.Drawing.Bitmap Link_16x16 {
+            get {
+                object obj = ResourceManager.GetObject("Link_16x16", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         public static System.Drawing.Bitmap microsoft_xbox_controller {
             get {
                 object obj = ResourceManager.GetObject("microsoft_xbox_controller", resourceCulture);
@@ -120,9 +140,9 @@ namespace Launcher {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap power_button {
+        public static System.Drawing.Bitmap Restart {
             get {
-                object obj = ResourceManager.GetObject("power_button", resourceCulture);
+                object obj = ResourceManager.GetObject("Restart", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -130,9 +150,9 @@ namespace Launcher {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap refresh {
+        public static System.Drawing.Bitmap Start {
             get {
-                object obj = ResourceManager.GetObject("refresh", resourceCulture);
+                object obj = ResourceManager.GetObject("Start", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -140,9 +160,9 @@ namespace Launcher {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        public static System.Drawing.Bitmap stop_button {
+        public static System.Drawing.Bitmap Stop {
             get {
-                object obj = ResourceManager.GetObject("stop_button", resourceCulture);
+                object obj = ResourceManager.GetObject("Stop", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

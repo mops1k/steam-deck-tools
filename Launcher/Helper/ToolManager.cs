@@ -53,5 +53,10 @@ namespace Launcher.Helper
             StopTools(name);
             StartTools(name);
         }
+
+        public bool IsToolRunning(string name)
+        {
+            return processHelper.IsToolRunning(name);
+        }
     }
 }

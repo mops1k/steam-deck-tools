@@ -34,4 +34,8 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="AT.WinForm.ToggleSwitch" Version="1.0.0" />
+    </ItemGroup>
+
 </Project>
