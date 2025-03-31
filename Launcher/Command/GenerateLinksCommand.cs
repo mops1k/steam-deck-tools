@@ -1,7 +1,7 @@
 ﻿using Launcher.Helper;
-namespace Launcher.Handler
+namespace Launcher.Command
 {
-    public class GenerateLinksHandler() : AbstractCommandHandler("generate-links", "gl")
+    public class GenerateLinksCommand() : AbstractCommand("generate-links", "gl")
     {
         public override int Run(params string[] arguments)
         {

@@ -15,10 +15,12 @@ namespace Launcher.Helper
             if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
             {
                 Log.Info($"Tool \"{name}\" does not exist.");
+                
+                Notification.ShowNotification($"Tool {name} does not exist.");
                 return;
             }
             
-            var tools = string.IsNullOrEmpty(name) ? toolsToRun : [name];
+            var tools = String.IsNullOrEmpty(name) ? toolsToRun : [name];
 
             foreach (var tool in tools)
             {
@@ -28,7 +30,15 @@ namespace Launcher.Helper
                     continue;
                 }
 
-                Log.Info(processHelper.RunTool(tool, AppContext.BaseDirectory) ? $"{tool} started." : $"Failed to start {tool}.");
+                if (processHelper.RunTool(tool, AppContext.BaseDirectory))
+                {
+                    Log.Info($"{tool} started.");
+                }
+                else
+                {
+                    Log.Info($"Failed to start {tool}.");
+                    Notification.ShowNotification($"Failed to start {tool}.");
+                }
             }
         }
 
@@ -37,6 +47,7 @@ namespace Launcher.Helper
             if (!String.IsNullOrEmpty(name) && !toolsToRun.Contains(name))
             {
                 Log.Info($"Tool \"{name}\" does not exist.");
+                Notification.ShowNotification($"Tool \"{name}\" does not exist.");
                 return;
             }
 
