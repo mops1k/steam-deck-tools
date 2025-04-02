@@ -15,10 +15,8 @@ namespace FanControl
 
         public FanControlForm()
         {
-            Instance.OnUninstall(() =>
-            {
-                startupManager.Startup = false;
-            });
+            Instance.OnUninstall += () => startupManager.Startup = false;
+            Instance.UninstallTrigger();
 
             InitializeComponent();
 

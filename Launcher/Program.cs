@@ -1,12 +1,15 @@
-using Launcher.Handler;
+using CommonHelpers;
+using Launcher.Command;
 
 namespace Launcher
 {
     internal static class Program
     {
         [STAThread]
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
+            Instance.UninstallTrigger();
+
             if (args.Length == 0)
             {
                 ApplicationConfiguration.Initialize();
@@ -15,13 +18,12 @@ namespace Launcher
                 return;
             }
 
-            var runner = new CommandRunner();
-            runner.RegisterHandler(new StartHandler());
-            runner.RegisterHandler(new StopHandler());
-            runner.RegisterHandler(new RestartHandler());
-            runner.RegisterHandler(new GenerateLinksHandler());
-
-            runner.Run(args);
+            new CommandRunner()
+                .RegisterCommand(new StartCommand())
+                .RegisterCommand(new StopCommand())
+                .RegisterCommand(new RestartCommand())
+                .RegisterCommand(new GenerateLinksCommand())
+                .Run(args);
         }
     }
 }

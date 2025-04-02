@@ -1,13 +1,17 @@
 ﻿using Launcher.Helper;
-namespace Launcher.Handler
+using Windows.Foundation;
+namespace Launcher.Helper
 {
-    public class RestartHandler(): AbstractCommandHandler("restart", "r")
+    public static class ProcessActionCommandHelper
     {
-        public override int Run(params string[] arguments)
+        public delegate void ActionHandler(ToolManager manager, string tool);
+        public static event ActionHandler? ProcessAction;
+
+        public static int Execute(params string[] arguments)
         {
             var allowedTools = Enum.GetNames<Tools>();
             var tools = allowedTools.ToList();
-            for (int i = 0; i < allowedTools.Length; i++)
+            for (var i = 0; i < allowedTools.Length; i++)
             {
                 allowedTools[i] = allowedTools[i].ToLower();
             }
@@ -24,10 +28,9 @@ namespace Launcher.Handler
 
             var processHelper = new ProcessHelper();
             var toolManager = new ToolManager(processHelper, tools);
-
             foreach (var tool in tools)
             {
-                toolManager.RestartTools(tool);
+                ProcessAction?.Invoke(toolManager, tool);
             }
 
             return 0;

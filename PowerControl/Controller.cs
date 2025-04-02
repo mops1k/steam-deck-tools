@@ -12,26 +12,26 @@ namespace PowerControl
 {
     internal class Controller : IDisposable
     {
-        public const String Title = "Power Control";
-        public static readonly String TitleWithVersion = Title + " v" + Application.ProductVersion.ToString();
-        public const int KeyPressRepeatTime = 400;
-        public const int KeyPressNextRepeatTime = 90;
+        private const string Title = "Power Control";
+        public readonly static string TitleWithVersion = Title + " v" + Application.ProductVersion.ToString();
+        private const int KeyPressRepeatTime = 400;
+        private const int KeyPressNextRepeatTime = 90;
 
-        Container components = new Container();
-        System.Windows.Forms.NotifyIcon notifyIcon;
-        StartupManager startupManager = new StartupManager(Title);
+        private readonly Container _components = new Container();
+        private NotifyIcon notifyIcon;
+        private readonly StartupManager _startupManager = new StartupManager(Title);
 
-        Menu.MenuRoot rootMenu = MenuStack.Root;
-        OSD osd;
-        System.Windows.Forms.Timer osdDismissTimer;
-        bool isOSDToggled = false;
+        private readonly Menu.MenuRoot _rootMenu = MenuStack.Root;
+        private OSD _osd;
+        private Timer _osdDismissTimer;
+        private bool isOSDToggled;
 
         bool wasInternalDisplayConnected;
 
         hidapi.HidDevice neptuneDevice = new hidapi.HidDevice(0x28de, 0x1205, 64);
-        SDCInput neptuneDeviceState = new SDCInput();
+        SDCInput neptuneDeviceState;
         DateTime? neptuneDeviceNextKey;
-        System.Windows.Forms.Timer neptuneTimer;
+        Timer neptuneTimer;
 
         ProfilesController? profilesController;
 
@@ -45,18 +45,16 @@ namespace PowerControl
 
         public Controller()
         {
-            Instance.OnUninstall(() =>
-            {
-                startupManager.Startup = false;
-            });
+            Instance.OnUninstall += () => _startupManager.Startup = false;
+            Instance.UninstallTrigger();
 
             Instance.RunOnce(TitleWithVersion, "Global\\PowerControl");
             Instance.RunUpdater(TitleWithVersion);
 
             if (Instance.WantsRunOnStartup)
-                startupManager.Startup = true;
+                _startupManager.Startup = true;
 
-            var contextMenu = new System.Windows.Forms.ContextMenuStrip(components);
+            var contextMenu = new System.Windows.Forms.ContextMenuStrip(_components);
 
             var notRunningRTSSItem = contextMenu.Items.Add("&RTSS is not running");
             notRunningRTSSItem.Enabled = false;
@@ -67,11 +65,11 @@ namespace PowerControl
                 contextMenu.Items.Add(new ToolStripSeparator());
             }
 #endif
-            rootMenu.Init();
-            rootMenu.Visible = false;
-            rootMenu.Update();
-            rootMenu.CreateMenu(contextMenu);
-            rootMenu.VisibleChanged += updateOSD;
+            _rootMenu.Init();
+            _rootMenu.Visible = false;
+            _rootMenu.Update();
+            _rootMenu.CreateMenu(contextMenu);
+            _rootMenu.VisibleChanged += updateOSD;
 
             if (Settings.Default.EnableExperimentalFeatures)
             {
@@ -101,20 +99,20 @@ namespace PowerControl
                 contextMenu.Items.Add(new ToolStripSeparator());
             }
 
-            if (startupManager.IsAvailable)
+            if (_startupManager.IsAvailable)
             {
                 var startupItem = new ToolStripMenuItem("Run On Startup");
-                startupItem.Checked = startupManager.Startup;
+                startupItem.Checked = _startupManager.Startup;
                 startupItem.Click += delegate
                 {
-                    startupManager.Startup = !startupManager.Startup;
-                    startupItem.Checked = startupManager.Startup;
+                    _startupManager.Startup = !_startupManager.Startup;
+                    startupItem.Checked = _startupManager.Startup;
                 };
                 contextMenu.Items.Add(startupItem);
             }
             
             //==> SteamControllerKiller block
-            var steamControllerKillerTimer = new Timer(components);
+            var steamControllerKillerTimer = new Timer(_components);
             steamControllerKillerTimer.Interval = 1000;
             steamControllerKillerTimer.Tick += delegate
             {
@@ -180,7 +178,7 @@ namespace PowerControl
             var exitItem = contextMenu.Items.Add("&Exit");
             exitItem.Click += ExitItem_Click;
 
-            notifyIcon = new NotifyIcon(components);
+            notifyIcon = new NotifyIcon(_components);
             notifyIcon.Icon = WindowsDarkMode.IsDarkModeEnabled ? Resources.traffic_light_outline_light : Resources.traffic_light_outline;
             notifyIcon.Text = TitleWithVersion;
             notifyIcon.Visible = true;
@@ -190,9 +188,9 @@ namespace PowerControl
             contextMenu.Show();
             contextMenu.Close();
 
-            osdDismissTimer = new Timer(components);
-            osdDismissTimer.Interval = 3000;
-            osdDismissTimer.Tick += delegate (object? sender, EventArgs e)
+            _osdDismissTimer = new Timer(_components);
+            _osdDismissTimer.Interval = 3000;
+            _osdDismissTimer.Tick += delegate (object? sender, EventArgs e)
             {
                 if (!isOSDToggled)
                 {
@@ -200,7 +198,7 @@ namespace PowerControl
                 }
             };
 
-            var osdTimer = new System.Windows.Forms.Timer(components);
+            var osdTimer = new System.Windows.Forms.Timer(_components);
             osdTimer.Tick += OsdTimer_Tick;
             osdTimer.Interval = 250;
             osdTimer.Enabled = true;
@@ -211,7 +209,7 @@ namespace PowerControl
             {
                 if (!OSDHelpers.IsOSDForeground())
                     return;
-                rootMenu.Next(-1);
+                _rootMenu.Next(-1);
                 setDismissTimer();
                 dismissNeptuneInput();
             }, true);
@@ -220,7 +218,7 @@ namespace PowerControl
             {
                 if (!OSDHelpers.IsOSDForeground())
                     return;
-                rootMenu.Next(1);
+                _rootMenu.Next(1);
                 setDismissTimer();
                 dismissNeptuneInput();
             }, true);
@@ -229,7 +227,7 @@ namespace PowerControl
             {
                 if (!OSDHelpers.IsOSDForeground())
                     return;
-                rootMenu.SelectNext(-1);
+                _rootMenu.SelectNext(-1);
                 setDismissTimer();
                 dismissNeptuneInput();
             });
@@ -238,14 +236,14 @@ namespace PowerControl
             {
                 if (!OSDHelpers.IsOSDForeground())
                     return;
-                rootMenu.SelectNext(1);
+                _rootMenu.SelectNext(1);
                 setDismissTimer();
                 dismissNeptuneInput();
             });
 
             GlobalHotKey.RegisterHotKey(Settings.Default.MenuToggle, () =>
             {
-                isOSDToggled = !rootMenu.Visible;
+                isOSDToggled = !_rootMenu.Visible;
 
                 if (!OSDHelpers.IsOSDForeground())
                     return;
@@ -262,7 +260,7 @@ namespace PowerControl
 
             if (Settings.Default.EnableNeptuneController)
             {
-                neptuneTimer = new System.Windows.Forms.Timer(components);
+                neptuneTimer = new System.Windows.Forms.Timer(_components);
                 neptuneTimer.Interval = 1000 / 60;
                 neptuneTimer.Tick += NeptuneTimer_Tick;
                 neptuneTimer.Enabled = true;
@@ -277,10 +275,10 @@ namespace PowerControl
                 GlobalHotKey.RegisterHotKey("VolumeUp", () =>
                 {
                     if (neptuneDeviceState.buttons5.HasFlag(SDCButton5.BTN_QUICK_ACCESS))
-                        rootMenu.Select("Brightness");
+                        _rootMenu.Select("Brightness");
                     else
-                        rootMenu.Select("Volume");
-                    rootMenu.SelectNext(1);
+                        _rootMenu.Select("Volume");
+                    _rootMenu.SelectNext(1);
                     setDismissTimer();
                     dismissNeptuneInput();
                 });
@@ -288,10 +286,10 @@ namespace PowerControl
                 GlobalHotKey.RegisterHotKey("VolumeDown", () =>
                 {
                     if (neptuneDeviceState.buttons5.HasFlag(SDCButton5.BTN_QUICK_ACCESS))
-                        rootMenu.Select("Brightness");
+                        _rootMenu.Select("Brightness");
                     else
-                        rootMenu.Select("Volume");
-                    rootMenu.SelectNext(-1);
+                        _rootMenu.Select("Volume");
+                    _rootMenu.SelectNext(-1);
                     setDismissTimer();
                     dismissNeptuneInput();
                 });
@@ -311,6 +309,7 @@ namespace PowerControl
             catch
             {
                 notifyIcon.Text = TitleWithVersion + ". RTSS Not Available.";
+                Notification.ShowNotification("RTSS Not Available. Please run RTSS.");
                 notifyIcon.Icon = Resources.traffic_light_outline_red;
             }
 
@@ -373,8 +372,8 @@ namespace PowerControl
                 input.buttons5 == SDCButton5.BTN_QUICK_ACCESS)
             {
                 dismissNeptuneInput();
-                rootMenu.Show();
-                rootMenu.Reset();
+                _rootMenu.Show();
+                _rootMenu.Reset();
                 notifyIcon.ShowBalloonTip(3000, TitleWithVersion, "Settings were reset to default.", ToolTipIcon.Info);
                 return;
             }
@@ -401,7 +400,7 @@ namespace PowerControl
                 return;
             }
 
-            rootMenu.Show();
+            _rootMenu.Show();
             setDismissTimer(false);
 
             if (input.buttons1 != 0 || input.buttons2 != 0 || input.buttons3 != 0 || input.buttons4 != 0)
@@ -410,48 +409,48 @@ namespace PowerControl
             }
             else if (input.buttons0 == SDCButton0.BTN_DPAD_LEFT)
             {
-                rootMenu.SelectNext(-1);
+                _rootMenu.SelectNext(-1);
             }
             else if (input.buttons0 == SDCButton0.BTN_DPAD_RIGHT)
             {
-                rootMenu.SelectNext(1);
+                _rootMenu.SelectNext(1);
             }
             else if (input.buttons0 == SDCButton0.BTN_DPAD_UP)
             {
-                rootMenu.Next(-1);
+                _rootMenu.Next(-1);
             }
             else if (input.buttons0 == SDCButton0.BTN_DPAD_DOWN)
             {
-                rootMenu.Next(1);
+                _rootMenu.Next(1);
             }
         }
 
         private void setDismissTimer(bool enabled = true)
         {
-            osdDismissTimer.Stop();
+            _osdDismissTimer.Stop();
             if (enabled)
-                osdDismissTimer.Start();
+                _osdDismissTimer.Start();
         }
 
         private void hideOSD()
         {
-            if (!rootMenu.Visible)
+            if (!_rootMenu.Visible)
                 return;
 
             Trace.WriteLine("Hide OSD");
-            rootMenu.Visible = false;
-            osdDismissTimer.Stop();
+            _rootMenu.Visible = false;
+            _osdDismissTimer.Stop();
             updateOSD();
         }
 
         private void showOSD()
         {
-            if (rootMenu.Visible)
+            if (_rootMenu.Visible)
                 return;
 
             Trace.WriteLine("Show OSD");
-            rootMenu.Update();
-            rootMenu.Visible = true;
+            _rootMenu.Update();
+            _rootMenu.Visible = true;
             updateOSD();
         }
 
@@ -459,10 +458,10 @@ namespace PowerControl
         {
             sharedData.SetValue(new PowerControlSetting()
             {
-                Current = rootMenu.Visible ? PowerControlVisible.Yes : PowerControlVisible.No
+                Current = _rootMenu.Visible ? PowerControlVisible.Yes : PowerControlVisible.No
             });
 
-            if (!rootMenu.Visible)
+            if (!_rootMenu.Visible)
             {
                 osdClose();
                 return;
@@ -473,12 +472,12 @@ namespace PowerControl
                 // recreate OSD if index 0
                 if (OSDHelpers.OSDIndex("Power Control") == 0 && OSD.GetOSDCount() > 1)
                     osdClose();
-                if (osd == null)
+                if (_osd == null)
                 {
-                    osd = new OSD("Power Control");
+                    _osd = new OSD("Power Control");
                     Trace.WriteLine("Show OSD");
                 }
-                osd.Update(rootMenu.Render(null));
+                _osd.Update(_rootMenu.Render(null));
             }
             catch (SystemException)
             {
@@ -493,7 +492,7 @@ namespace PowerControl
         public void Dispose()
         {
             using (profilesController) { }
-            components.Dispose();
+            _components.Dispose();
             osdClose();
         }
 
@@ -501,12 +500,12 @@ namespace PowerControl
         {
             try
             {
-                if (osd != null)
+                if (_osd != null)
                 {
-                    osd.Dispose();
+                    _osd.Dispose();
                     Trace.WriteLine("Close OSD");
                 }
-                osd = null;
+                _osd = null;
             }
             catch (SystemException)
             {
@@ -529,7 +528,7 @@ namespace PowerControl
                     Options.RefreshRate.Instance?.Reset();
                     Options.FPSLimit.Instance?.Reset();
 
-                    rootMenu.Update();
+                    _rootMenu.Update();
                 })
             );
         }

@@ -39,10 +39,8 @@ namespace Updater
             bool updated = Environment.GetCommandLineArgs().Contains(UpdatedArg);
             bool cmdLine = !firstRun && !userCheck;
 
-            Instance.OnUninstall(() =>
-            {
-                KillApps();
-            });
+            Instance.OnUninstall += KillApps;
+            Instance.UninstallTrigger();
 
             if (updated)
             {
@@ -167,6 +165,7 @@ namespace Updater
             ExitProcess("PowerControl");
             ExitProcess("PerformanceOverlay");
             ExitProcess("SteamController");
+            ExitProcess("Launcher");
             ExitProcess("Updater");
         }
 
