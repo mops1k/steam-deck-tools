@@ -55,3 +55,8 @@ Steam Deck Tools is not affiliated with Valve, Steam, or any of their partners.
 [Creative Commons Attribution-NonCommercial-ShareAlike (CC-BY-NC-SA)](http://creativecommons.org/licenses/by-nc-sa/4.0/).
 
 Free for personal use. Contact me in other cases (`bednyj.mops@gmail.com`).
+
+
+## Support
+If you like the project, you can support it thru:
+- [Boosty](https://boosty.to/mops1k/donate)
