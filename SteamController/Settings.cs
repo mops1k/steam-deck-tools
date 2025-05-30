@@ -136,16 +136,16 @@ namespace SteamController
         [Description("Deadzone for Left stick. Enter a number between 0 and 32767. If this number is too small you may experience drift. 5000 or smaller is recommended.")]
         public short LeftJoystickDeadzone
         {
-            get { return Get<short>("JoystickDeadZone", 5000); }
-            set { Set("JoystickDeadZone", value); }
+            get { return Get<short>("LeftJoystickDeadZone", 5000); }
+            set { Set("LeftJoystickDeadZone", value); }
         }
 
         [Browsable(true)]
         [Description("Deadzone for Right stick. Enter a number between 0 and 32767. If this number is too small you may experience drift. 5000 or smaller is recommended.")]
         public short RightJoystickDeadzone
         {
-            get { return Get<short>("JoystickDeadZone", 5000); }
-            set { Set("JoystickDeadZone", value); }
+            get { return Get<short>("RightJoystickDeadZone", 5000); }
+            set { Set("RightJoystickDeadZone", value); }
         }
 
         public override string ToString()
