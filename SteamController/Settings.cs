@@ -101,11 +101,51 @@ namespace SteamController
         }
 
         [Browsable(true)]
-        [Description("Deadzone for Left and Right sticks. Enter a number between 0 and 32767. If this number is too small you may experience drift. 5000 or smaller is recommended.")]
-        public short JoystickDeadzone
+        [Description("Right touchpad mouse movement sensitivity")]
+        public short RightTouchpadMouseSensitivity
         {
-            get { return Get<short>("JoystickDeadZone", 5000); }
-            set { Set("JoystickDeadZone", value); }
+            get { return Get<short>("RightTouchpadMouseSensitivity", 150); }
+            set { Set("RightTouchpadMouseSensitivity", value); }
+        }
+
+        [Browsable(true)]
+        [Description("Left touchpad mouse wheel sensitivity")]
+        public short LeftTouchpadMouseWheelSensitivity
+        {
+            get { return Get<short>("LeftTouchpadMouseWheelSensitivity", 4); }
+            set { Set("LeftTouchpadMouseWheelSensitivity", value); }
+        }
+
+        [Browsable(true)]
+        [Description("Right thumbstick mouse movement sensitivity")]
+        public short RightThumbStickMouseSensitivity
+        {
+            get { return Get<short>("RightThumbStickMouseSensitivity", 1200); }
+            set { Set("RightThumbStickMouseSensitivity", value); }
+        }
+
+        [Browsable(true)]
+        [Description("Left thumbstick mouse wheel sensitivity")]
+        public short LeftThumbStickMouseWheelSensitivity
+        {
+            get { return Get<short>("LeftThumbStickMouseWheelSensitivity", 20); }
+            set { Set("LeftThumbStickMouseWheelSensitivity", value); }
+        }
+
+        [Browsable(true)]
+        [Description("Deadzone for Left stick. Enter a number between 0 and 32767. If this number is too small you may experience drift. 5000 or smaller is recommended.")]
+        public short LeftJoystickDeadzone
+        {
+            get { return Get<short>("LeftJoystickDeadZone", 5000); }
+            set { Set("LeftJoystickDeadZone", value); }
+        }
+
+        [Browsable(true)]
+        [Description("Deadzone for Right stick. Enter a number between 0 and 32767. If this number is too small you may experience drift. 5000 or smaller is recommended.")]
+        public short RightJoystickDeadzone
+        {
+            get { return Get<short>("RightJoystickDeadZone", 5000); }
+            set { Set("RightJoystickDeadZone", value); }
         }
 
         public override string ToString()
