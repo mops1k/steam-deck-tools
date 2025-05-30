@@ -86,10 +86,10 @@ namespace SteamController.Profiles.Dynamic
             public Axis GyroRoll { get => new Axis(Target.GyroRoll); }
             public Axis LeftTrigger { get => new Axis(Target.LeftTrigger); }
             public Axis RightTrigger { get => new Axis(Target.RightTrigger); }
-            public Axis LeftThumbX { get => new Axis(Target.LeftThumbX, Settings.Default.JoystickDeadzone); }
-            public Axis LeftThumbY { get => new Axis(Target.LeftThumbY, Settings.Default.JoystickDeadzone); }
-            public Axis RightThumbX { get => new Axis(Target.RightThumbX, Settings.Default.JoystickDeadzone); }
-            public Axis RightThumbY { get => new Axis(Target.RightThumbY, Settings.Default.JoystickDeadzone); }
+            public Axis LeftThumbX { get => new Axis(Target.LeftThumbX, Settings.Default.LeftJoystickDeadzone); }
+            public Axis LeftThumbY { get => new Axis(Target.LeftThumbY, Settings.Default.LeftJoystickDeadzone); }
+            public Axis RightThumbX { get => new Axis(Target.RightThumbX, Settings.Default.RightJoystickDeadzone); }
+            public Axis RightThumbY { get => new Axis(Target.RightThumbY, Settings.Default.RightJoystickDeadzone); }
             public Axis LPadPressure { get => new Axis(Target.LPadPressure); }
             public Axis RPadPressure { get => new Axis(Target.RPadPressure); }
         }

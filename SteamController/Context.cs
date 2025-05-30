@@ -4,10 +4,10 @@ namespace SteamController
 {
     public partial class Context : IDisposable
     {
-        public const double JoystickToMouseSensitivity = 1200;
-        public const double PadToMouseSensitivity = 150;
-        public const double PadToWhellSensitivity = 4;
-        public const double ThumbToWhellSensitivity = 20;
+        public readonly static double JoystickToMouseSensitivity = Settings.Default.RightThumbStickMouseSensitivity;
+        public readonly static double PadToMouseSensitivity = Settings.Default.RightTouchpadMouseSensitivity;
+        public readonly static double PadToWhellSensitivity = Settings.Default.LeftTouchpadMouseWheelSensitivity;
+        public readonly static double ThumbToWhellSensitivity = Settings.Default.LeftThumbStickMouseWheelSensitivity;
 
         public Devices.SteamController Steam { get; private set; }
         public Devices.Xbox360Controller X360 { get; private set; }
