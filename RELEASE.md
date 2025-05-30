@@ -2,6 +2,11 @@
 
 ## #{GIT_TAG_NAME}
 
+- SteamController: add sensitivity settings
+- SteamController: expand deadzone settings for right and left sticks
+
+## 0.8.11
+
 - Launcher: new better UI
 
 ## 0.8.10
