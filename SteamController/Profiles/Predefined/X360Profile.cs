@@ -45,7 +45,7 @@ namespace SteamController.Profiles.Predefined
         public override Status Run(Context context)
         {
             context.Steam.LizardButtons = false;
-            context.Steam.LizardMouse = SettingsDebug.Default.LizardMouse;
+            context.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
             context.X360.Connected = true;
 
             // Controls

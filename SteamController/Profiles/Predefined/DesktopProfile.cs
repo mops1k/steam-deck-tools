@@ -48,8 +48,8 @@ namespace SteamController.Profiles.Predefined
             }
             else
             {
-                c.Steam.LizardButtons = SettingsDebug.Default.LizardButtons;
-                c.Steam.LizardMouse = SettingsDebug.Default.LizardMouse;
+                c.Steam.LizardButtons = LizardSettings.Default.LizardButtons;
+                c.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
             }
 
             EmulateScrollOnLPad(c);
