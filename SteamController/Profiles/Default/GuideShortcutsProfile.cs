@@ -16,8 +16,8 @@ namespace SteamController.Profiles.Default
             if (base.SteamShortcuts(c))
                 return true;
 
-            c.Steam.LizardButtons = SettingsDebug.Default.LizardButtons;
-            c.Steam.LizardMouse = SettingsDebug.Default.LizardMouse;
+            c.Steam.LizardButtons = LizardSettings.Default.LizardButtons;
+            c.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
 
             EmulateScrollOnLPad(c);
             EmulateMouseOnRPad(c);
