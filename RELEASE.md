@@ -2,6 +2,11 @@
 
 ## #{GIT_TAG_NAME}
 
+- SteamController: move lizard mode settings to release version
+- SteamController: set lizard mode settings default to false
+
+## 0.8.12
+
 - SteamController: add sensitivity settings
 - SteamController: expand deadzone settings for right and left sticks
 
