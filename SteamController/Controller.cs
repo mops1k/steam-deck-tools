@@ -8,12 +8,12 @@ namespace SteamController
 {
     internal class Controller : IDisposable
     {
-        public const String Title = "Steam Controller";
-        public static readonly String TitleWithVersion = Title + " v" + Application.ProductVersion.ToString();
+        private const String Title = "Steam Controller";
+        private readonly static String TitleWithVersion = Title + " v" + Application.ProductVersion.ToString();
 
-        public const int ControllerDelayAfterResumeMs = 1000;
+        private const int ControllerDelayAfterResumeMs = 1000;
 
-        public static readonly Dictionary<String, Profiles.Profile> PreconfiguredUserProfiles = new Dictionary<String, Profiles.Profile>()
+        private readonly static Dictionary<String, Profiles.Profile> PreconfiguredUserProfiles = new Dictionary<String, Profiles.Profile>()
         {
             { "*.desktop.cs", new Profiles.Predefined.DesktopProfile() { Name = "Desktop" } },
             { "*.x360.cs", new Profiles.Predefined.X360HapticProfile() { Name = "X360" } }
@@ -50,21 +50,8 @@ namespace SteamController
 
         public Controller()
         {
-            Instance.OnUninstall(() =>
-            {
-                SteamConfiguration.KillSteam();
-                SteamConfiguration.WaitForSteamClose(5000);
-                SteamConfiguration.BackupSteamConfig();
-
-                var steamControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
-                    Devices.SteamController.VendorID, Devices.SteamController.ProductID, false
-                );
-                var x360ControllerUpdate = SteamConfiguration.UpdateControllerBlacklist(
-                    Devices.Xbox360Controller.VendorID, Devices.Xbox360Controller.ProductID, false
-                );
-                Settings.Default.EnableSteamDetection = false;
-                startupManager.Startup = false;
-            });
+            Instance.OnUninstall += OnUninstall;
+            Instance.UninstallTrigger();
 
             Instance.RunOnce(TitleWithVersion, "Global\\SteamController");
             Instance.RunUpdater(TitleWithVersion);
@@ -186,7 +173,23 @@ namespace SteamController
 
             context.Start();
 
-            Microsoft.Win32.SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+            SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+        }
+
+        private void OnUninstall()
+        {
+            SteamConfiguration.KillSteam();
+            SteamConfiguration.WaitForSteamClose(5000);
+            SteamConfiguration.BackupSteamConfig();
+
+            SteamConfiguration.UpdateControllerBlacklist(
+                Devices.SteamController.VendorID, Devices.SteamController.ProductID, false
+            );
+            SteamConfiguration.UpdateControllerBlacklist(
+                Devices.Xbox360Controller.VendorID, Devices.Xbox360Controller.ProductID, false
+            );
+            Settings.Default.EnableSteamDetection = false;
+            startupManager.Startup = false;
         }
 
         private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
@@ -214,6 +217,7 @@ namespace SteamController
             if (!context.KeyboardMouseValid)
             {
                 notifyIcon.Text = TitleWithVersion + ". Cannot send input.";
+                Notification.ShowNotification("Cannot send input");
                 if (WindowsDarkMode.IsDarkModeEnabled)
                     notifyIcon.Icon = Resources.monitor_off_white;
                 else
@@ -223,6 +227,7 @@ namespace SteamController
             {
                 notifyIcon.Text = TitleWithVersion + ". Missing ViGEm?";
                 notifyIcon.Icon = Resources.microsoft_xbox_controller_red;
+                Notification.ShowNotification("Missing ViGEmBus driver? Please install.");
             }
             else if (profile is not null)
             {
@@ -232,13 +237,11 @@ namespace SteamController
             else
             {
                 notifyIcon.Text = TitleWithVersion + ". Disabled";
-                if (WindowsDarkMode.IsDarkModeEnabled)
-                    notifyIcon.Icon = Resources.microsoft_xbox_controller_off_white;
-                else
-                    notifyIcon.Icon = Resources.microsoft_xbox_controller_off;
+                notifyIcon.Icon = WindowsDarkMode.IsDarkModeEnabled ? Resources.microsoft_xbox_controller_off_white
+                    : Resources.microsoft_xbox_controller_off;
             }
 
-            notifyIcon.Text += String.Format(". Updates: {0}/s", context.UpdatesPerSec);
+            notifyIcon.Text += $". Updates: {context.UpdatesPerSec}/s";
         }
 
         public void Dispose()

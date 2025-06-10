@@ -1,6 +1,6 @@
-﻿namespace Launcher.Handler
+﻿namespace Launcher.Command
 {
-    public interface ICommandHandler
+    public interface ICommand
     {
         public string GetFullName();
         public string? GetShortName();
