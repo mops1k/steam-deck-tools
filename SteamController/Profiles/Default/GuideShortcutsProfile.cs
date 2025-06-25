@@ -21,7 +21,7 @@ namespace SteamController.Profiles.Default
 
             // EmulateScrollOnLPad(c);
             // EmulateMouseOnRPad(c);
-            // EmulateMouseOnRStick(c);
+            EmulateMouseOnRStick(c);
 
             if (c.Steam.BtnA.Pressed())
             {
