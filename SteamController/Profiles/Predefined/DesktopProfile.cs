@@ -52,10 +52,10 @@ namespace SteamController.Profiles.Predefined
                 c.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
             }
 
-            EmulateScrollOnLPad(c);
-            EmulateScrollOnLStick(c);
-            EmulateMouseOnRPad(c);
-            EmulateMouseOnRStick(c);
+            // EmulateScrollOnLPad(c);
+            // EmulateScrollOnLStick(c);
+            // EmulateMouseOnRPad(c);
+            // EmulateMouseOnRStick(c);
             EmulateDPadArrows(c);
 
             c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;

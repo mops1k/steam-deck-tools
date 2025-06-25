@@ -19,9 +19,9 @@ namespace SteamController.Profiles.Default
             c.Steam.LizardButtons = LizardSettings.Default.LizardButtons;
             c.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
 
-            EmulateScrollOnLPad(c);
-            EmulateMouseOnRPad(c);
-            EmulateMouseOnRStick(c);
+            // EmulateScrollOnLPad(c);
+            // EmulateMouseOnRPad(c);
+            // EmulateMouseOnRStick(c);
 
             if (c.Steam.BtnA.Pressed())
             {
