@@ -10,11 +10,11 @@ namespace SteamController
 
         [Browsable(true)]
         [Description("Use Lizard Buttons instead of emulated.")]
-        public bool LizardButtons { get; set; } = false;
+        public bool LizardButtons { get; set; } = true;
 
         [Browsable(true)]
         [Description("Use Lizard Mouse instead of emulated.")]
-        public bool LizardMouse { get; set; } = false;
+        public bool LizardMouse { get; set; } = true;
 
         public override string ToString()
         {

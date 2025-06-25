@@ -2,6 +2,10 @@
 
 ## #{GIT_TAG_NAME}
 
+- SteamController: fix controller lizard mode
+
+## 0.8.13
+
 - SteamController: move lizard mode settings to release version
 - SteamController: set lizard mode settings default to false
 
