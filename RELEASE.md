@@ -2,6 +2,11 @@
 
 ## #{GIT_TAG_NAME}
 
+- SteamController: revert back mouse move and wheel on sticks
+
+
+## 0.8.14
+
 - SteamController: fix controller lizard mode
 
 ## 0.8.13

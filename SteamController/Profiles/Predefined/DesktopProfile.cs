@@ -53,9 +53,9 @@ namespace SteamController.Profiles.Predefined
             }
 
             // EmulateScrollOnLPad(c);
-            // EmulateScrollOnLStick(c);
+            EmulateScrollOnLStick(c);
             // EmulateMouseOnRPad(c);
-            // EmulateMouseOnRStick(c);
+            EmulateMouseOnRStick(c);
             EmulateDPadArrows(c);
 
             c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;
