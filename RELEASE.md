@@ -2,8 +2,12 @@
 
 ## #{GIT_TAG_NAME}
 
-- SteamController: revert back mouse move and wheel on sticks
+- SteamController: fix a and b buttons double push
 
+
+## 0.8.15
+
+- SteamController: revert back mouse move and wheel on sticks
 
 ## 0.8.14
 
