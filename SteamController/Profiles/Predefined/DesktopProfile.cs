@@ -58,8 +58,8 @@ namespace SteamController.Profiles.Predefined
             EmulateMouseOnRStick(c);
             EmulateDPadArrows(c);
 
-            c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;
-            c.Keyboard[VirtualKeyCode.BACK] = c.Steam.BtnB;
+            //c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;
+            //c.Keyboard[VirtualKeyCode.BACK] = c.Steam.BtnB;
 
             return Status.Continue;
         }
