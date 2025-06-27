@@ -25,7 +25,7 @@ namespace CommonHelpers
             "RTSSHooks64.dll"
         };
 
-        public static string SDTURL = "https://steam-deck-tools.ayufan.dev";
+        public static string SDTURL = "https://github.com/mops1k/steam-deck-tools";
         public static string VCRuntimeURL = "https://aka.ms/vs/17/release/vc_redist.x64.exe";
         public static string RTSSURL = "https://www.guru3d.com/files-details/rtss-rivatuner-statistics-server-download.html";
 

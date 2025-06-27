@@ -52,14 +52,20 @@ namespace SteamController.Profiles.Predefined
                 c.Steam.LizardMouse = LizardSettings.Default.LizardMouse;
             }
 
-            // EmulateScrollOnLPad(c);
+            
+            var isLizardModeFullyEnabled = c.Steam.LizardButtons && c.Steam.LizardMouse;
+
+            if (!isLizardModeFullyEnabled) {
+                EmulateScrollOnLPad(c);
+                EmulateMouseOnRPad(c);
+            }
+
             EmulateScrollOnLStick(c);
-            // EmulateMouseOnRPad(c);
             EmulateMouseOnRStick(c);
             EmulateDPadArrows(c);
 
-            //c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;
-            //c.Keyboard[VirtualKeyCode.BACK] = c.Steam.BtnB;
+            c.Keyboard[VirtualKeyCode.RETURN] = c.Steam.BtnA;
+            c.Keyboard[VirtualKeyCode.BACK] = c.Steam.BtnB;
 
             return Status.Continue;
         }
