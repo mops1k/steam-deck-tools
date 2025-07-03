@@ -29,7 +29,7 @@ namespace CommonHelpers
             get { return Environment.GetCommandLineArgs().Contains("-run-on-startup"); }
         }
 
-        public static bool Uninstall
+        private static bool Uninstall
         {
             get { return Environment.GetCommandLineArgs().Contains("-uninstall"); }
         }
@@ -58,13 +58,16 @@ namespace CommonHelpers
             }
         }
 
-        public static void OnUninstall(Action action)
+        public delegate void OnUninstallEvent();
+        public static event OnUninstallEvent? OnUninstall;
+
+        public static void UninstallTrigger()
         {
-            if (Uninstall)
-            {
-                action();
-                Environment.Exit(0);
-            }
+            if (!Uninstall)
+                return;
+
+            OnUninstall?.Invoke();
+            Environment.Exit(0);
         }
 
         public static bool UseKernelDrivers
@@ -90,14 +93,11 @@ namespace CommonHelpers
 
         public static Mutex? WaitGlobalMutex(int timeoutMs)
         {
-            if (globalLockMutex == null)
-                globalLockMutex = TryCreateOrOpenExistingMutex(GLOBAL_MUTEX_NAME);
+            globalLockMutex ??= TryCreateOrOpenExistingMutex(GLOBAL_MUTEX_NAME);
 
             try
             {
-                if (globalLockMutex.WaitOne(timeoutMs))
-                    return globalLockMutex;
-                return null;
+                return globalLockMutex.WaitOne(timeoutMs) ? globalLockMutex : null;
             }
             catch (AbandonedMutexException)
             {
@@ -121,7 +121,7 @@ namespace CommonHelpers
             }
         }
 
-        public static void Open(String title, bool useKernelDrivers, String? runOnce = null, int runOnceTimeout = 100)
+        public static void Open(string title, bool useKernelDrivers, string? runOnce = null, int runOnceTimeout = 100)
         {
             if (runOnce is not null)
             {
@@ -142,7 +142,7 @@ namespace CommonHelpers
 
                 if (Vlv0100.Instance.IsOpen && !Vlv0100.Instance.IsSupported)
                 {
-                    String message = "";
+                    var message = "";
                     message += "Current device is not supported.\n";
                     message += "FirmwareVersion: " + Vlv0100.Instance.FirmwareVersion.ToString("X") + "\n";
                     message += "BoardID: " + Vlv0100.Instance.BoardID.ToString("X") + "\n";

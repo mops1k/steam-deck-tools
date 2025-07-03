@@ -32,10 +32,8 @@ namespace PerformanceOverlay
 
         public Controller()
         {
-            Instance.OnUninstall(() =>
-            {
-                _startupManager.Startup = false;
-            });
+            Instance.OnUninstall += () => _startupManager.Startup = false;;
+            Instance.UninstallTrigger();
 
             _contextMenu = new ContextMenuStrip(_components);
             BuildContextMenu();
@@ -279,6 +277,7 @@ namespace PerformanceOverlay
             {
                 _notifyIcon.Text = TitleWithVersion + @". RTSS Not Available.";
                 _notifyIcon.Icon = Resources.poll_red;
+                Notification.ShowNotification("RTSS Not Available. Please run RTSS.");
                 OsdReset();
                 return;
             }

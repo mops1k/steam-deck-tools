@@ -2,13 +2,14 @@
 
     <PropertyGroup>
         <OutputType>WinExe</OutputType>
-        <TargetFramework>net9.0-windows</TargetFramework>
+        <TargetFramework>net9.0-windows10.0.17763.0</TargetFramework>
         <Nullable>enable</Nullable>
         <UseWindowsForms>true</UseWindowsForms>
         <ImplicitUsings>enable</ImplicitUsings>
         <PublishRepositoryUrl>false</PublishRepositoryUrl>
         <IncludeSourceRevisionInInformationalVersion>false</IncludeSourceRevisionInInformationalVersion>
         <ApplicationIcon>Resources\icon.ico</ApplicationIcon>
+        <SatelliteResourceLanguages>en;ru</SatelliteResourceLanguages>
     </PropertyGroup>
 
     <ItemGroup>

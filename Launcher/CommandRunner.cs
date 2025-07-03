@@ -1,18 +1,18 @@
-﻿using Launcher.Handler;
+﻿using Launcher.Command;
 namespace Launcher
 {
     public class CommandRunner
     {
-        private List<ICommandHandler> _handlers = [];
-        private ICommandHandler? _isDefault = null;
-        public int Run(string[] args)
+        private readonly List<ICommand> _handlers = [];
+        private ICommand? _isDefault;
+        public void Run(string[] args)
         {
             var handler = GetCommandHandler(args);
 
-            return handler?.Run(args.Skip(1).ToArray()) ?? -1;
+            Environment.Exit(handler?.Run(args.Skip(1).ToArray()) ?? -1);
         }
 
-        public CommandRunner RegisterHandler(ICommandHandler handler, bool isDefault = false)
+        public CommandRunner RegisterCommand(ICommand handler, bool isDefault = false)
         {
             if (_handlers.Contains(handler))
             {
@@ -28,16 +28,11 @@ namespace Launcher
             return this;
         }
 
-        private ICommandHandler? GetCommandHandler(string[] args)
+        private ICommand? GetCommandHandler(string[] args)
         {
             if (args.Length == 0)
             {
-                if (_isDefault != null)
-                {
-                    return _isDefault;
-                }
-
-                return null;
+                return _isDefault ?? null;
             }
             
             foreach (var handler in _handlers)

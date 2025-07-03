@@ -1,13 +1,13 @@
 ﻿using AT.WinForm;
+using CommonHelpers;
 using Launcher.Helper;
-using System.Windows.Controls.Primitives;
 using Timer = System.Windows.Forms.Timer;
 namespace Launcher
 {
     public partial class LauncherForm : Form
     {
         private readonly ToolTip _toolTip = new ToolTip();
-        private ToolManager ToolManager
+        private static ToolManager ToolManager
         {
             get
             {
@@ -45,7 +45,7 @@ namespace Launcher
             timer.Start();
         }
 
-        private void ToggleButtonOnCheckedChanged(object sender, Tools tool)
+        private static void ToggleButtonOnCheckedChanged(object sender, Tools tool)
         {
             var button = (ToggleSwitch)sender;
             if (button.Checked)
@@ -131,10 +131,12 @@ namespace Launcher
         {
             _toolTip.Hide((Control)sender);
         }
+
         private void stopButton_MouseLeave(object sender, EventArgs e)
         {
             _toolTip.Hide((Control)sender);
         }
+
         private void startButton_MouseLeave(object sender, EventArgs e)
         {
             _toolTip.Hide((Control)sender);
@@ -142,7 +144,6 @@ namespace Launcher
         
         private void CreateToolTip(object sender, string text)
         {
-
             _toolTip.IsBalloon = true;
             var control = (Control)sender;
             var y = 0 - control.Height;
